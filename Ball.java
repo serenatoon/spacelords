@@ -24,7 +24,39 @@ public class Ball {
 
 	// move ball
 	public void move() {
+		if (isGoingDown) {
+			y_pos += v_speed; 
+		}
+		else {
+			y_pos -= v_speed;
+		} 
 
+		x_pos += h_speed;
+
+		Blocks block = new Blocks();
+
+		if (((x_pos - radius) == 0) || (x + radius == block.getWidth())) {
+			h_speed = -(h_speed); // change directions when ball hits walls
+		}
+
+		if ((x_pos + radius) > block.getWidth()) {
+			x_pos = block.getWidth() - radius; // 
+		}
+
+		if ((x_pos - radius) < 0) { // when ball hits left wall 
+			x_pos = radius;
+			h_speed = -(h_speed); // change directions 
+		}
+
+		if (y_pos <= 0) { // when hits top wall 
+			isGoingDown = true; // change direction (bounce down) 
+		}
+
+		if (y_pos + (2*radius) >= block.getHeight()) { // hit bottom? 
+			isGoingDown = false;
+		}
+
+		
 	}
 
 	public void setVerticalSpeed(int speed) {
