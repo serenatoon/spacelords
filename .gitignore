@@ -11,3 +11,16 @@ local.properties
 .metadata/.log
 .launch
 
+*.class
+
+Thumbs.db
+Desktop.ini
+
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+
+.Spotlight-V100
+.Trashes
