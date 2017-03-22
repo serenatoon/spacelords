@@ -1,0 +1,13 @@
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*~.nib
+local.properties
+.loadpath
+.metadata/.plugins
+.metadata/.lock
+.metadata/.log
+.launch
+
