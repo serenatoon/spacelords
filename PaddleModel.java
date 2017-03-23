@@ -4,13 +4,13 @@ import java.awt.event.*;
 import java.awt.geom.*;
 
 
-class Paddle {
+class PaddleModel {
 	private int left_offset;
 	private int width;
 	private int height;
 	private int to_move;
 	
-	public Paddle(int offset, int h) {
+	public PaddleModel(int offset, int h) {
 		left_offset = offset;
 		height = h;
 		width = 60; // change later? 
