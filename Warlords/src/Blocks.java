@@ -1,4 +1,8 @@
-
+/*TODO: Deprecate this class
+ * in favour of putting its functions in their respective classes
+ * brick_width can go in brick class, paddle_width in paddle class 
+ * Frame methods/variables in separate frame class?  
+ * game status stored in another class(??)*/
 public class Blocks {
 	// placeholder numbers
 	private int brick_width = 38; 

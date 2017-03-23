@@ -5,13 +5,13 @@ import java.awt.*;
 public class Brick {
 	private int x_pos; // horizontal position from left 
 	private int y_pos; // vertical position from top 
-	boolean isDestroyed; // boolean holding state of brick 
+	boolean is_destroyed; // boolean holding state of brick 
 
 	// constructor 
 	public Brick(int x, int y) {
 		x_pos = x;
 		y_pos = y;
-		isDestroyed = false;
+		is_destroyed = false;
 	}
 
 	public int getHorizontalPosition() {
@@ -22,14 +22,15 @@ public class Brick {
 		return y_pos;
 	}
 
+	
 	// get state of brick, whether or not it is destroyed 
 	public boolean getBrickState() {
-		return isDestroyed;
+		return is_destroyed;
 	}
 
 	// destroy brick
 	public void destroyBrick() {
-		isDestroyed = true;
+		is_destroyed = true;
 	}
 
 	public Rectangle brickAsRect() {

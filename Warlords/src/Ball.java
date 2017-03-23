@@ -33,6 +33,9 @@ public class Ball {
 
 		x_pos += h_speed;
 
+		// Blocks class used as "commons" class, here used to get frame (screen) dimensions.
+		/* TODO: move "commons" functionality (to "frame" class ?)
+	 	use separate "frame "class responsible for information about screen size ? */
 		Blocks block = new Blocks();
 
 		if (((x_pos - radius) == 0) || (x_pos + radius == block.getFrameWidth())) {
