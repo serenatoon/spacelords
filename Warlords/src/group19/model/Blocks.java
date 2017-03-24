@@ -1,3 +1,4 @@
+package group19.model;
 /*TODO: Deprecate this class
  * in favour of putting its functions in their respective classes
  * brick_width can go in brick class, paddle_width in paddle class 

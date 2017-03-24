@@ -1,3 +1,5 @@
+package group19.model;
+
 //import javax.swing.*;
 //import java.awt.*;
 //import java.awt.event.*; // listeners, controller 
