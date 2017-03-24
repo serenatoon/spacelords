@@ -40,7 +40,7 @@ public class GameMenuView extends Application {
         ContentFrame frame2 = new ContentFrame(createMiddleContent());
 
         HBox hbox = new HBox(frame2);
-        hbox.setTranslateX(410); //centered in middle of screen
+        hbox.setTranslateX(405); //centered in middle of screen
         hbox.setTranslateY(50);
 
         MenuItem itemExit = new MenuItem("EXIT"); 
@@ -50,7 +50,7 @@ public class GameMenuView extends Application {
                 new MenuItem("SINGLE PLAYER"),
                 new MenuItem("LOCAL MULTIPLAYER"),
                 new MenuItem("HIGH SCORES"),
-                new MenuItem("SET DIFFICULTY LEVEL"),
+                new MenuItem("STORY"),
                 new MenuItem("OPTIONS"),
                 itemExit);
         menuBox.setAlignment(Pos.TOP_CENTER);
@@ -100,7 +100,8 @@ public class GameMenuView extends Application {
     private static class ContentFrame extends StackPane {
         public ContentFrame(Node content) { //input parameter is createMiddleContent
             setAlignment(Pos.CENTER);
-
+// rectangle @ title screen surrounding warlords, choose to keep or remove later
+// removing means repositioning Warlords logo!!! (or just photoshop an image)
             Rectangle frame = new Rectangle(200, 200);
             frame.setArcWidth(25);
             frame.setArcHeight(25);
