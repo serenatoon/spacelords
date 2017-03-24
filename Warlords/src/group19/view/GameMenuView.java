@@ -1,5 +1,4 @@
 package group19.view;
-//package com.group19.mainmenu;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import javafx.animation.FadeTransition; 
@@ -21,6 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.media.AudioClip;
 
 public class GameMenuView extends Application {
 
@@ -123,9 +123,8 @@ public class GameMenuView extends Application {
             setOnActivate(() -> System.out.println(name + " activated")); //replace with switching view later
         }
 
-        public boolean setActive(boolean b) {
+        public void setActive(boolean b) {
             text.setFill(b ? Color.WHITE : Color.GREY); //if b = true (active option) then fill white 
-            return b; //to help fade determine 
         }
 
         public void setOnActivate(Runnable r) { //RESEARCH ON CLASS RUNNABLE, need setOnActivate to switch view
@@ -137,29 +136,20 @@ public class GameMenuView extends Application {
                 script.run();
         }
     }
-    /*ALL THIS RANDOM SHIT TO TRY AND GET FADE SELECTED TEXT WORKING, REMOVE IF NECESSARY*/
-//    private void fadeMenuItem(int itemNo) {
-//        FadeTransition ft = new FadeTransition(Duration.seconds(1), getMenuItem(itemNo));
-//        ft.setFromValue(1);
-//        ft.setToValue(0.3);
-//        ft.setAutoReverse(true);
-//        ft.setCycleCount(TranslateTransition.INDEFINITE);
-//        ft.play();
-//    }
-//    private void stopFade(int itemNo) {
-//        FadeTransition ft = new FadeTransition(Duration.seconds(0.1), getMenuItem(itemNo));
-//        ft.stop();
-//    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(createContent());
+        //use getClassLoader() so getResource() searches relative to classpath, instead of .class file 
+        //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
+        AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
+        AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
                 if (currentItem > 0) {
                     getMenuItem(currentItem).setActive(false);
                     getMenuItem(--currentItem).setActive(true);
-//                    fadeMenuItem(currentItem);
-//                    stopFade(currentItem+1);
+                    menuSelect.play();
+                    
                 }
             }
 
@@ -167,13 +157,13 @@ public class GameMenuView extends Application {
                 if (currentItem < menuBox.getChildren().size() - 1) {
                     getMenuItem(currentItem).setActive(false);
                     getMenuItem(++currentItem).setActive(true);
-//                    fadeMenuItem(currentItem);
-//                    stopFade(currentItem-1);
+                    menuSelect.play();
                 }
             }
 
             if (event.getCode() == KeyCode.ENTER) {
                 getMenuItem(currentItem).activate();
+                modeSelect.play();
             }
         });
         primaryStage.setScene(scene);
