@@ -1,3 +1,4 @@
+package group19.model;
 //import javax.swing.*;
 //import java.awt.geom.*;
 import java.awt.*;

@@ -1,3 +1,4 @@
+package group19.view;
 //package com.group19.mainmenu;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,7 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GameMenu extends Application {
+public class GameMenuView extends Application {
 
     private static final Font FONT = Font.font("", FontWeight.BOLD, 24);
 
