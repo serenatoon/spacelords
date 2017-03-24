@@ -2,7 +2,7 @@
 //import java.awt.geom.*;
 //import javax.swing.*;
 
-public class Ball {
+public class BallModel {
 	private int radius;
 	private int diameter;
 	private int x_pos; // horizontal position ?
@@ -12,7 +12,7 @@ public class Ball {
 	private boolean isGoingDown; 
 
 	// constructor 
-	public Ball(int x, int y, int r) {
+	public BallModel(int x, int y, int r) {
 		x_pos = x;
 		y_pos = y;
 		radius = r;

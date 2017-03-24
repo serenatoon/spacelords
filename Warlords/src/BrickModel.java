@@ -2,13 +2,13 @@
 //import java.awt.geom.*;
 import java.awt.*;
 
-public class Brick {
+public class BrickModel {
 	private int x_pos; // horizontal position from left 
 	private int y_pos; // vertical position from top 
 	boolean is_destroyed; // boolean holding state of brick 
 
 	// constructor 
-	public Brick(int x, int y) {
+	public BrickModel(int x, int y) {
 		x_pos = x;
 		y_pos = y;
 		is_destroyed = false;
