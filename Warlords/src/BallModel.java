@@ -5,61 +5,68 @@
 public class BallModel {
 	private int radius;
 	private int diameter;
-	private int x_pos; // horizontal position ?
-	private int y_pos; // vertical position from top?
+	private int x_pos; // horizontal position, where left = 0
+	private int y_pos; // vertical position, where bottom = 0
 	private int v_speed; // vertical speed
 	private int h_speed; // horizontal speed 
 	private boolean isGoingDown; 
 
 	// constructor 
+	// TODO: in initiation of a new game, ball should be initiated at (0,0) and 0 velocity
 	public BallModel(int x, int y, int r) {
 		x_pos = x;
 		y_pos = y;
 		radius = r;
-		isGoingDown = true;
-		v_speed = 2; // CHANGE LATER
+		//isGoingDown = true;
+		v_speed = 0; // should be an argument? 
 		h_speed = 0;
 		diameter = 2*r; // diameter = 2 * radius
 	}
 
 	// move ball
 	public void move() {
-		if (isGoingDown) {
+		/*if (isGoingDown) {
 			y_pos += v_speed; 
 		}
 		else {
 			y_pos -= v_speed;
-		} 
+		} */
 
+		y_pos += v_speed;
 		x_pos += h_speed;
 
-		// Blocks class used as "commons" class, here used to get frame (screen) dimensions.
-		/* TODO: move "commons" functionality (to "frame" class ?)
-	 	use separate "frame "class responsible for information about screen size ? */
-		Blocks block = new Blocks();
+		BoardModel board = new BoardModel(768, 768);
+		//Blocks block = new Blocks();
 
-		if (((x_pos - radius) == 0) || (x_pos + radius == block.getFrameWidth())) {
-			h_speed = -(h_speed); // change directions when ball hits walls
+		if (((x_pos - radius) == 0) || (x_pos + radius == board.getWidth())) {
+			h_speed = -(h_speed); // change directions when ball hits left or right wall
 		}
 
-		if ((x_pos + radius) > block.getFrameWidth()) {
-			x_pos = block.getFrameWidth() - radius; // ???? when ball hits right wall? 
+		if ((x_pos + radius) > board.getWidth()) { // when ball x-pos exceeds right wall 
+			x_pos = board.getWidth() - radius; // reposition right edge of ball to be touching right wall 
+			h_speed = -(-h_speed); // change directions 
 		}
 
-		if ((x_pos - radius) < 0) { // when ball hits left wall 
-			x_pos = radius;
+		if ((x_pos - radius) < 0) { // when ball exceeds left wall 
+			x_pos = radius; // reposition left edge of ball to be touching left wall 
 			h_speed = -(h_speed); // change directions 
 		}
 
-		if (y_pos <= 0) { // when hits top wall 
-			isGoingDown = true; // change direction (bounce down) 
+		if ((y_pos - radius) <= 0) { // when bottom of ball hits bottom wall 
+			isGoingDown = false; // change direction (bounce up)  
 		}
 
-		if (y_pos + diameter >= block.getFrameHeight()) { // hit bottom? 
-			isGoingDown = false;
+		if ((y_pos + radius) >= board.getHeight()) { // when top of ball hits top wall 
+			isGoingDown = true; // change direction (bounce down)
 		}
+	}
 
-		
+	public void setXPos(int position) {
+		x_pos = position;
+	}
+
+	public void setYPos(int position) {
+		y_pos = position;
 	}
 
 	public void setVerticalSpeed(int speed) {
@@ -80,7 +87,5 @@ public class BallModel {
 
 	public int getYPos() {
 		return y_pos;
-	}
-
-	
+	}	
 }
