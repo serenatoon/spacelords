@@ -10,6 +10,7 @@ local.properties
 .metadata/.lock
 .metadata/.log
 .launch
+.recommenders
 
 *.class
 
