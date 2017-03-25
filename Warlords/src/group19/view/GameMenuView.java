@@ -23,7 +23,7 @@ import javafx.scene.media.AudioClip;
 
 public class GameMenuView extends Application {
 
-    private static final Font FONT = Font.font("", FontWeight.BOLD, 24); //static for class-wide scope, final so it can't be altered
+    private static final Font FONT = Font.font("Helvetica", FontWeight.LIGHT, 28); //static for class-wide scope, final so it can't be altered
 
     private VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
@@ -51,14 +51,15 @@ public class GameMenuView extends Application {
                 new MenuItem("STORY"),
                 new MenuItem("OPTIONS"),
                 itemExit);
-        menuBox.setTranslateX(375);
+        menuBox.setTranslateX(363);
         menuBox.setTranslateY(358);
 
-        Text about = new Text("COMPSYS202 \nGROUP19"); //move into options view in the future?
-        about.setTranslateX(850);
-        about.setTranslateY(728);
+        Text about = new Text("COMPSYS302 \nGROUP19"); //move into options view in the future?
+        about.setTranslateX(910);
+        about.setTranslateY(738);
         about.setFill(Color.WHITE);
-        about.setFont(FONT);
+        Font smalltext = Font.font("Helvetica", FontWeight.LIGHT, 16);
+        about.setFont(smalltext);
         about.setOpacity(0.3);
         getMenuItem(0).setActive(true);
         root.getChildren().addAll(bg, hbox, menuBox, about); //place all created items
