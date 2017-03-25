@@ -7,19 +7,25 @@ package group19.model;
 
 
 class PaddleModel {
-	private int left_offset;
+	private int xPos; // left edge = 0
+	private int yPos; // bottom = 0
 	private int width;
 	private int height;
-	private int move_distance;
+	//private int moveDistance;
 	
-	public PaddleModel(int offset, int h) {
-		left_offset = offset;
+	public PaddleModel(int x, int y, int w, int h) {
+		xPos = x;
+		yPos = y;
+		width = w;
 		height = h;
-		width = 60; // change later? 
 	}
 	
-	public int getLeft() {
-		return left_offset;
+	public int getXPos() {
+		return xPos;
+	}
+	
+	public int getYPos() {
+		return yPos;
 	}
 	
 	public int getHeight() {
@@ -30,14 +36,43 @@ class PaddleModel {
 		return width;
 	}
 	
-	public void move() {
-		Blocks block = new Blocks(); // TODO: replace 'Blocks' with methods/variables/getters in their respective (model) classes 
-		left_offset =+ move_distance;
-		if (left_offset <= 2) {
-			left_offset = 2; // if paddle hits left wall, stop it there 
+	public void setXPos(int x) {
+		if ((x - width/2) < 0) { // do not allow paddle to move beyond left wall 
+			xPos = width/2; // re-position left edge of paddle to be touching left wall 
 		}
-		if (left_offset >= block.getFrameWidth() - width) {
-			left_offset = block.getFrameWidth() - width - 2; // if paddle hits right wall, stop it there 
+		else if ((x + width/2) > 768) { // right wall, change 768 if frame size changes; is Board.getWidth() better practice? 
+			xPos = 768 - width/2; // re-position right edge of paddle to be touching right wall 
 		}
+		else {
+			xPos = x;
+		}
+		
+		// TODO: paddle should not be allowed to move out of each player's boundaries 
 	}
+	
+	public void setYPos(int y) {
+		if ((y - width/2) < 0) { // do not allow paddle to move beyond left wall 
+			yPos = width/2; // re-position left edge of paddle to be touching left wall 
+		}
+		else if ((y + width/2) > 768) { // right wall, change 768 if frame size changes; is Board.getWidth() better practice? 
+			yPos = 768 - width/2; // re-position right edge of paddle to be touching right wall 
+		}
+		else {
+			yPos = y;
+		}
+		
+		// TODO: paddle should not bea llowed to move out of each player's boundaries 
+	}
+	
+	/*public void move() {
+		//Blocks block = new Blocks(); // TODO: replace 'Blocks' with methods/variables/getters in their respective (model) classes 
+		xPos =+ moveDistance;
+		if (xPos <= 2) {
+			xPos = 2; // if paddle hits left wall, stop it there 
+		}
+		if (xPos >= block.getFrameWidth() - width) {
+			xPos = block.getFrameWidth() - width - 2; // if paddle hits right wall, stop it there 
+		}
+	}*/
+	
 }

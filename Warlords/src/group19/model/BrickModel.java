@@ -1,42 +1,45 @@
+// One "brick" of a wall, implements the interface IWall 
+
 package group19.model;
 //import javax.swing.*;
 //import java.awt.geom.*;
-import java.awt.*;
+//import java.awt.*;
 
 public class BrickModel {
-	private int x_pos; // horizontal position from left 
-	private int y_pos; // vertical position from top 
-	boolean is_destroyed; // boolean holding state of brick 
+	private int xPos; // horizontal position from left 
+	private int yPos; // vertical position from top 
+	boolean isDestroyed; // boolean holding state of brick 
 
 	// constructor 
 	public BrickModel(int x, int y) {
-		x_pos = x;
-		y_pos = y;
-		is_destroyed = false;
+		xPos = x;
+		yPos = y;
+		isDestroyed = false; // initiate wall as not destroyed 
 	}
-
-	public int getHorizontalPosition() {
-		return x_pos;
-	}
-
-	public int getVerticalPosition() {
-		return y_pos;
-	}
-
 	
-	// get state of brick, whether or not it is destroyed 
+	public void setXPos(int x) {
+		xPos = x;
+	}
+	
+	public void setYPos(int y) {
+		yPos = y;
+	}
+
+	public int getXPos() {
+		return xPos;
+	}
+
+	public int getYPos() {
+		return yPos;
+	}
+	
+	// get state of brick, i.e. whether or not it is destroyed 
 	public boolean getBrickState() {
-		return is_destroyed;
+		return isDestroyed;
 	}
 
 	// destroy brick
 	public void destroyBrick() {
-		is_destroyed = true;
-	}
-
-	public Rectangle brickAsRect() {
-		Blocks blocks = new Blocks();
-		Rectangle brick = new Rectangle(x_pos, y_pos, blocks.getBrickWidth(), blocks.getBrickHeight());
-		return brick;
+		isDestroyed = true;
 	}
 }
