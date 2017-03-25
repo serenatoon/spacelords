@@ -1,6 +1,4 @@
 package group19.view;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -29,7 +27,6 @@ public class GameMenuView extends Application {
 
     private VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
-    private ScheduledExecutorService bgThread = Executors.newSingleThreadScheduledExecutor(); //for bg control, only one task at a time
 
     private Parent createContent() { //from javafx.scene, base class
         Pane root = new Pane(); 
@@ -95,7 +92,7 @@ public class GameMenuView extends Application {
 
     private MenuItem getMenuItem(int index) {
     	System.out.println(index);
-        return (MenuItem)menuBox.getChildren().get(index);
+        return (MenuItem)menuBox.getChildren().get(index); //cast MenuBox to MenuItem (since it consists of them)
     }
 
     private static class ContentFrame extends StackPane {
@@ -116,12 +113,12 @@ public class GameMenuView extends Application {
         private Runnable script; //attempt at multithreading between scene switch
 
         public MenuItem(String name) {
-            setAlignment(Pos.CENTER);
+            setAlignment(Pos.CENTER); //comment this out and let me know if it looks better 
             text = new Text(name);
             text.setFont(FONT);
             getChildren().addAll(text);
             setActive(false);
-          setOnActivate(() -> System.out.println(name + " activated")); //replace with switching view later
+            setOnActivate(() -> System.out.println(name + " activated")); //insert scene switch here
         }
 
         public void setActive(boolean b) {
@@ -169,7 +166,7 @@ public class GameMenuView extends Application {
         });
         window.setScene(gameMenu);
         window.setOnCloseRequest(event -> {
-            bgThread.shutdownNow();
+        	System.exit(0);
         });
         window.show();
         }
