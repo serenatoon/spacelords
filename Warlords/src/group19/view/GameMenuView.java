@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,27 +25,27 @@ import javafx.scene.media.AudioClip;
 
 public class GameMenuView extends Application {
 
-    private static final Font FONT = Font.font("", FontWeight.BOLD, 24);
+    private static final Font FONT = Font.font("", FontWeight.BOLD, 24); //static for class-wide scope, final so it can't be altered
 
     private VBox menuBox; //single vertical column to display all game menu options
-    private int currentItem = 0; //cycle counter for each option 
+    private int currentItem = 0; //cycle counter for each option
+    private ScheduledExecutorService bgThread = Executors.newSingleThreadScheduledExecutor(); //for bg control, only one task at a time
 
-    private ScheduledExecutorService bgThread = Executors.newSingleThreadScheduledExecutor();
-
-    private Parent createContent() {
-        Pane root = new Pane();
+    private Parent createContent() { //from javafx.scene, base class
+        Pane root = new Pane(); 
         root.setPrefSize(1024, 768);
 
-        Rectangle bg = new Rectangle(1024, 768);
+        Rectangle bg = new Rectangle(1024, 768); //set rectangle of 1024x768 size, default color black
+        //change this code to custom image later
 
-        ContentFrame frame2 = new ContentFrame(createMiddleContent());
+        ContentFrame frame2 = new ContentFrame(title()); 
 
-        HBox hbox = new HBox(frame2);
+        HBox hbox = new HBox(frame2); //objects stack horizontally (only 1 item)
         hbox.setTranslateX(405); //centered in middle of screen
         hbox.setTranslateY(50);
 
         MenuItem itemExit = new MenuItem("EXIT"); 
-        itemExit.setOnActivate(() -> System.exit(0)); //call exit from java.lang.System.exit
+       itemExit.setOnActivate(() -> System.exit(0)); //call exit from java.lang.System.exit
 
         menuBox = new VBox(10,
                 new MenuItem("SINGLE PLAYER"),
@@ -53,22 +54,21 @@ public class GameMenuView extends Application {
                 new MenuItem("STORY"),
                 new MenuItem("OPTIONS"),
                 itemExit);
-        menuBox.setAlignment(Pos.TOP_CENTER);
         menuBox.setTranslateX(375);
         menuBox.setTranslateY(358);
 
-        Text about = new Text("COMPSYS202 \nGROUP19");
+        Text about = new Text("COMPSYS202 \nGROUP19"); //move into options view in the future?
         about.setTranslateX(850);
         about.setTranslateY(728);
         about.setFill(Color.WHITE);
         about.setFont(FONT);
         about.setOpacity(0.3);
         getMenuItem(0).setActive(true);
-        root.getChildren().addAll(bg, hbox, menuBox, about);
+        root.getChildren().addAll(bg, hbox, menuBox, about); //place all created items
         return root;
     }
 
-    private Node createMiddleContent() {
+    private Node title() {
         String title = "WARLORDS";
         HBox letters = new HBox(5); //for aesthetic
         letters.setAlignment(Pos.CENTER);
@@ -77,13 +77,13 @@ public class GameMenuView extends Application {
             letter.setFont(FONT);
             letter.setFill(Color.CYAN);
             letters.getChildren().add(letter);
-            TranslateTransition tt = new TranslateTransition(Duration.seconds(1), letter); //from animation package
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(1), letter); //from animation package, wave effect
             tt.setDelay(Duration.millis(i * 70));
             tt.setToY(-35);
             tt.setAutoReverse(true);
             tt.setCycleCount(TranslateTransition.INDEFINITE);
             tt.play();
-            FadeTransition ft = new FadeTransition(Duration.seconds(1), letter);
+            FadeTransition ft = new FadeTransition(Duration.seconds(1), letter); //fade effect
             ft.setFromValue(1);
             ft.setToValue(0.3);
             ft.setAutoReverse(true);
@@ -94,6 +94,7 @@ public class GameMenuView extends Application {
     }
 
     private MenuItem getMenuItem(int index) {
+    	System.out.println(index);
         return (MenuItem)menuBox.getChildren().get(index);
     }
 
@@ -101,7 +102,6 @@ public class GameMenuView extends Application {
         public ContentFrame(Node content) { //input parameter is createMiddleContent
             setAlignment(Pos.CENTER);
 // rectangle @ title screen surrounding warlords, choose to keep or remove later
-// removing means repositioning Warlords logo!!! (or just photoshop an image)
             Rectangle frame = new Rectangle(200, 200);
             frame.setArcWidth(25);
             frame.setArcHeight(25);
@@ -113,7 +113,7 @@ public class GameMenuView extends Application {
 
     private static class MenuItem extends HBox {
         private Text text;
-        private Runnable script;
+        private Runnable script; //attempt at multithreading between scene switch
 
         public MenuItem(String name) {
             setAlignment(Pos.CENTER);
@@ -121,14 +121,14 @@ public class GameMenuView extends Application {
             text.setFont(FONT);
             getChildren().addAll(text);
             setActive(false);
-            setOnActivate(() -> System.out.println(name + " activated")); //replace with switching view later
+          setOnActivate(() -> System.out.println(name + " activated")); //replace with switching view later
         }
 
         public void setActive(boolean b) {
             text.setFill(b ? Color.WHITE : Color.GREY); //if b = true (active option) then fill white 
         }
 
-        public void setOnActivate(Runnable r) { //RESEARCH ON CLASS RUNNABLE, need setOnActivate to switch view
+        public void setOnActivate(Runnable r) { //RESEARCH ON CLASS RUNNABLE, NEED SETONACTIVATE TO SWITCH VIEW
             script = r;
         }
 
@@ -138,13 +138,13 @@ public class GameMenuView extends Application {
         }
     }
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(createContent());
+    public void start(Stage window) throws Exception {
         //use getClassLoader() so getResource() searches relative to classpath, instead of .class file 
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
-        scene.setOnKeyPressed(event -> {
+        Scene gameMenu = new Scene(createContent()); 
+        gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
                 if (currentItem > 0) {
                     getMenuItem(currentItem).setActive(false);
@@ -167,12 +167,12 @@ public class GameMenuView extends Application {
                 modeSelect.play();
             }
         });
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(event -> {
+        window.setScene(gameMenu);
+        window.setOnCloseRequest(event -> {
             bgThread.shutdownNow();
         });
-        primaryStage.show();
-    }
+        window.show();
+        }
 
     public static void main(String[] args) {
         launch(args);
