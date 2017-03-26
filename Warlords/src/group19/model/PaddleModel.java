@@ -6,7 +6,7 @@ package group19.model;
 //import java.awt.geom.*;
 
 
-class PaddleModel {
+public class PaddleModel {
 	private int xPos; // left edge = 0
 	private int yPos; // bottom = 0
 	private int width;
@@ -61,8 +61,15 @@ class PaddleModel {
 			yPos = y;
 		}
 		
-		// TODO: paddle should not bea llowed to move out of each player's boundaries 
+		// TODO: paddle should not be allowed to move out of each player's boundaries 
 	}
+	
+	// put in view? 
+	/*public Rectangle convertRectangle() {
+		Rectangle rectanglePaddle = new Rectangle(xPos, yPos, width, height);
+		
+		return rectanglePaddle;
+	}*/
 	
 	/*public void move() {
 		//Blocks block = new Blocks(); // TODO: replace 'Blocks' with methods/variables/getters in their respective (model) classes 
