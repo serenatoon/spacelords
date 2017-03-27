@@ -176,7 +176,7 @@ public class GameMenuView extends Application {
         window.show();
         }
 
-    public static void main(String[] args) { //stick main here so game starts on this file
-        launch(args);
-    }
+//    public static void main(String[] args) { //stick main here so game starts on this file
+//        launch(args);
+//    }
 }
