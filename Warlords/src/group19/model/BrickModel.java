@@ -34,12 +34,12 @@ public class BrickModel {
 	}
 	
 	// get state of brick, i.e. whether or not it is destroyed 
-	public boolean getBrickState() {
+	public boolean isDestroyed() {
 		return isDestroyed;
 	}
 
 	// destroy brick
-	public void destroyBrick() {
+	public void destroy() {
 		isDestroyed = true;
 	}
 }

@@ -54,6 +54,10 @@ public class WarlordModel {
 		return isDead; 
 	}
 	
+	public void setDead() {
+		isDead = true;
+	}
+	
 	public boolean hasWon() {
 		return isWinner;
 	}
