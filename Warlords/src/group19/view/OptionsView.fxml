@@ -4,8 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #2c2c2c;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #2c2c2c;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group19.view.OptionsViewController">
    <children>
       <Label layoutX="348.0" layoutY="317.0" text="Options" textFill="WHITE">
          <font>

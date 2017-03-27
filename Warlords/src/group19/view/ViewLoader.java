@@ -63,7 +63,7 @@ public class ViewLoader extends StackPane {
             if (!getChildren().isEmpty()) {    //if there is already a view set
                 Timeline fade = new Timeline(
                         new KeyFrame(Duration.ZERO, new KeyValue(opacity, 1.0)),
-                        new KeyFrame(new Duration(1000), new EventHandler<ActionEvent>() {
+                        new KeyFrame(new Duration(500), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent t) {
                         getChildren().remove(0);                    //remove the displayed view
@@ -78,7 +78,7 @@ public class ViewLoader extends StackPane {
 
             } else { //if there is not a view set (there are no children)
                 setOpacity(0.0);
-                getChildren().add(views.get(name));       //just show the specified view
+                getChildren().add(views.get(name));       //just show the specified view (initial view)
                 Timeline fadeIn = new Timeline(
                         new KeyFrame(Duration.ZERO, new KeyValue(opacity, 0.0)), //obligatory fade, 1sec
                         new KeyFrame(new Duration(1000), new KeyValue(opacity, 1.0)));
@@ -86,6 +86,7 @@ public class ViewLoader extends StackPane {
             }
             return true;
         } else {
+        	System.out.println(name);
             System.out.println("Invalid name to set view");
             return false;
         }

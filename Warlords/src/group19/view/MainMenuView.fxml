@@ -8,8 +8,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #232323;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #232323;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group19.view.MainMenuViewController">
    <children>
       <Label alignment="TOP_CENTER" layoutX="495.0" layoutY="77.0" text="W A R L O R D S" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <textFill>
@@ -24,9 +23,9 @@
             <Font name="Helvetica Neue Light" size="76.0" />
          </font>
       </Label>
-      <VBox alignment="TOP_CENTER" layoutY="290.0" prefHeight="400.0" prefWidth="300.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <VBox fx:id="verticalButtons" alignment="TOP_CENTER" layoutY="290.0" prefHeight="400.0" prefWidth="300.0" spacing="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="462.0" text="single player">
+            <Button mnemonicParsing="false" onAction="#switchToInGameView" prefHeight="78.0" prefWidth="462.0" text="single player">
                <font>
                   <Font name="Helvetica Neue Light" size="41.0" />
                </font>
@@ -41,7 +40,7 @@
                   <Font name="Helvetica Neue Light" size="41.0" />
                </font>
             </Button>
-            <Button layoutX="359.0" layoutY="190.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="462.0" text="options">
+            <Button layoutX="359.0" layoutY="190.0" mnemonicParsing="false" onAction="#switchToOptionsView" prefHeight="78.0" prefWidth="462.0" text="options">
                <font>
                   <Font name="Helvetica Neue Light" size="41.0" />
                </font>
