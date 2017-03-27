@@ -27,7 +27,8 @@ public class GameMenuView extends Application {
 
     private VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
-
+    public Scene gameMenu = new Scene(createContent());
+    public static Stage currentWindow;
     private Parent createContent() { //from javafx.scene, base class
         Pane root = new Pane(); 
         root.setPrefSize(1024, 768);
@@ -141,7 +142,7 @@ public class GameMenuView extends Application {
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
-        Scene gameMenu = new Scene(createContent()); 
+         
         gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
                 if (currentItem > 0) {
@@ -161,6 +162,9 @@ public class GameMenuView extends Application {
             }
 
             if (event.getCode() == KeyCode.ENTER) {
+            	if (currentItem == 1) {
+          //  		window.setScene(inGameMenu);
+            	}
                 getMenuItem(currentItem).activate();
                 modeSelect.play();
             }
@@ -172,7 +176,7 @@ public class GameMenuView extends Application {
         window.show();
         }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    public static void main(String[] args) { //stick main here so game starts on this file
+//        launch(args);
+//    }
 }
