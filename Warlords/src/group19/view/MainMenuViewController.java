@@ -36,8 +36,12 @@ public class MainMenuViewController implements Initializable, ViewInterface { //
 	}
 	
 	@FXML
-	private void switchToOptionsView(ActionEvent event) { //defined in FXML as the 'options' button (For now)
+	private void switchToOptionsView(ActionEvent event) { //defined in FXML as the 'options' button
 		loader.setView(CurrentViewWithMain.OptionsViewID);
 		modeSelect.play();
+	}
+	@FXML
+	private void exit(ActionEvent event) { //defined in FXML as the 'exit' button 
+		System.exit(0);
 	}
 }

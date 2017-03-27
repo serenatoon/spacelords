@@ -45,7 +45,7 @@
                   <Font name="Helvetica Neue Light" size="41.0" />
                </font>
             </Button>
-            <Button layoutX="407.0" layoutY="280.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="462.0" text="exit">
+            <Button layoutX="407.0" layoutY="280.0" mnemonicParsing="false" onAction="#exit" prefHeight="78.0" prefWidth="462.0" text="exit">
                <font>
                   <Font name="Helvetica Neue Light" size="41.0" />
                </font>
