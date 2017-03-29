@@ -1,4 +1,5 @@
 package group19.view;
+import group19.controller.GameStateController;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -25,8 +26,8 @@ import javafx.scene.media.AudioClip;
 public class GameMenuView extends Application {
     private VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
+    GameStateController gsc = new GameStateController(); //create instance of game state controller
     public Scene gameMenu = new Scene(createScene());
-    public static Stage currentWindow;
     private Parent createScene() { //from javafx.scene, base class
         Pane root = new Pane(); 
         root.setPrefSize(1024, 768);
@@ -123,7 +124,8 @@ public class GameMenuView extends Application {
                 modeSelect.play();
                 switch(currentItem) {
                 case 0: //single player
-                	InGameView.displayInGameView();
+                	gsc.setGameState(1); //1 = game_in_progress
+                	InGameView.displayInGameView(); //popup the game view
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer

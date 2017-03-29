@@ -1,5 +1,11 @@
 package group19.view;
 
+import group19.controller.GameStateController;
+import group19.model.BallModel;
+import group19.model.BoardModel;
+import group19.model.BrickModel;
+import group19.model.PaddleModel;
+import group19.model.WarlordModel;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -28,6 +34,20 @@ import javafx.scene.media.AudioClip;
 //so objects can pass the bind() test properly, also handling any sort of object instances/logic on Scene Builder is difficult.
 
 public class InGameView {
+	private BallModel ball;
+	private BoardModel board;
+	private BrickModel brick;
+	private PaddleModel paddle;
+	private WarlordModel warlord;
+	public static GameStateController gsc = new GameStateController();
+	
+	public InGameView (BallModel ballModel, BrickModel brickModel, PaddleModel paddleModel, WarlordModel warlordModel) {
+		ball = ballModel;
+		brick = brickModel;
+		paddle = paddleModel;
+		warlord = warlordModel;
+	}
+	
 	public static void displayInGameView() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
@@ -37,12 +57,16 @@ public class InGameView {
 		Text text = new Text();
 		text.setText("IN GAME VIEW");
 		Button closeButton = new Button("Exit Current Game");
-		closeButton.setOnAction(e -> window.close());
+		closeButton.setOnAction(e -> {
+			window.close();
+			gsc.setGameState(0); //back to menu state (game did not 'complete')
+		});
 		VBox layout = new VBox(10);
 		layout.getChildren().addAll(text, closeButton);
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
 		window.showAndWait(); //wait for close before returning
 	}
+	
 	
 }

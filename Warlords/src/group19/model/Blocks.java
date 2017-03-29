@@ -4,15 +4,22 @@ package group19.model;
  * brick_width can go in brick class, paddle_width in paddle class 
  * Frame methods/variables in separate frame class?  
  * game status stored in another class(??)*/
+
+
+
+
+/*i have removed all mentions of game state and placed in GameStateController*/
+/*also not sure what this class does*/
+
+
 public class Blocks {
 	// placeholder numbers
 	private int brick_width = 38; 
 	private int brick_height = 7;
 	private int paddle_width = 60;
 	private int paddle_height = 8;
-	private int frame_width = 1024; // 768? 
+	private int frame_width = 1024; 
 	private int frame_height = 768;
-	private boolean is_ingame = false; // boolean holding game status, true if ingame
 
 	public int getFrameHeight() {
 		return frame_height;
@@ -50,11 +57,4 @@ public class Blocks {
 		return paddle_height;
 	}
 
-	public boolean getGameStatus() {
-		return is_ingame;
-	}
-
-	public void setInGame() {
-		is_ingame = true;
-	}
 }

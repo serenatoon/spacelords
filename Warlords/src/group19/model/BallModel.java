@@ -62,7 +62,8 @@ public class BallModel {
 			isGoingDown = true; // change direction (bounce down)
 		}
 	}*/
-
+//shouldnt all this set logic be in the InGameViewController? e.g. setXPos should literally be xPos = position;
+// then call conditional on controller where if true, then ball.setXPos();
 	public void setXPos(int position) {
 		if ((position - radius) < 0) {
 			xPos = 0;
