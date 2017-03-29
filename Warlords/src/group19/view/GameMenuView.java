@@ -100,7 +100,8 @@ public class GameMenuView extends Application {
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
-         
+        menuSelect.setVolume(gsc.getSFXVolume()); 
+        modeSelect.setVolume(gsc.getSFXVolume());
         gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
             	
@@ -135,6 +136,7 @@ public class GameMenuView extends Application {
                 	System.out.println("story mode");
                 	break;
                 case 3://options
+                	OptionsView.displayOptionsView(); //popup the game view
                 	System.out.println("options");
                 	break;
                 case 4://exit
