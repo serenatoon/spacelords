@@ -3,6 +3,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,48 +23,29 @@ import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
 
 public class GameMenuView extends Application {
-
-    private static final Font FONT = Font.font("Helvetica", FontWeight.LIGHT, 28); //static for class-wide scope, final so it can't be altered
-
     private VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
-    public Scene gameMenu = new Scene(createContent());
+    public Scene gameMenu = new Scene(createScene());
     public static Stage currentWindow;
-    private Parent createContent() { //from javafx.scene, base class
+    private Parent createScene() { //from javafx.scene, base class
         Pane root = new Pane(); 
         root.setPrefSize(1024, 768);
-
-        Rectangle bg = new Rectangle(1024, 768); //set rectangle of 1024x768 size, default color black
-        //change this code to custom image later
-
-        ContentFrame frame2 = new ContentFrame(title()); 
-
-        HBox hbox = new HBox(frame2); //objects stack horizontally (only 1 item)
-        hbox.setTranslateX(405); //centered in middle of screen
-        hbox.setTranslateY(50);
-
-        MenuItem itemExit = new MenuItem("EXIT"); 
-       itemExit.setOnActivate(() -> System.exit(0)); //call exit from java.lang.System.exit
-
+        Rectangle bg = new Rectangle(1024, 768); //set rectangle of 1024x768 size, default color black (change later)
+        ContentFrame titleFrame = new ContentFrame(title()); 
+        HBox title = new HBox(titleFrame); //objects stack horizontally (only 1 item)
+        title.setTranslateX(235); //centered in middle of screen
+        title.setTranslateY(100);
         menuBox = new VBox(10,
                 new MenuItem("SINGLE PLAYER"),
                 new MenuItem("LOCAL MULTIPLAYER"),
-                new MenuItem("HIGH SCORES"),
-                new MenuItem("STORY"),
+                new MenuItem("STORY MODE"),
                 new MenuItem("OPTIONS"),
-                itemExit);
-        menuBox.setTranslateX(363);
+                new MenuItem("EXIT")
+        		);
+        menuBox.setTranslateX(235);
         menuBox.setTranslateY(358);
-
-        Text about = new Text("COMPSYS302 \nGROUP19"); //move into options view in the future?
-        about.setTranslateX(910);
-        about.setTranslateY(738);
-        about.setFill(Color.WHITE);
-        Font smalltext = Font.font("Helvetica", FontWeight.LIGHT, 16);
-        about.setFont(smalltext);
-        about.setOpacity(0.3);
-        getMenuItem(0).setActive(true);
-        root.getChildren().addAll(bg, hbox, menuBox, about); //place all created items
+        getMenuItem(0).setActive(true); //highlight first item in menu
+        root.getChildren().addAll(bg, title, menuBox); //place all created items
         return root;
     }
 
@@ -73,18 +55,12 @@ public class GameMenuView extends Application {
         letters.setAlignment(Pos.CENTER);
         for (int i = 0; i < title.length(); i++) {
             Text letter = new Text(title.charAt(i) + ""); //"" denotes the blank space
-            letter.setFont(FONT);
-            letter.setFill(Color.CYAN);
+            letter.setFont(Font.font("Helvetica", FontWeight.LIGHT, 96));
+            letter.setFill(Color.ANTIQUEWHITE);
             letters.getChildren().add(letter);
-            TranslateTransition tt = new TranslateTransition(Duration.seconds(1), letter); //from animation package, wave effect
-            tt.setDelay(Duration.millis(i * 70));
-            tt.setToY(-35);
-            tt.setAutoReverse(true);
-            tt.setCycleCount(TranslateTransition.INDEFINITE);
-            tt.play();
             FadeTransition ft = new FadeTransition(Duration.seconds(1), letter); //fade effect
             ft.setFromValue(1);
-            ft.setToValue(0.3);
+            ft.setToValue(0.5);
             ft.setAutoReverse(true);
             ft.setCycleCount(TranslateTransition.INDEFINITE);
             ft.play();
@@ -93,47 +69,28 @@ public class GameMenuView extends Application {
     }
 
     private MenuItem getMenuItem(int index) {
-    	System.out.println(index);
         return (MenuItem)menuBox.getChildren().get(index); //cast MenuBox to MenuItem (since it consists of them)
     }
 
     private static class ContentFrame extends StackPane {
         public ContentFrame(Node content) { //input parameter is createMiddleContent
             setAlignment(Pos.CENTER);
-// rectangle @ title screen surrounding warlords, choose to keep or remove later
-            Rectangle frame = new Rectangle(200, 200);
-            frame.setArcWidth(25);
-            frame.setArcHeight(25);
-            frame.setStroke(Color.WHITE);
-
-            getChildren().addAll(frame, content);
+            getChildren().addAll(content);
         }
     }
 
     private static class MenuItem extends HBox {
         private Text text;
-        private Runnable script; //attempt at multithreading between scene switch
 
         public MenuItem(String name) {
-            setAlignment(Pos.CENTER); //comment this out and let me know if it looks better 
             text = new Text(name);
-            text.setFont(FONT);
+            text.setFont(Font.font("Helvetica", FontWeight.LIGHT, 40));
             getChildren().addAll(text);
             setActive(false);
-            setOnActivate(() -> System.out.println(name + " activated")); //insert scene switch here
         }
 
         public void setActive(boolean b) {
-            text.setFill(b ? Color.WHITE : Color.GREY); //if b = true (active option) then fill white 
-        }
-
-        public void setOnActivate(Runnable r) { //RESEARCH ON CLASS RUNNABLE, NEED SETONACTIVATE TO SWITCH VIEW
-            script = r;
-        }
-
-        public void activate() {
-            if (script != null)
-                script.run();
+            text.setFill(b ? Color.ANTIQUEWHITE : Color.GREY); //if b = true (active option) then fill white 
         }
     }
     @Override
@@ -145,6 +102,7 @@ public class GameMenuView extends Application {
          
         gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
+            	
                 if (currentItem > 0) {
                     getMenuItem(currentItem).setActive(false);
                     getMenuItem(--currentItem).setActive(true);
@@ -162,21 +120,31 @@ public class GameMenuView extends Application {
             }
 
             if (event.getCode() == KeyCode.ENTER) {
-            	if (currentItem == 1) {
-          //  		window.setScene(inGameMenu);
-            	}
-                getMenuItem(currentItem).activate();
                 modeSelect.play();
+                switch(currentItem) {
+                case 0: //single player
+                	InGameView.displayInGameView();
+                	System.out.println("single player mode");
+                	break;
+                case 1: //local multiplayer
+                	System.out.println("multiplayer mode");
+                	break;
+                case 2://story mode
+                	System.out.println("story mode");
+                	break;
+                case 3://options
+                	System.out.println("options");
+                	break;
+                case 4://exit
+                	System.exit(0);
+                }
             }
         });
         window.setScene(gameMenu);
-        window.setOnCloseRequest(event -> {
-        	System.exit(0);
-        });
         window.show();
         }
 
-//    public static void main(String[] args) { //stick main here so game starts on this file
-//        launch(args);
-//    }
+    public static void main(String[] args) { //stick main here so game starts on this file
+        launch(args);
+    }
 }
