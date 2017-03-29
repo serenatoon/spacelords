@@ -1,5 +1,4 @@
 package group19.view;
-import java.awt.Label;
 
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
@@ -18,12 +17,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
+//This class basically works like a pop-up style window. Once a game mode is selected on the main menu, initModality blocks input
+//events from occurring on mainMenu, and does not allow the user to switch out of this window (in the in-game window). showAndWait() is 
+//also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml
+//so objects can pass the bind() test properly, also handling any sort of object instances/logic on Scene Builder is difficult.
 
 public class InGameView {
 	public static void displayInGameView() {
