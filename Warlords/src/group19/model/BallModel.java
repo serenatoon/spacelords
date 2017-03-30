@@ -19,9 +19,17 @@ public class BallModel extends ObjectModel implements IBall {
 	public void setXVelocity(int velocity) {
 		xVelocity = velocity;
 	}
+	
+	public void bounceX() { // to change directions when ball hits an object 
+		xVelocity = -(xVelocity);
+	}
 
 	public void setYVelocity(int velocity) {
 		yVelocity = velocity;
+	}
+	
+	public void bounceY() {
+		yVelocity = -(yVelocity);
 	}
 
 	public int getXVelocity() {
