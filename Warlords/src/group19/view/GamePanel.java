@@ -7,7 +7,6 @@ import group19.model.*;
 
 public class GamePanel extends JPanel {
 	private BallModel ball;
-	private BoardModel board;
 	private BrickModel brick;
 	private PaddleModel paddle;
 	private WarlordModel warlord;

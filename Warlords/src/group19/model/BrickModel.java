@@ -1,11 +1,14 @@
 // One "brick" of a wall, implements the interface IWall 
 
 package group19.model;
+
+import group19.testcases.IWall;
+
 //import javax.swing.*;
 //import java.awt.geom.*;
 //import java.awt.*;
 
-public class BrickModel {
+public class BrickModel implements IWall {
 	private int xPos; // horizontal position from left 
 	private int yPos; // vertical position from top 
 	boolean isDestroyed; // boolean holding state of brick 

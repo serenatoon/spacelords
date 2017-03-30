@@ -1,10 +1,12 @@
 package group19.model;
 
+import group19.testcases.IBall;
+
 //import java.awt.*;
 //import java.awt.geom.*;
 //import javax.swing.*;
 
-public class BallModel {
+public class BallModel implements IBall {
 	private int radius;
 	private int diameter;
 	private int xPos; // horizontal position, where left = 0

@@ -1,9 +1,14 @@
 package group19.model;
 
-public class WarlordModel {
+import group19.testcases.IWarlord;
+
+//Because of the testcase restriction, isWinner and isDead has to be placed here so it can pass the tests
+public class WarlordModel implements IWarlord {
 	private int xPos;
 	private int yPos;
 	private int playerNo; //could be player 0, player 1, player 2 or player 3
+	private boolean isWinner;
+	private boolean isDead;
 	//constructor 
 	public WarlordModel(int x, int y) { 
 		xPos = x;
@@ -37,5 +42,21 @@ public class WarlordModel {
 	public int getPlayer() {
 		return playerNo;
 	}
+
+
+	public boolean hasWon() {
+		return isWinner;
+	}
+
+
+	public void setWinner(boolean isWinner) {
+		this.isWinner = isWinner;
+	}
+
+
+	public boolean isDead() {
+		return isDead;
+	}
+
 
 }

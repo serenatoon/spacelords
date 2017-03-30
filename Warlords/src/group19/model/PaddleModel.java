@@ -1,12 +1,14 @@
 package group19.model;
 
+import group19.testcases.IPaddle;
+
 //import javax.swing.*;
 //import java.awt.*;
 //import java.awt.event.*; // listeners, controller 
 //import java.awt.geom.*;
 
 
-public class PaddleModel {
+public class PaddleModel implements IPaddle {
 	private int xPos; // left edge = 0
 	private int yPos; // bottom = 0
 	private int width;
