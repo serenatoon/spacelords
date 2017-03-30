@@ -1,11 +1,11 @@
 package group19.view;
 
 import group19.controller.GameStateController;
+import group19.controller.InGameViewController;
 import group19.model.BallModel;
 import group19.model.BrickModel;
 import group19.model.PaddleModel;
 import group19.model.WarlordModel;
-import group19.testcases.IGame;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -33,11 +33,13 @@ import javafx.scene.media.AudioClip;
 //also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml
 //so objects can pass the bind() test properly, also handling any sort of object instances/logic on Scene Builder is difficult.
 
-public class InGameView implements IGame {
+public class InGameView {
 	private BallModel ball;
 	private BrickModel brick;
 	private PaddleModel paddle;
 	private WarlordModel warlord;
+	//instances of the respective controllers are declared below
+	public static InGameViewController controller = new InGameViewController(); 
 	public static GameStateController gsc = new GameStateController();
 	
 	public InGameView (BallModel ballModel, BrickModel brickModel, PaddleModel paddleModel, WarlordModel warlordModel) {
@@ -66,24 +68,4 @@ public class InGameView implements IGame {
 		window.setScene(scene);
 		window.showAndWait(); //wait for close before returning
 	}
-	//unimplemented methods that are required 
-	@Override
-	public void tick() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setTimeRemaining(int seconds) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 }
