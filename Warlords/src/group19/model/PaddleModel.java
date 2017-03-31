@@ -5,11 +5,13 @@ import group19.testcases.IPaddle;
 public class PaddleModel extends ObjectModel implements IPaddle {
 	private int width;
 	private int height;
+	private int xVelocity;
 	
-	public PaddleModel(int x, int y, int w, int h) {
+	public PaddleModel(int x, int y) {
 		super(x, y);
-		width = w;
-		height = h;
+		width = 50;
+		height = 10;
+		xVelocity = 5;
 	}
 	
 	@Override
@@ -28,5 +30,12 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 	
 	public int getWidth() {
 		return width;
+	}
+	public int getXVelocity() {
+		return xVelocity;
+	}
+	
+	public void setXVelocity(int velocity) {
+		xVelocity = velocity;
 	}
 }

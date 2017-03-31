@@ -6,11 +6,14 @@ import group19.testcases.IWall;
 
 public class BrickModel extends ObjectModel implements IWall {
 	boolean isDestroyed; // boolean holding state of brick 
-
+	private int height;
+	private int width;
 	// constructor 
 	public BrickModel(int x, int y) {
 		super(x, y);
 		isDestroyed = false; // initiate wall as not destroyed 
+		width = 15;
+		height = 8;
 	}
 	
 	@Override
@@ -32,5 +35,12 @@ public class BrickModel extends ObjectModel implements IWall {
 	// destroy brick
 	public void destroy() {
 		isDestroyed = true;
+	}
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
 	}
 }

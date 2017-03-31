@@ -105,6 +105,14 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 	public boolean isDead() {
 		return isDead;
 	}
+
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
 	
 	// idk if we need this rn but cant do arithmetic on doubleproperty. will sort out later if needed 
 	//@Override

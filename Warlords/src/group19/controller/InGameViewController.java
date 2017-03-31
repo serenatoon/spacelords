@@ -1,9 +1,15 @@
 package group19.controller;
 
 import group19.testcases.IGame;
+import group19.view.InGameView;
 import group19.model.*;
 
 public class InGameViewController implements IGame {
+	BallModel ball;
+	BrickModel brick;
+	PaddleModel paddle;
+	WarlordModel warlord;
+	InGameView view;
 	
 	public InGameViewController() {
 		super();
@@ -13,6 +19,7 @@ public class InGameViewController implements IGame {
 	public void tick() {
 		//checkBallCollision();
 		//checkPaddleBounds();
+		//drawEverything();
 	}
 
 	@Override
@@ -25,6 +32,17 @@ public class InGameViewController implements IGame {
 	public void setTimeRemaining(int seconds) {
 		// TODO Auto-generated method stub
 		
+	}
+	//passed in from keylistener in view. 
+	// these methods should updates PaddleModel's x position with x position - velocity. These methods are called in tick() 
+	public void handlePaddleLeft() {
+		System.out.println("left pressed");
+	//	paddle.setXPos(paddle.getXPos() - paddle.getXVelocity());
+	}
+	
+	public void handlePaddleRight() {
+		System.out.println("right pressed");
+	//  paddle.setXPos(paddle.getXPos() + paddle.getXVelocity());
 	}
 	
 	public void checkBallCollision(BallModel ball) {
