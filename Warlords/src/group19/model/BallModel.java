@@ -15,7 +15,29 @@ public class BallModel extends ObjectModel implements IBall {
 		xVelocity = 0; // should be an argument? 
 		yVelocity = 0; 
 	}
-
+	
+	// in order to implement test interfaces...
+	@Override
+	public void setXPos(int x) {
+		super.setXPos(x);
+	}
+	
+	@Override
+	public void setYPos(int y) {
+		super.setYPos(y);
+	}
+	
+	@Override
+	public int getXPos() {
+		return super.getXPos();
+	}
+	
+	@Override
+	public int getYPos() {
+		return super.getYPos();
+	}
+	
+	@Override
 	public void setXVelocity(int velocity) {
 		xVelocity = velocity;
 	}
@@ -24,6 +46,7 @@ public class BallModel extends ObjectModel implements IBall {
 		xVelocity = -(xVelocity);
 	}
 
+	@Override
 	public void setYVelocity(int velocity) {
 		yVelocity = velocity;
 	}
@@ -32,10 +55,12 @@ public class BallModel extends ObjectModel implements IBall {
 		yVelocity = -(yVelocity);
 	}
 
+	@Override
 	public int getXVelocity() {
 		return xVelocity;
 	}
 	
+	@Override
 	public int getYVelocity() {
 		return yVelocity;
 	}

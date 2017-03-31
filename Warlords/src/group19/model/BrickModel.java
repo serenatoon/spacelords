@@ -13,7 +13,18 @@ public class BrickModel extends ObjectModel implements IWall {
 		isDestroyed = false; // initiate wall as not destroyed 
 	}
 	
-	// get state of brick, i.e. whether or not it is destroyed 
+	@Override
+	public void setXPos(int x) {
+		super.setXPos(x);
+	}
+	
+	@Override 
+	public void setYPos(int y) {
+		super.setYPos(y);
+	}
+	
+	// get state of brick, i.e. whether or not it is destroyed
+	@Override
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}

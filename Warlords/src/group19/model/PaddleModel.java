@@ -12,6 +12,16 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 		height = h;
 	}
 	
+	@Override
+	public void setXPos(int x) {
+		super.setXPos(x);
+	}
+	
+	@Override
+	public void setYPos(int y) {
+		super.setYPos(y);
+	}
+	
 	public int getHeight() {
 		return height;
 	}
