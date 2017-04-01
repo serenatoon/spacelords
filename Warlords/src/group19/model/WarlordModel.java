@@ -17,12 +17,11 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 	
 	
 	/* Player # positions are as follows: 
-	 *			 | 1    2 |
-	 * 			 |        |
-	 * 			 |        |
-	 * 			 | 3    4 |                */	
-	//constructor 
-	public WarlordModel(int x, int y, int playerNo) { // TODO: how big the warlord should be, thus dictating how big the bounds should be 
+	 *				 | 1    2 |
+	 * 				 |        |
+	 * 			 	 |        |
+	 * 			 	 | 3    4 |                         */	
+	public WarlordModel(int x, int y, int playerNo) { 
 		super(x, y);
 		this.playerNo = playerNo; // need to know player number to set bounds of which the paddle can move for each player
 		isWinner = false;
@@ -97,8 +96,8 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 		return isWinner;
 	}
 
-	public void setWinner(boolean isWinner) {
-		this.isWinner = isWinner;
+	public void setWinner() {
+		isWinner = true;
 	}
 	
 	@Override

@@ -61,7 +61,7 @@ public class InGameView {
 		
 		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
 		rootGameLayout.setPrefHeight(height);
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord()); //add child nodes here 
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
 		Scene scene = new Scene(rootGameLayout);
 		window.setScene(scene);
 		this.scene = scene; //pass scene back out to a variable that controller can call upon
@@ -77,12 +77,12 @@ public class InGameView {
 	
 	
 	public void drawEverything() { //this method is called on every tick in-game so that drawings update.
-		rootGameLayout.getChildren().removeAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord());
+		rootGameLayout.getChildren().removeAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1());
 		drawBall();
 		drawPaddle();
 		drawBrick();
-		drawWarlord();
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord());
+		drawWarlord1();
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1());
 	}
 	
 	
@@ -118,13 +118,23 @@ public class InGameView {
 		return rect;
 	}
 	
-	public static Node drawWarlord() {
-		Rectangle rect = new Rectangle(game.getWarlord().getXPos(), game.getWarlord().getYPos(), game.getWarlord().getWidth(), game.getWarlord().getHeight());
+	public static Node drawWarlord1() {
+		Rectangle rect = new Rectangle(game.getWarlord1().getXPos(), game.getWarlord1().getYPos(), game.getWarlord1().getWidth(), game.getWarlord1().getHeight());
 		rect.setFill(Color.GREENYELLOW);
 		rect.setStroke(Color.HOTPINK);
 		rect.setStrokeWidth(3.0);
-		rect.setLayoutX(800);
-		rect.setLayoutY(500);
+		rect.translateXProperty().bind(game.getWarlord1().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord1().getYProperty());
+		return rect;
+	}
+	
+	public static Node drawWarlord2() {
+		Rectangle rect = new Rectangle(game.getWarlord2().getXPos(), game.getWarlord2().getYPos(), game.getWarlord2().getWidth(), game.getWarlord2().getHeight());
+		rect.setFill(Color.BLUE);
+		rect.setStroke(Color.HOTPINK);
+		rect.setStrokeWidth(3.0);
+		rect.translateXProperty().bind(game.getWarlord2().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord2().getYProperty());
 		return rect;
 	}
 

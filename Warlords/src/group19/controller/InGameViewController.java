@@ -44,10 +44,6 @@ public class InGameViewController implements IGame {
 	}
 	
 	
-	// game loop doesn't start until I quit game back to main menu, then it starts ticking...
-	// previous implementation (see loopy branch) worked as intended, ticks as soon as the game starts.
-	// the "single player mode" thing doesn't get printed until you close the game window either... even with my changes commented out 
-	// i dont know if it's something to do with getScene() or... 
 	public class Loop extends AnimationTimer {
 		private long lastTick = 0;
 		
@@ -75,27 +71,20 @@ public class InGameViewController implements IGame {
 		}
 	}
 	
-	// I feel like we need a whole gamemodel class.  which gets passed into this controller
-	// with the methods getBall() etc so i can pass them into the checkCollisions()
-
-
 	@Override
 	public void tick() {
+		checkBallCollision(); 
+		checkPaddleBounds();
+		game.getBall().moveBall();
+		
 		if (isFinished()) {
 			gameLoop.stop();
 		} 
-		//view.drawEverything();
-		checkBallCollision(); 
-		checkPaddleBounds();
-
-		game.getBall().moveBall();
-		//KeyEventListener
-		System.out.println(view.getScene().getHeight());		
 	}
 
 	@Override
 	public boolean isFinished() {
-		return ((remainingTime <= 0) || (game.getWarlord().hasWon()));
+		return ((remainingTime <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
 	}
 
 	// I don't know why you'd need a method for this...
@@ -148,8 +137,16 @@ public class InGameViewController implements IGame {
 			game.getBall().bounceY();
 		}
 		
-		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { // i feel like this isnt the right way but i need the nodes
+		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { 
 			game.getBall().bounceY();
+		}
+		
+		
+		// BUGGY.  dies before the ball hits the warlord 
+		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInLocal())) { 
+			game.getWarlord1().setDead();
+			System.out.println("warlord ded");
+			game.getWarlord2().setWinner();
 		}
 	}
 	
