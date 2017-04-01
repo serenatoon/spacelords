@@ -47,30 +47,30 @@ public class InGameView {
 	
 	static GameModel game;
 	
-	private Stage window = new Stage();
+//	private Stage window = new Stage();
 	AnchorPane rootGameLayout = new AnchorPane();
 	private Scene scene;
 	
 	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
 		this.game = model;
 		
-		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
-		window.setTitle("Warlords");
-		window.setWidth(width);
-		window.setHeight(height);
+//		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
+//		window.setTitle("Warlords");
+//		window.setWidth(width);
+//		window.setHeight(height);
 		
 		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
 		rootGameLayout.setPrefHeight(height);
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
-		Scene scene = new Scene(rootGameLayout);
-		window.setScene(scene);
-		this.scene = scene; //pass scene back out to a variable that controller can call upon
-		window.show(); //wait for close before returning
+		scene = new Scene(rootGameLayout);
+	//	window.setScene(scene);
+	//	this.scene = scene; //pass scene back out to a variable that controller can call upon
+	//	window.show(); //wait for close before returning
 	}		
 	
-	public Stage getWindow() {
-		return window;
-	}
+//	public Stage getWindow() {
+//		return window;
+//	}
 	public Scene getScene() {
 		return scene;
 	}

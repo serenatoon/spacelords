@@ -130,6 +130,7 @@ public class GameMenuView extends Application {
                 	InGameViewController newGame = new InGameViewController(); //call a new instance of InGameViewController
                 	//if you check IGVC's constructor, it calls an instance of InGameView. This is so the view we display is actually
                 	//an 'instance' on the controller, so that user input actions on the controller works out.
+                	window.setScene(InGameViewController.view.getScene());
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer

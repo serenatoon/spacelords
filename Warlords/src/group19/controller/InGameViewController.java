@@ -25,7 +25,7 @@ public class InGameViewController implements IGame {
 	
 	static GameModel game = new GameModel();
 	
-	InGameView view;
+	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final Loop gameLoop = new Loop();
 	// idk if these should go here. or if we need a gamemodel lol 
@@ -100,7 +100,7 @@ public class InGameViewController implements IGame {
 	      if (key.getCode() == KeyCode.TAB) {
 	          System.out.println("You pressed TAB, exiting and moving to main menu...");
 	          gsc.setGameState(0);//back to menu state (game did not 'complete')
-	          view.getWindow().close();
+	         // switch back to main menu 
 	      }
 	      else if (key.getCode() == KeyCode.LEFT) {
 	  		System.out.println("left pressed");
