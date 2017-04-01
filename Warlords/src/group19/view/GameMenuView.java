@@ -1,5 +1,6 @@
 package group19.view;
 import group19.controller.GameStateController;
+import group19.controller.InGameViewController;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -126,7 +127,9 @@ public class GameMenuView extends Application {
                 switch(currentItem) {
                 case 0: //single player
                 	gsc.setGameState(1); //1 = game_in_progress
-                	InGameView.displayInGameView(); //popup the game view
+                	InGameViewController newGame = new InGameViewController(); //call a new instance of InGameViewController
+                	//if you check IGVC's constructor, it calls an instance of InGameView. This is so the view we display is actually
+                	//an 'instance' on the controller, so that user input actions on the controller works out.
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer

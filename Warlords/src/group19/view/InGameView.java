@@ -1,7 +1,9 @@
 package group19.view;
 
+import com.sun.glass.ui.Window;
+
 import group19.controller.GameStateController;
-import group19.controller.InGameViewController;
+//import group19.controller.InGameViewController;
 import group19.model.BallModel;
 import group19.model.BrickModel;
 import group19.model.PaddleModel;
@@ -10,6 +12,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -37,64 +40,40 @@ import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
 //This class basically works like a pop-up style window. Once a game mode is selected on the main menu, initModality blocks input
 //events from occurring on mainMenu, and does not allow the user to switch out of this window (in the in-game window). showAndWait() is 
-//also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml
-//so objects can pass the bind() test properly, also handling any sort of object instances/logic on Scene Builder is difficult.
+//also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml.
 
 public class InGameView {
 	private static BallModel ball = new BallModel(0, 0);
 	private static BrickModel brick = new BrickModel(0, 0);
 	private static PaddleModel paddle = new PaddleModel(0, 0);
-	private static WarlordModel warlord = new WarlordModel(0, 0, 0);
-	//instances of the respective controllers are declared below
-	public static InGameViewController controller = new InGameViewController(); 
-	public static GameStateController gsc = new GameStateController();
+	private static WarlordModel warlord = new WarlordModel(0, 0, 0); 
+	private Stage window;
+	private Scene scene;
 	
-	public InGameView (BallModel ballModel, BrickModel brickModel, PaddleModel paddleModel, WarlordModel warlordModel) {
-		ball = ballModel;
-		brick = brickModel;
-		paddle = paddleModel;
-		warlord = warlordModel;
-	}
-	
-//pseudocode for incorporating ticks into inGameView
-//	while (!gsc.isFinished()) {
-//		if (!gsc.checkIfPaused()) {
-//			controller.tick(); //igvc has one tick
-//		}
-//	}
-	
-	public static void displayInGameView() { //this method is called by the main menu to start a game
+	public InGameView (double width, double height) { //upon inititalisation, switch focus to in game view
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
 		window.setTitle("Warlords");
-		window.setWidth(1024);
-		window.setHeight(768);
+		window.setWidth(width);
+		window.setHeight(height);
+		this.window = window; //pass stage back out to variable that controller can call upon
 		AnchorPane rootGameLayout = new AnchorPane(); 
-		rootGameLayout.setPrefWidth(1024); //set the root parent as an anchor pane, with same dimensions as stage
-		rootGameLayout.setPrefHeight(768);
+		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
+		rootGameLayout.setPrefHeight(height);
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord()); //add child nodes here 
 		Scene scene = new Scene(rootGameLayout);
-		
-		/*Added function for debugging: pressing tab closes the in game window*/
-		/*Listen for key input for paddle to move, but pass logic to controller*/
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-		      if(key.getCode() == KeyCode.TAB) {
-		          System.out.println("You pressed TAB, exiting and moving to main menu...");
-		          gsc.setGameState(0);//back to menu state (game did not 'complete')
-		          window.close();
-		      }
-		      else if (key.getCode() == KeyCode.LEFT) {
-		    	  controller.handlePaddleLeft();
-		      }
-		      else if (key.getCode() == KeyCode.RIGHT) {
-		    	  controller.handlePaddleRight();
-		      }
-		});
-		
-
 		window.setScene(scene);
+		this.scene = scene; //pass scene back out to a variable that controller can call upon
 		window.showAndWait(); //wait for close before returning
+	}		
+	
+	public Stage getWindow() {
+		return window;
 	}
+	public Scene getScene() {
+		return scene;
+	}
+	
 	
 	public void drawEverything() { //this method is called on every tick in-game so that drawings update.
 		drawBall();
@@ -140,5 +119,11 @@ public class InGameView {
 		rect.setLayoutX(800);
 		rect.setLayoutY(500);
 		return rect;
+	}
+
+
+	public void addEventHandler(EventType<KeyEvent> keyPressed, Object object) {
+		// TODO Auto-generated method stub
+		
 	}
 }
