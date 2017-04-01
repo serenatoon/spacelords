@@ -25,7 +25,7 @@ public class WarlordsTest extends TestSuite {
         //Instantiate objects to initialise the fields - and preferably no other game objects, to minimise the possibility of conflicts
         //All game objects should be instantiated at coordinates (0,0) with zero velocity
     	
-    	//game = new InGameViewController(); 
+    	game = new InGameViewController(); 
     	ball = new BallModel(0,0);
     	paddle = new PaddleModel(0,0);
     	player1Wall = new BrickModel(0,0);

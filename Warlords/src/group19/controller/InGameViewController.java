@@ -84,7 +84,7 @@ public class InGameViewController implements IGame {
 		if (isFinished()) {
 			gameLoop.stop();
 		} 
-		view.drawEverything();
+		//view.drawEverything();
 		checkBallCollision(); 
 		checkPaddleBounds();
 
@@ -129,27 +129,27 @@ public class InGameViewController implements IGame {
 	
 	public void checkBallCollision() {
 		if (((game.getBall().getXPos())-(game.getBall().getRadius()) < 0)) { // hit left wall
-			//game.getBall().setXPos(game.getBall().getRadius());
+			game.getBall().setXPos(game.getBall().getRadius());
 			game.getBall().bounceX();
 		}
 		
 		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right left wall
-			//game.getBall().setXPos(1024-game.getBall().getRadius());
+			game.getBall().setXPos(1024-game.getBall().getRadius());
 			game.getBall().bounceX();
 		}
 		
 		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // hit top wall 
-			//game.getBall().setYPos(768-game.getBall().getRadius());
+			game.getBall().setYPos(768-game.getBall().getRadius());
 			game.getBall().bounceY();
 		}
 		
 		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // hit bottom wall 
-			//game.getBall().setYPos(game.getBall().getRadius());
+			game.getBall().setYPos(game.getBall().getRadius());
 			game.getBall().bounceY();
 		}
 		
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { // i feel like this isnt the right way but i need the nodes
-			//game.getBall().bounceY();
+			game.getBall().bounceY();
 		}
 	}
 	

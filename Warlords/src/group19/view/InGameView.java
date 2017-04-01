@@ -94,6 +94,8 @@ public class InGameView {
         circle.setStrokeWidth(1.0);
         //circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
         //circle.setLayoutY(400);
+        circle.translateXProperty().bind(game.getBall().getXProperty());
+        circle.translateYProperty().bind(game.getBall().getYProperty());
         return circle;
 	}
 
@@ -101,6 +103,8 @@ public class InGameView {
 		Rectangle rect = new Rectangle(game.getPaddle().getXPos(), game.getPaddle().getYPos(), game.getPaddle().getWidth(), game.getPaddle().getHeight());
 		//rect.setLayoutX(150);
 		//rect.setLayoutY(150);
+        rect.translateXProperty().bind(game.getPaddle().getXProperty());
+        rect.translateYProperty().bind(game.getPaddle().getYProperty());
 		return rect;
 	}
 	
