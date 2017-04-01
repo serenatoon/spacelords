@@ -105,6 +105,10 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 	public boolean isDead() {
 		return isDead;
 	}
+	
+	public void setDead() {
+		isDead = true;
+	}
 
 	public int getWidth() {
 		return width;
