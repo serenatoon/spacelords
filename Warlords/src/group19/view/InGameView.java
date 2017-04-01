@@ -47,18 +47,18 @@ public class InGameView {
 	
 	static GameModel game;
 	
-	private Stage window;
+	private Stage window = new Stage();
+	AnchorPane rootGameLayout = new AnchorPane();
 	private Scene scene;
 	
 	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
 		this.game = model;
-		Stage window = new Stage();
+		
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
 		window.setTitle("Warlords");
 		window.setWidth(width);
 		window.setHeight(height);
-		this.window = window; //pass stage back out to variable that controller can call upon
-		AnchorPane rootGameLayout = new AnchorPane(); 
+		
 		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
 		rootGameLayout.setPrefHeight(height);
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord()); //add child nodes here 
@@ -77,10 +77,12 @@ public class InGameView {
 	
 	
 	public void drawEverything() { //this method is called on every tick in-game so that drawings update.
+		rootGameLayout.getChildren().removeAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord());
 		drawBall();
 		drawPaddle();
 		drawBrick();
 		drawWarlord();
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord());
 	}
 	
 	

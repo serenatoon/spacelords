@@ -49,23 +49,29 @@ public class InGameViewController implements IGame {
 	// the "single player mode" thing doesn't get printed until you close the game window either... even with my changes commented out 
 	// i dont know if it's something to do with getScene() or... 
 	public class Loop extends AnimationTimer {
-		private long prevTime = 0;
+		private long lastTick = 0;
 		
 		@Override
 		public void handle(long currentTime) {
-			if (prevTime == 0) { // first frame 
-				prevTime = currentTime; 
+			
+			//private long lastTick = 0;
+			
+			if (lastTick == 0) { // first frame 
+				lastTick = currentTime; 
 				return;
 			}			
 			
-			KeyEventListener();		
 			
-			tick();
+			if (currentTime - lastTick >= 64000000) { // 64ms 
+				KeyEventListener();		
+				tick();
+				lastTick = currentTime;
+			}
 			
 			// TODO: timer actually counts down
 			//remainingTime = startTime-(currentTime/1000000000);
 			
-			prevTime = currentTime;
+			
 		}
 	}
 	
@@ -81,6 +87,7 @@ public class InGameViewController implements IGame {
 		checkBallCollision(); 
 		checkPaddleBounds();
 		view.drawEverything();
+		game.getBall().moveBall();
 		//KeyEventListener
 		//System.out.println("tick");		
 	}
@@ -146,19 +153,19 @@ public class InGameViewController implements IGame {
 	}
 	
 	public void checkPaddleBounds() {
-		if ((game.getPaddle().getXPos()-((game.getPaddle().getWidth())/2) <= 0)) { // hit left wall
-			game.getPaddle().setXPos((game.getPaddle().getWidth())/2);
+		if ((game.getPaddle().getXPos()-((game.getPaddle().getWidth())/2) < 0)) { // hit left wall
+			game.getPaddle().setXPos(((game.getPaddle().getWidth())/2));
 		}
 		
-		if ((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2) >= 768)) { // hit right wall
-			game.getPaddle().setXPos((game.getPaddle().getWidth())/2);
+		if ((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2) > 768)) { // hit right wall
+			game.getPaddle().setXPos((768 - (game.getPaddle().getWidth())/2));
 		}
 		
-		if ((game.getPaddle().getYPos()-((game.getPaddle().getWidth())/2) <= 0)) { // hit bottom wall
+		if ((game.getPaddle().getYPos()-((game.getPaddle().getWidth())/2) < 0)) { // hit bottom wall
 			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		
-		if ((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2) >= 768)) { // hit top wall
+		if ((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2) > 768)) { // hit top wall
 			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		

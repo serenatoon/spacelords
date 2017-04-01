@@ -72,4 +72,9 @@ public class BallModel extends ObjectModel implements IBall {
 	public int getDiameter() {
 		return 2*radius;
 	}
+	
+	public void moveBall() {
+		super.setXPos(super.getXPos() + xVelocity);
+		super.setYPos(super.getYPos() + yVelocity);
+	}
 }
