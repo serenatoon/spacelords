@@ -5,6 +5,10 @@ import group19.view.InGameView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import group19.model.*;
+
+import javafx.animation.AnimationTimer;
+
+
 //The in-game view controller is a user-input controller which listens to key events on the view, and updates model attributes 
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
 //References to both the models and the view are placed here.
@@ -15,12 +19,40 @@ public class InGameViewController implements IGame {
 	WarlordModel warlord;
 	InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
+	public final Loop gameLoop = new Loop();
 	
 	public InGameViewController() {
 		super();
 		view = new InGameView(1024,768);
-		KeyEventListener();
+		//KeyEventListener();
+		gameLoop.start();
 	}
+	
+	
+	// game loop doesn't start until I quit game back to main menu, then it starts ticking...
+	// previous implementation (see loopy branch) worked as intended, ticks as soon as the game starts.
+	// the "single player mode" thing doesn't get printed until you close the game window either... even with my changes commented out 
+	// i dont know if it's something to do with getScene() or... 
+	public class Loop extends AnimationTimer {
+		private long prevTime = 0;
+		
+		@Override
+		public void handle(long currentTime) {
+			if (prevTime == 0) { // first frame 
+				prevTime = currentTime; 
+				return;
+			}
+			
+			
+			KeyEventListener();		
+			
+			tick();
+			
+			prevTime = currentTime;
+		}
+	}
+	
+
 
 	@Override
 	public void tick() {
@@ -28,6 +60,7 @@ public class InGameViewController implements IGame {
 		//checkPaddleBounds();
 		//view.drawEverything();
 		//KeyEventListener
+		System.out.println("tick");
 	}
 
 	@Override
@@ -41,6 +74,7 @@ public class InGameViewController implements IGame {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	/*Added function for debugging: pressing tab closes the in game window*/
 	/*Listen for key input for paddle to move.*/
 	public void KeyEventListener() {
@@ -59,7 +93,10 @@ public class InGameViewController implements IGame {
 	  		//  paddle.setXPos(paddle.getXPos() + paddle.getXVelocity());
 	      }
 	      });	
-		}
+		System.out.println("Key listening");
+	}
+	
+	
 
 	
 	public void checkBallCollision(BallModel ball) {
