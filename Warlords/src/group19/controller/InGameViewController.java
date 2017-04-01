@@ -36,6 +36,7 @@ public class InGameViewController implements IGame {
 	public InGameViewController() {
 		super();
 		view = new InGameView(1024,768, game);
+		System.out.println("new game");	
 		//startTime = 120; // gametime of 2 minutes 
 		remainingTime = 120;
 		//KeyEventListener();
@@ -79,9 +80,9 @@ public class InGameViewController implements IGame {
 		} 
 		checkBallCollision(); 
 		checkPaddleBounds();
-		//view.drawEverything();
+		view.drawEverything();
 		//KeyEventListener
-		System.out.println("tick");		
+		//System.out.println("tick");		
 	}
 
 	@Override
@@ -106,14 +107,13 @@ public class InGameViewController implements IGame {
 	      }
 	      else if (key.getCode() == KeyCode.LEFT) {
 	  		System.out.println("left pressed");
-	  		//	paddle.setXPos(paddle.getXPos() - paddle.getXVelocity());
+	  		game.getPaddle().setXPos(game.getPaddle().getXPos() - game.getPaddle().getXVelocity());
 	      }
 	      else if (key.getCode() == KeyCode.RIGHT) {
 	  		System.out.println("right pressed");
-	  		//  paddle.setXPos(paddle.getXPos() + paddle.getXVelocity());
+	  		game.getPaddle().setXPos(game.getPaddle().getXPos() + game.getPaddle().getXVelocity());
 	      }
 	      });	
-		System.out.println("Key listening");
 	}
 	
 	

@@ -65,7 +65,7 @@ public class InGameView {
 		Scene scene = new Scene(rootGameLayout);
 		window.setScene(scene);
 		this.scene = scene; //pass scene back out to a variable that controller can call upon
-		window.showAndWait(); //wait for close before returning
+		window.show(); //wait for close before returning
 	}		
 	
 	public Stage getWindow() {
@@ -97,8 +97,8 @@ public class InGameView {
 
 	public static Node drawPaddle() {
 		Rectangle rect = new Rectangle(game.getPaddle().getXPos(), game.getPaddle().getYPos(), game.getPaddle().getWidth(), game.getPaddle().getHeight());
-		rect.setLayoutX(150);
-		rect.setLayoutY(150);
+		//rect.setLayoutX(150);
+		//rect.setLayoutY(150);
 		return rect;
 	}
 	
