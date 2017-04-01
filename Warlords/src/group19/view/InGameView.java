@@ -3,7 +3,6 @@ package group19.view;
 import com.sun.glass.ui.Window;
 
 import group19.controller.GameStateController;
-//import group19.controller.InGameViewController;
 import group19.model.*;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;

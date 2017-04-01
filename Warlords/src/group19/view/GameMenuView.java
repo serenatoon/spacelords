@@ -5,11 +5,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -97,7 +95,8 @@ public class GameMenuView extends Application {
             text.setFill(b ? Color.ANTIQUEWHITE : Color.GREY); //if b = true (active option) then fill white 
         }
     }
-    @Override
+    @SuppressWarnings("static-access")
+	@Override
     public void start(Stage window) throws Exception {
         //use getClassLoader() so getResource() searches relative to classpath, instead of .class file 
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
