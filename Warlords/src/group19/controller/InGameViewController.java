@@ -13,17 +13,31 @@ import javafx.animation.AnimationTimer;
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
 //References to both the models and the view are placed here.
 public class InGameViewController implements IGame {
-	BallModel ball;
+	/*BallModel game.getBall(); // how does controller know about the game.getBall()s n shit in IGV?? 
 	BrickModel brick;
 	PaddleModel paddle;
-	WarlordModel warlord;
+	WarlordModel warlord; // TODO: we need to make multiple warlords... */
+	
+	/*private static BallModel ball = new BallModel(0, 0);
+	private static BrickModel brick = new BrickModel(0, 0);
+	private static PaddleModel paddle = new PaddleModel(0, 0);
+	private static WarlordModel warlord = new WarlordModel(0, 0, 0);*/
+	
+	static GameModel game = new GameModel();
+	
 	InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final Loop gameLoop = new Loop();
+	// idk if these should go here. or if we need a gamemodel lol 
+	//private int startTime; 
+	private int remainingTime;
+	private boolean isFinished;
 	
 	public InGameViewController() {
 		super();
-		view = new InGameView(1024,768);
+		view = new InGameView(1024,768, game);
+		//startTime = 120; // gametime of 2 minutes 
+		remainingTime = 120;
 		//KeyEventListener();
 		gameLoop.start();
 	}
@@ -41,38 +55,44 @@ public class InGameViewController implements IGame {
 			if (prevTime == 0) { // first frame 
 				prevTime = currentTime; 
 				return;
-			}
-			
+			}			
 			
 			KeyEventListener();		
 			
 			tick();
 			
+			// TODO: timer actually counts down
+			//remainingTime = startTime-(currentTime/1000000000);
+			
 			prevTime = currentTime;
 		}
 	}
 	
+	// I feel like we need a whole gamemodel class.  which gets passed into this controller
+	// with the methods getBall() etc so i can pass them into the checkCollisions()
 
 
 	@Override
 	public void tick() {
-		//checkBallCollision();
-		//checkPaddleBounds();
+		if (isFinished()) {
+			gameLoop.stop();
+		} 
+		checkBallCollision(); 
+		checkPaddleBounds();
 		//view.drawEverything();
 		//KeyEventListener
-		System.out.println("tick");
+		System.out.println("tick");		
 	}
 
 	@Override
 	public boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return ((remainingTime <= 0) || (game.getWarlord().hasWon()));
 	}
 
+	// I don't know why you'd need a method for this...
 	@Override
 	public void setTimeRemaining(int seconds) {
-		// TODO Auto-generated method stub
-		
+		remainingTime = seconds;		
 	}
 	
 	/*Added function for debugging: pressing tab closes the in game window*/
@@ -99,48 +119,49 @@ public class InGameViewController implements IGame {
 	
 
 	
-	public void checkBallCollision(BallModel ball) {
-		if ((ball.getXPos()-ball.getRadius() <= 0)) { // hit left wall
-			ball.setXPos(ball.getRadius());
-			ball.bounceX();
+	public void checkBallCollision() {
+		if (((game.getBall().getXPos())-(game.getBall().getRadius()) <= 0)) { // hit left wall
+			game.getBall().setXPos(game.getBall().getRadius());
+			game.getBall().bounceX();
 		}
 		
-		if ((ball.getXPos()+ball.getRadius() >= 768)) { // right left wall
-			ball.setXPos(768-ball.getRadius());
-			ball.bounceX();
+		if ((game.getBall().getXPos()+game.getBall().getRadius() >= 768)) { // right left wall
+			game.getBall().setXPos(768-game.getBall().getRadius());
+			game.getBall().bounceX();
 		}
 		
-		if ((ball.getYPos()+ball.getRadius()) >= 768) { // hit top wall 
-			ball.setYPos(768-ball.getRadius());
-			ball.bounceY();
+		if ((game.getBall().getYPos()+game.getBall().getRadius()) >= 768) { // hit top wall 
+			game.getBall().setYPos(768-game.getBall().getRadius());
+			game.getBall().bounceY();
 		}
 		
-		if ((ball.getYPos()-ball.getRadius()) <= 0) { // hit bottom wall 
-			ball.setYPos(ball.getRadius());
-			ball.bounceY();
+		if ((game.getBall().getYPos()-game.getBall().getRadius()) <= 0) { // hit bottom wall 
+			game.getBall().setYPos(game.getBall().getRadius());
+			game.getBall().bounceY();
 		}
 		
-		// TODO: when ball intersects() with objects (paddle, bricks) 
-		// perhaps put ball collision detection with bricks in another method which when it returns true, destroyBrick() will be called 
+		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { // i feel like this isnt the right way but i need the nodes
+			game.getBall().bounceY();
+		}
 	}
 	
-	public void checkPaddleBounds(PaddleModel paddle) {
-		if ((paddle.getXPos()-((paddle.getWidth())/2) <= 0)) { // hit left wall
-			paddle.setXPos((paddle.getWidth())/2);
+	public void checkPaddleBounds() {
+		if ((game.getPaddle().getXPos()-((game.getPaddle().getWidth())/2) <= 0)) { // hit left wall
+			game.getPaddle().setXPos((game.getPaddle().getWidth())/2);
 		}
 		
-		if ((paddle.getXPos()+((paddle.getWidth())/2) >= 768)) { // hit right wall
-			paddle.setXPos((paddle.getWidth())/2);
+		if ((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2) >= 768)) { // hit right wall
+			game.getPaddle().setXPos((game.getPaddle().getWidth())/2);
 		}
 		
-		if ((paddle.getYPos()-((paddle.getWidth())/2) <= 0)) { // hit bottom wall
-			paddle.setYPos((paddle.getWidth())/2);
+		if ((game.getPaddle().getYPos()-((game.getPaddle().getWidth())/2) <= 0)) { // hit bottom wall
+			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		
-		if ((paddle.getYPos()+((paddle.getWidth())/2) >= 768)) { // hit top wall
-			paddle.setYPos((paddle.getWidth())/2);
+		if ((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2) >= 768)) { // hit top wall
+			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		
-		// TODO: paddle shouldn't be able to move out of each player's bounds.. which are different for each player :-/ ??? 
+		// TODO: paddle shouldn't be able to move out of each player's bounds
 	}
 }

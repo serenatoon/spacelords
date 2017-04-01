@@ -4,10 +4,7 @@ import com.sun.glass.ui.Window;
 
 import group19.controller.GameStateController;
 //import group19.controller.InGameViewController;
-import group19.model.BallModel;
-import group19.model.BrickModel;
-import group19.model.PaddleModel;
-import group19.model.WarlordModel;
+import group19.model.*;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -43,14 +40,18 @@ import javafx.scene.media.AudioClip;
 //also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml.
 
 public class InGameView {
-	private static BallModel ball = new BallModel(0, 0);
+	/* private static BallModel ball = new BallModel(0, 0);
 	private static BrickModel brick = new BrickModel(0, 0);
 	private static PaddleModel paddle = new PaddleModel(0, 0);
-	private static WarlordModel warlord = new WarlordModel(0, 0, 0); 
+	private static WarlordModel warlord = new WarlordModel(0, 0, 0); */
+	
+	static GameModel game;
+	
 	private Stage window;
 	private Scene scene;
 	
-	public InGameView (double width, double height) { //upon inititalisation, switch focus to in game view
+	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
+		this.game = model;
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
 		window.setTitle("Warlords");
@@ -85,7 +86,7 @@ public class InGameView {
 	
 	//Below are all the greyblock implementations of the ball drawing.
 	public static Node drawBall() {
-        Circle circle = new Circle(ball.getXPos(), ball.getYPos(), ball.getRadius());
+        Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
         circle.setFill(Color.RED);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1.0);
@@ -95,14 +96,14 @@ public class InGameView {
 	}
 
 	public static Node drawPaddle() {
-		Rectangle rect = new Rectangle(paddle.getXPos(), paddle.getYPos(), paddle.getWidth(), paddle.getHeight());
+		Rectangle rect = new Rectangle(game.getPaddle().getXPos(), game.getPaddle().getYPos(), game.getPaddle().getWidth(), game.getPaddle().getHeight());
 		rect.setLayoutX(150);
 		rect.setLayoutY(150);
 		return rect;
 	}
 	
 	public static Node drawBrick() {
-		Rectangle rect = new Rectangle(brick.getXPos(), brick.getYPos(), brick.getWidth(), brick.getHeight());
+		Rectangle rect = new Rectangle(game.getBrick().getXPos(), game.getBrick().getYPos(), game.getBrick().getWidth(), game.getBrick().getHeight());
 		rect.setFill(Color.CYAN);
 		rect.setStroke(Color.BLACK);
 		rect.setStrokeWidth(1.0);
@@ -112,7 +113,7 @@ public class InGameView {
 	}
 	
 	public static Node drawWarlord() {
-		Rectangle rect = new Rectangle(warlord.getXPos(), warlord.getYPos(), warlord.getWidth(), warlord.getHeight());
+		Rectangle rect = new Rectangle(game.getWarlord().getXPos(), game.getWarlord().getYPos(), game.getWarlord().getWidth(), game.getWarlord().getHeight());
 		rect.setFill(Color.GREENYELLOW);
 		rect.setStroke(Color.HOTPINK);
 		rect.setStrokeWidth(3.0);
