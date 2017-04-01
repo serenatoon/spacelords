@@ -35,7 +35,7 @@ public class InGameViewController implements IGame {
 	
 	public InGameViewController() {
 		super();
-		view = new InGameView(1024,768, game);
+		view = new InGameView(1024,806, game);
 		System.out.println("new game");	
 		//startTime = 120; // gametime of 2 minutes 
 		remainingTime = 120;
@@ -84,12 +84,13 @@ public class InGameViewController implements IGame {
 		if (isFinished()) {
 			gameLoop.stop();
 		} 
+		view.drawEverything();
 		checkBallCollision(); 
 		checkPaddleBounds();
-		view.drawEverything();
+
 		game.getBall().moveBall();
 		//KeyEventListener
-		//System.out.println("tick");		
+		System.out.println(view.getScene().getHeight());		
 	}
 
 	@Override
@@ -127,28 +128,28 @@ public class InGameViewController implements IGame {
 
 	
 	public void checkBallCollision() {
-		if (((game.getBall().getXPos())-(game.getBall().getRadius()) <= 0)) { // hit left wall
-			game.getBall().setXPos(game.getBall().getRadius());
+		if (((game.getBall().getXPos())-(game.getBall().getRadius()) < 0)) { // hit left wall
+			//game.getBall().setXPos(game.getBall().getRadius());
 			game.getBall().bounceX();
 		}
 		
-		if ((game.getBall().getXPos()+game.getBall().getRadius() >= 768)) { // right left wall
-			game.getBall().setXPos(768-game.getBall().getRadius());
+		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right left wall
+			//game.getBall().setXPos(1024-game.getBall().getRadius());
 			game.getBall().bounceX();
 		}
 		
-		if ((game.getBall().getYPos()+game.getBall().getRadius()) >= 768) { // hit top wall 
-			game.getBall().setYPos(768-game.getBall().getRadius());
+		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // hit top wall 
+			//game.getBall().setYPos(768-game.getBall().getRadius());
 			game.getBall().bounceY();
 		}
 		
-		if ((game.getBall().getYPos()-game.getBall().getRadius()) <= 0) { // hit bottom wall 
-			game.getBall().setYPos(game.getBall().getRadius());
+		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // hit bottom wall 
+			//game.getBall().setYPos(game.getBall().getRadius());
 			game.getBall().bounceY();
 		}
 		
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { // i feel like this isnt the right way but i need the nodes
-			game.getBall().bounceY();
+			//game.getBall().bounceY();
 		}
 	}
 	
@@ -157,15 +158,15 @@ public class InGameViewController implements IGame {
 			game.getPaddle().setXPos(((game.getPaddle().getWidth())/2));
 		}
 		
-		if ((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2) > 768)) { // hit right wall
-			game.getPaddle().setXPos((768 - (game.getPaddle().getWidth())/2));
+		if (((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2)) > 1024)) { // hit right wall
+			game.getPaddle().setXPos((1024 - (game.getPaddle().getWidth())/2));
 		}
 		
 		if ((game.getPaddle().getYPos()-((game.getPaddle().getWidth())/2) < 0)) { // hit bottom wall
 			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		
-		if ((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2) > 768)) { // hit top wall
+		if (((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2)) > 768)) { // hit top wall
 			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
 		}
 		

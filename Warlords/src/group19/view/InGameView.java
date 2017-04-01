@@ -92,8 +92,8 @@ public class InGameView {
         circle.setFill(Color.RED);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1.0);
-        circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
-        circle.setLayoutY(400);
+        //circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
+        //circle.setLayoutY(400);
         return circle;
 	}
 
