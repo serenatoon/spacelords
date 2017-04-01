@@ -1,6 +1,7 @@
 package group19.controller;
 
 import group19.testcases.IGame;
+import group19.view.GameMenuView;
 import group19.view.InGameView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,24 +12,12 @@ import javafx.animation.AnimationTimer;
 
 //The in-game view controller is a user-input controller which listens to key events on the view, and updates model attributes 
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
-//References to both the models and the view are placed here.
+//References to both the models (from 'GameModel') and the view are placed here.
 public class InGameViewController implements IGame {
-	/*BallModel game.getBall(); // how does controller know about the game.getBall()s n shit in IGV?? 
-	BrickModel brick;
-	PaddleModel paddle;
-	WarlordModel warlord; // TODO: we need to make multiple warlords... */
-	
-	/*private static BallModel ball = new BallModel(0, 0);
-	private static BrickModel brick = new BrickModel(0, 0);
-	private static PaddleModel paddle = new PaddleModel(0, 0);
-	private static WarlordModel warlord = new WarlordModel(0, 0, 0);*/
-	
 	static GameModel game = new GameModel();
-	
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final Loop gameLoop = new Loop();
-	// idk if these should go here. or if we need a gamemodel lol 
 	//private int startTime; 
 	private int remainingTime;
 	private boolean isFinished;
@@ -39,7 +28,6 @@ public class InGameViewController implements IGame {
 		System.out.println("new game");	
 		//startTime = 120; // gametime of 2 minutes 
 		remainingTime = 120;
-		//KeyEventListener();
 		gameLoop.start();
 	}
 	
@@ -100,7 +88,7 @@ public class InGameViewController implements IGame {
 	      if (key.getCode() == KeyCode.TAB) {
 	          System.out.println("You pressed TAB, exiting and moving to main menu...");
 	          gsc.setGameState(0);//back to menu state (game did not 'complete')
-	         // switch back to main menu 
+	          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
 	      }
 	      else if (key.getCode() == KeyCode.LEFT) {
 	  		System.out.println("left pressed");

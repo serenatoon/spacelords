@@ -35,20 +35,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
-//This class basically works like a pop-up style window. Once a game mode is selected on the main menu, initModality blocks input
-//events from occurring on mainMenu, and does not allow the user to switch out of this window (in the in-game window). showAndWait() is 
-//also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml.
+//This class is called by its controller. It provides the actual UI in-game. The constructor sets up the scene,
+//ready to be loaded. When IGV wants to be loaded, .setScene() will be called to load the scene onto the 
+//top-level Stage container. As shown here, the scene is loaded with a Parent node of type Pane, which loads 
+//all the game objects as children nodes. The draw functions are binded to the respective model properties so
+//that the view can update when the model's attributes change. The function drawEverything() is called in the InGameLoop
+//in IGVC to the graphics keep redrawing.
 
 public class InGameView {
-	/* private static BallModel ball = new BallModel(0, 0);
-	private static BrickModel brick = new BrickModel(0, 0);
-	private static PaddleModel paddle = new PaddleModel(0, 0);
-	private static WarlordModel warlord = new WarlordModel(0, 0, 0); */
 	
 	static GameModel game;
 	
 //	private Stage window = new Stage();
-	AnchorPane rootGameLayout = new AnchorPane();
+	Pane rootGameLayout = new Pane();
 	private Scene scene;
 	
 	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view

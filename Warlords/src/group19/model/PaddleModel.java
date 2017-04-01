@@ -11,7 +11,7 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 		super(x, y);
 		width = 50;
 		height = 10;
-		xVelocity = 1;
+		xVelocity = 10;
 	}
 	
 	@Override
