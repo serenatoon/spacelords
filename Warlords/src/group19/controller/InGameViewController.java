@@ -56,6 +56,9 @@ public class InGameViewController implements IGame {
 	// Checks for collisions and win conditions 
 	@Override
 	public void tick() {
+		if (game.getBall().getXVelocity() >= 300) {
+			checkBallCollision(); 
+		}
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
