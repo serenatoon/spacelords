@@ -14,8 +14,8 @@ public class GameModel {
 		ball = new BallModel(0, 0);
 		brick = new BrickModel(100, 100);
 		paddle = new PaddleModel(0, 0);
-		warlord1 = new WarlordModel(200, 200, 1);
-		warlord2 = new WarlordModel(600, 600, 2);
+		warlord1 = new WarlordModel(200, 600, 1);
+		warlord2 = new WarlordModel(750, 600, 2);
 	}
 	
 	public BallModel getBall() {

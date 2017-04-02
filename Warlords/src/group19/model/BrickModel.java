@@ -1,13 +1,15 @@
 package group19.model;
 
 import group19.testcases.IWall;
+import group19.view.GameMenuView;
+import javafx.scene.media.AudioClip;
 
 // One "brick" of a wall, implements the interface IWall
 public class BrickModel extends ObjectModel implements IWall {
 	boolean isDestroyed; // boolean holding state of brick 
 	private int height;
 	private int width;
-	
+	AudioClip brickBreak = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/brick_break.wav").toString());
 	// Constructor: Create ball at position (x,y) 
 	public BrickModel(int x, int y) {
 		super(x, y);
@@ -35,6 +37,8 @@ public class BrickModel extends ObjectModel implements IWall {
 	// destroy brick
 	public void destroy() {
 		isDestroyed = true;
+		brickBreak.play();
+		setXPos(1500);
 	}
 	public int getHeight() {
 		return height;

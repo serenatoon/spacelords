@@ -105,21 +105,25 @@ public class InGameViewController implements IGame {
 		if (game.getBall().getXPos() < 0) { // left edge	
 			game.getBall().setXPos(game.getBall().getRadius());
 			game.getBall().bounceX();
+			game.getBall().playWallSound();
 		}
 		
 		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right edge 
 			game.getBall().setXPos(1024-game.getBall().getRadius());
 			game.getBall().bounceX();
+			game.getBall().playWallSound();
 		}
 		
 		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // bottom edge 
 			game.getBall().setYPos(768-game.getBall().getRadius());
 			game.getBall().bounceY();
+			game.getBall().playWallSound();
 		}
 		
 		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // top edge 
 			game.getBall().setYPos(game.getBall().getRadius());
 			game.getBall().bounceY();
+			game.getBall().playWallSound();
 		}
 		
 		// Check for collision with paddle
@@ -127,6 +131,7 @@ public class InGameViewController implements IGame {
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInParent())) { 
 			game.getBall().setYPos(game.getPaddle().getYPos());
 			game.getBall().bounceY();
+			//game.getPaddle().paddleHitSound();
 		}
 		
 		// Check for collision with warlord

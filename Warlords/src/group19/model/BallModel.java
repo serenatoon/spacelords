@@ -1,12 +1,14 @@
 package group19.model;
 
 import group19.testcases.IBall;
+import group19.view.GameMenuView;
+import javafx.scene.media.AudioClip;
 
 public class BallModel extends ObjectModel implements IBall {
 	private int radius;
 	private int xVelocity; // vertical speed
 	private int yVelocity; // horizontal speed 
-
+	AudioClip ballToWall = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/wall_collision.wav").toString());
 	// Constructor: Create ball as position (x,y) 
 	public BallModel(int x, int y) {
 		super(x, y);
@@ -77,5 +79,9 @@ public class BallModel extends ObjectModel implements IBall {
 	public void moveBall() {
 		super.setXPos(super.getXPos() + xVelocity);
 		super.setYPos(super.getYPos() + yVelocity);
+	}
+	
+	public void playWallSound() {
+		ballToWall.play();
 	}
 }

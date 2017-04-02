@@ -45,7 +45,7 @@ public class InGameView {
 	
 	static GameModel game;
 	
-	Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
+	public Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
 	private Scene scene;
 	
 	public InGameView (double width, double height, GameModel model) { //upon initialisation, switch focus to in game view
@@ -86,6 +86,7 @@ public class InGameView {
 		rect.setStrokeWidth(1.0);
 		rect.translateXProperty().bind(game.getBrick().getXProperty());
         rect.translateYProperty().bind(game.getBrick().getYProperty());
+
 		return rect;
 	}
 	

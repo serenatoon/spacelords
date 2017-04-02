@@ -1,12 +1,14 @@
 package group19.model;
 
 import group19.testcases.IPaddle;
+import group19.view.GameMenuView;
+import javafx.scene.media.AudioClip;
 
 public class PaddleModel extends ObjectModel implements IPaddle {
 	private int width;
 	private int height;
 	private int xVelocity;
-	
+	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
 	public PaddleModel(int x, int y) {
 		super(x, y);
 		width = 50;
@@ -37,5 +39,8 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 	
 	public void setXVelocity(int velocity) {
 		xVelocity = velocity;
+	}
+	public void paddleHitSound() {
+		paddleHit.play();
 	}
 }
