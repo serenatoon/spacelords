@@ -131,7 +131,7 @@ public class InGameViewController implements IGame {
 		
 		
 		// BUGGY.  dies before the ball hits the warlord 
-		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInLocal())) { 
+		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
 			game.getWarlord1().setDead();
 			System.out.println("warlord ded");
 			game.getWarlord2().setWinner();
