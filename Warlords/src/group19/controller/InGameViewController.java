@@ -70,13 +70,19 @@ public class InGameViewController implements IGame {
 	
 	@Override
 	public void tick() {
-		System.out.println("xpos before check:" + game.getBall().getXPos());
+		//System.out.println("xpos before check:" + game.getBall().getXPos());
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
 		
 		
 		if (isFinished()) {
+			if (remainingTime <= 0) {
+				game.getWarlord1().setWinner();
+				game.getWarlord2().setWinner(); // cuz everyone's a winner! :-) 
+			}
+			
+			
 			//gameLoop.stop();
 		} 
 		
@@ -146,7 +152,7 @@ public class InGameViewController implements IGame {
 		}
 		
 		// I don't know why I need to use getBoundsInParent() for this
-		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
+		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInLocal())) { 
 			game.getWarlord1().setDead();
 			game.getWarlord2().setWinner();
 		}
@@ -160,7 +166,7 @@ public class InGameViewController implements IGame {
 			game.getBall().setYPos(game.getBrick().getYPos());
 			game.getBall().bounceY();
 			game.getBrick().destroy(); // TODO: remove brick from view 
-			System.out.println("brick destroyed");
+			game.getWarlord1().addScore();
 		}
 	}
 	

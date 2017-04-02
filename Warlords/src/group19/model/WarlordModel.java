@@ -14,6 +14,7 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 	private int upperXBounds;
 	private int lowerYBounds;
 	private int upperYBounds;
+	private int score;
 	
 	
 	/* Player # positions are as follows: 
@@ -29,6 +30,7 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 		width = 140;
 		height = 140;
 		setPaddleBounds();
+		score = 0;
 	}
 	
 	@Override
@@ -117,12 +119,13 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 		return height;
 	}
 	
-	// idk if we need this rn but cant do arithmetic on doubleproperty. will sort out later if needed 
-	//@Override
-	/*public DoubleProperty getXProperty() {
-		return (super.getXProperty() + 10);
-	}*/
+	public void addScore() {
+		score =+ 10;
+		System.out.println("score: " + score +  "");
+	}
 	
-	
+	public int getScore() {
+		return score;
+	}
 
 }

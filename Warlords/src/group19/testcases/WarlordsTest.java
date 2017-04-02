@@ -30,8 +30,8 @@ public class WarlordsTest extends TestSuite {
     	ball = models.getBall();
     	paddle = models.getPaddle();
     	player1Wall = models.getBrick();
-//    	player1 = new WarlordModel(0,0,1);
-//    	player2 = new WarlordModel(0,0,2);
+    	player1 = models.getWarlord1();
+    	player2 = models.getWarlord2();
     }
 
     @Test
@@ -105,7 +105,7 @@ public class WarlordsTest extends TestSuite {
 
         this.game.tick();
         
-        System.out.println("ypos test:" + this.ball.getYPos() + "");
+
         assertTrue("The ball should not travel through the wall", this.ball.getYPos() <= 500);
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 10 && this.ball.getYVelocity() == -10);
         assertTrue("The wall should be destroyed", this.player1Wall.isDestroyed());
@@ -143,6 +143,8 @@ public class WarlordsTest extends TestSuite {
         this.paddle.setYPos(500);
 
         this.game.tick();
+        
+        System.out.println("ypos test:" + this.ball.getYPos() + "");
 
         assertTrue("The ball should not travel through the paddle, even though it isn't within its bounds on any frame", this.ball.getYPos() <= 500);
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 300 && this.ball.getYVelocity() == -300);
@@ -179,6 +181,8 @@ public class WarlordsTest extends TestSuite {
         this.game.setTimeRemaining(0);
 
         this.game.tick();
+        
+		//System.out.println("w1 score " + this.player1.getScore() +  "");
 
         assertTrue("The game should be finished", this.game.isFinished());
         assertTrue("Player 1 should have won", this.player1.hasWon());
