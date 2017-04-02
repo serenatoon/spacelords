@@ -90,6 +90,7 @@ public class InGameViewController implements IGame {
 	      if (key.getCode() == KeyCode.TAB) {
 	          System.out.println("You pressed TAB, exiting and moving to main menu...");
 	          gsc.setGameState(0); //back to menu state (game did not 'complete')
+	          gameLoop.stop();
 	          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
 	      }
 	      else if (key.getCode() == KeyCode.LEFT) {
