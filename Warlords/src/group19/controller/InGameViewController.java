@@ -131,7 +131,7 @@ public class InGameViewController implements IGame {
 			System.out.println("ball bounced");
 		}
 		
-		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right left wall
+		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // hit right wall
 			game.getBall().setXPos(1024-game.getBall().getRadius());
 			game.getBall().bounceX();
 		}

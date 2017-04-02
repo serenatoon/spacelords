@@ -1,5 +1,8 @@
 package group19.model;
 
+//This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
+//are initialised with their x/y positions, and warlord1 and warlord2 are initialised with their constructors and 
+//the player number.
 public class GameModel {
 	private BallModel ball; 
 	private BrickModel brick; 
@@ -8,7 +11,7 @@ public class GameModel {
 	private WarlordModel warlord2;
 	
 	public GameModel() {
-		ball = new BallModel(0, 0);
+		ball = new BallModel(100, 0);
 		brick = new BrickModel(200, 200);
 		paddle = new PaddleModel(0, 0);
 		warlord1 = new WarlordModel(300, 300, 1);

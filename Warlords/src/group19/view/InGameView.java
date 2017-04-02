@@ -45,31 +45,28 @@ public class InGameView {
 	
 	static GameModel game;
 	
-//	private Stage window = new Stage();
-	Pane rootGameLayout = new Pane();
+	Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
 	private Scene scene;
 	
-	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
-		this.game = model;
-		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
+	public InGameView (double width, double height, GameModel model) { //upon initialisation, switch focus to in game view
+		this.game = model; //pass input parameter out to local variable
+		rootGameLayout.setPrefWidth(width);
 		rootGameLayout.setPrefHeight(height);
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
 
 	public Scene getScene() {
-		System.out.println(scene.getHeight());
 		return scene;
 	}
 	
-	//Below are all the greyblock implementations of the ball drawing.
+	//Below are all the grey-blocked implementations of the drawn objects. The constructors call model properties to set their dimensions
+	//and position. The bind method helps model parameters translate to actual UI changes.
 	public static Node drawBall() {
         Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
         circle.setFill(Color.RED);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1.0);
-        //circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
-        //circle.setLayoutY(400);
         circle.translateXProperty().bind(game.getBall().getXProperty());
         circle.translateYProperty().bind(game.getBall().getYProperty());
         return circle;
@@ -77,8 +74,6 @@ public class InGameView {
 
 	public static Node drawPaddle() {
 		Rectangle rect = new Rectangle(game.getPaddle().getXPos() - (game.getPaddle().getWidth()/2), game.getPaddle().getYPos() - (game.getPaddle().getHeight()/2), game.getPaddle().getWidth(), game.getPaddle().getHeight());
-		//rect.setLayoutX(150);
-		//rect.setLayoutY(150);
         rect.translateXProperty().bind(game.getPaddle().getXProperty());
         rect.translateYProperty().bind(game.getPaddle().getYProperty());
 		return rect;
@@ -112,11 +107,5 @@ public class InGameView {
 		rect.translateXProperty().bind(game.getWarlord2().getXProperty());
         rect.translateYProperty().bind(game.getWarlord2().getYProperty());
 		return rect;
-	}
-
-
-	public void addEventHandler(EventType<KeyEvent> keyPressed, Object object) {
-		// TODO Auto-generated method stub
-		
 	}
 }
