@@ -125,7 +125,7 @@ public class InGameViewController implements IGame {
 		// Check for collision with paddle
 		// Ensure ball does not travel through paddle, changes direction of ball
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInParent())) { 
-			//game.getBall().setYPos(game.getPaddle().getYPos());
+			game.getBall().setYPos(game.getPaddle().getYPos());
 			game.getBall().bounceY();
 		}
 		
@@ -144,7 +144,7 @@ public class InGameViewController implements IGame {
 		// Check for collision with brick
 		// Destroy brick
 		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
-			//game.getBall().setYPos(game.getBrick().getYPos());
+			game.getBall().setYPos(game.getBrick().getYPos()-game.getBall().getRadius()-1);
 			game.getBall().bounceY();
 			game.getBrick().destroy(); // TODO: remove brick from view 
 			game.getWarlord1().addScore();

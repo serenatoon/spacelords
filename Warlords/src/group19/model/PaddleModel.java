@@ -10,7 +10,7 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 	public PaddleModel(int x, int y) {
 		super(x, y);
 		width = 50;
-		height = 2;
+		height = 5;
 		xVelocity = 10;
 	}
 	
