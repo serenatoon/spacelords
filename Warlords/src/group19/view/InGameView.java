@@ -73,14 +73,14 @@ public class InGameView {
 	}
 
 	public static Node drawPaddle() {
-		Rectangle rect = new Rectangle(game.getPaddle().getXPos() - (game.getPaddle().getWidth()/2), game.getPaddle().getYPos() - (game.getPaddle().getHeight()/2), game.getPaddle().getWidth(), game.getPaddle().getHeight());
+		Rectangle rect = new Rectangle(game.getPaddle().getWidth(), game.getPaddle().getHeight());
         rect.translateXProperty().bind(game.getPaddle().getXProperty());
         rect.translateYProperty().bind(game.getPaddle().getYProperty());
 		return rect;
 	}
 	
 	public static Node drawBrick() {
-		Rectangle rect = new Rectangle(game.getBrick().getXPos()-(game.getBrick().getWidth()/2), game.getBrick().getYPos()-(game.getBrick().getHeight()/2), game.getBrick().getWidth(), game.getBrick().getHeight());
+		Rectangle rect = new Rectangle(game.getBrick().getWidth(), game.getBrick().getHeight());
 		rect.setFill(Color.CYAN);
 		rect.setStroke(Color.BLACK);
 		rect.setStrokeWidth(1.0);
@@ -90,7 +90,7 @@ public class InGameView {
 	}
 	
 	public static Node drawWarlord1() {
-		Rectangle rect = new Rectangle(game.getWarlord1().getXPos() - (game.getWarlord1().getWidth()/2), game.getWarlord1().getYPos() - (game.getWarlord1().getHeight()/2), game.getWarlord1().getWidth(), game.getWarlord1().getHeight());
+		Rectangle rect = new Rectangle(game.getWarlord1().getWidth(), game.getWarlord1().getHeight());
 		rect.setFill(Color.GREENYELLOW);
 		rect.setStroke(Color.HOTPINK);
 		rect.setStrokeWidth(3.0);
@@ -100,7 +100,7 @@ public class InGameView {
 	}
 	
 	public static Node drawWarlord2() {
-		Rectangle rect = new Rectangle(game.getWarlord2().getXPos() - (game.getWarlord2().getWidth()/2), game.getWarlord2().getYPos() - (game.getWarlord2().getHeight()/2), game.getWarlord2().getWidth(), game.getWarlord2().getHeight());
+		Rectangle rect = new Rectangle(game.getWarlord2().getWidth(), game.getWarlord2().getHeight());
 		rect.setFill(Color.BLUE);
 		rect.setStroke(Color.HOTPINK);
 		rect.setStrokeWidth(3.0);

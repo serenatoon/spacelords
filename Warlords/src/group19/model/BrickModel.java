@@ -1,14 +1,14 @@
-// One "brick" of a wall, implements the interface IWall 
-
 package group19.model;
 
 import group19.testcases.IWall;
 
+// One "brick" of a wall, implements the interface IWall
 public class BrickModel extends ObjectModel implements IWall {
 	boolean isDestroyed; // boolean holding state of brick 
 	private int height;
 	private int width;
-	// constructor 
+	
+	// Constructor: Create ball at position (x,y) 
 	public BrickModel(int x, int y) {
 		super(x, y);
 		isDestroyed = false; // initiate brick as not destroyed 

@@ -20,11 +20,11 @@ public abstract class ObjectModel {
 		return xPos.intValue();
 	}
 	
-	public void setXPos(double x) { // don't know if need this 
+	public void setXPos(double x) { 
 		xPos.set(x);
 	}
 	
-	public void setXPos(int x) { // int for tests 
+	public void setXPos(int x) {  
 		xPos.setValue(x);
 	}
 	

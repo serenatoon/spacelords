@@ -11,11 +11,11 @@ public class GameModel {
 	private WarlordModel warlord2;
 	
 	public GameModel() {
-		ball = new BallModel(100, 0);
-		brick = new BrickModel(200, 200);
+		ball = new BallModel(0, 0);
+		brick = new BrickModel(100, 100);
 		paddle = new PaddleModel(0, 0);
-		warlord1 = new WarlordModel(300, 300, 1);
-		warlord2 = new WarlordModel(300, 300, 2);
+		warlord1 = new WarlordModel(200, 200, 1);
+		warlord2 = new WarlordModel(600, 600, 2);
 	}
 	
 	public BallModel getBall() {
