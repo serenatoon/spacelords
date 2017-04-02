@@ -1,11 +1,10 @@
 package group19.model;
 
 import group19.testcases.IWarlord;
-//import javafx.beans.property.DoubleProperty;
 
-//Because of the testcase restriction, isWinner and isDead has to be placed here so it can pass the tests
-public class WarlordModel extends ObjectModel implements IWarlord { // extends ObjectModel to draw the warlord
-	private int playerNo; //could be player 0, player 1, player 2 or player 3
+// Holds player information as well as properties to draw the warlord itself
+public class WarlordModel extends ObjectModel implements IWarlord { 
+	private int playerNo; // player 1-4
 	private boolean isWinner;
 	private boolean isDead;
 	private int width;
@@ -47,10 +46,11 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 		playerNo = player;
 	}
 	
-	/* | 1    2 |
-	 * |        |
-	 * |        |
-	 * | 3    4 |  */ 
+	/* Player # positions are as follows: 
+	 *				 | 1    2 |
+	 * 				 |        |
+	 * 			 	 |        |
+	 * 			 	 | 3    4 |                         */	
 	public void setPaddleBounds() {
 		if (playerNo%2 == 1) { // left players, lower x bounds are 0
 			lowerXBounds = 0;
@@ -72,6 +72,8 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 			lowerYBounds = super.getXPos() - 25;
 		}
 	}
+	
+	// 'Bounds' are the constraints of which each warlord can move their paddle
 	
 	public int getLowerXBounds() {
 		return lowerXBounds;
@@ -121,7 +123,6 @@ public class WarlordModel extends ObjectModel implements IWarlord { // extends O
 	
 	public void addScore() {
 		score =+ 10;
-		System.out.println("score: " + score +  "");
 	}
 	
 	public int getScore() {

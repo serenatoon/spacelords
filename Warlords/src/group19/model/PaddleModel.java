@@ -2,6 +2,7 @@ package group19.model;
 
 import group19.testcases.IPaddle;
 
+// Class for model of paddle.  Largely extends from Object model
 public class PaddleModel extends ObjectModel implements IPaddle {
 	private int width;
 	private int height;
