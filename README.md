@@ -25,6 +25,8 @@ The MVC Diagram can be found in the project root folder, labelled "mvcPrototype_
 
 Compilation Instructions
 ------------------
+NOTE: THIS PROJECT USES JAVA 8 (JRE1.8.0_112). PLEASE USE JAVA 8 WHEN RUNNING THE PROGRAM FROM ECLIPSE.
+THE EXECUTABLE JAR SHOULD RUN REGARDLESS, AS REQUIRED LIBRARIES ARE PACKED INTO THE .JAR.
 
 Using command line:
 (1) Navigate to the project root folder using your command line tool.
@@ -40,4 +42,23 @@ Through Eclipse:
 (4) Enter authentication details and URI from Bitbucket -> Repositories -> UoA-CS302-2017-Group19 -> Clone.
 (5) Once complete, in Eclipse go to Project -> Clean, then Project -> Build All.
 (6) Run the application by going Run -> Run or clicking the green Play button.
- 
+
+
+Troubleshooting
+------------------
+If you run into issues with the JavaFX API being forbidden, try:
+- Right click on project and select properties
+- Open Java Compiler >> Error/Warnings
+- Under 'Deprecated and Restricted' change 'Forbidden references' from Error to Ignore
+
+If you are on JAVA 1.7 and lower and need to switch to JAVA1.8, try:
+
+- Click on the Window tab in Eclipse, and hit Preferences.
+- Navigate to Java -> Installed JREs -> Execution Environment and choose JavaSE-1.8.
+- Head to Compiler and select the Compiler compliance level to 1.8.
+
+Alternatively,
+- Open the project on Eclipse.
+- Right click project -> Properties -> Java Build Path -> JRE System Library.
+- Click edit and select the correct JRE file.
+- Click on Java Compiler and set the compliance level to 1.8.
