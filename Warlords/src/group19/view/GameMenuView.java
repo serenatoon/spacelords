@@ -136,10 +136,10 @@ public class GameMenuView extends Application {
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer
-                	System.out.println("multiplayer mode");
+                	System.out.println("multiplayer mode coming soon!");
                 	break;
                 case 2://story mode
-                	System.out.println("story mode");
+                	System.out.println("story mode coming soon!");
                 	break;
                 case 3://options
                 	OptionsView.displayOptionsView(); //popup the game view
