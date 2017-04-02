@@ -104,7 +104,7 @@ public class GameMenuView extends Application {
         //use getClassLoader() so getResource() searches relative to classpath, instead of .class file 
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
-        AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
+        AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
         menuSelect.setVolume(gsc.getSFXVolume()); 
         modeSelect.setVolume(gsc.getSFXVolume());
         window.setWidth(1024);
