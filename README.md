@@ -26,22 +26,14 @@ The MVC Diagram can be found in the project root folder, labelled "mvcPrototype_
 Compilation Instructions
 ------------------
 NOTE: THIS PROJECT USES JAVA 8 (JRE1.8.0_112). PLEASE USE JAVA 8 WHEN RUNNING THE PROGRAM FROM ECLIPSE.
-THE EXECUTABLE JAR SHOULD RUN REGARDLESS, AS REQUIRED LIBRARIES ARE PACKED INTO THE .JAR.
 
-Using command line:
-(1) Navigate to the project root folder using your command line tool.
-(2) Type > java -jar proto-A-exec.jar
-
-Using File Explorer/Nautilus/Finder:
-Navigate to the root folder and double click on "proto-A-exec.jar". This is an external JAR compiled by Eclipse.
-
-Through Eclipse:
-(1) Open Eclipse
-(2) Navigate to File -> Import -> Git -> Projects from Git
-(3) Select "Clone URI"
-(4) Enter authentication details and URI from Bitbucket -> Repositories -> UoA-CS302-2017-Group19 -> Clone.
-(5) Once complete, in Eclipse go to Project -> Clean, then Project -> Build All.
-(6) Run the application by going Run -> Run or clicking the green Play button.
+Steps:
+- Open Eclipse Mars Java
+- Navigate to File -> Import -> Git -> Projects from Git
+- Select "Clone URI"
+- Enter authentication details and URI from Bitbucket -> Repositories -> UoA-CS302-2017-Group19 -> Clone.
+- Once complete, in Eclipse go to Project -> Clean, then Project -> Build All.
+- Run the application by going Run -> Run or clicking the green Play button.
 
 
 Troubleshooting
@@ -53,12 +45,10 @@ If you run into issues with the JavaFX API being forbidden, try:
 
 If you are on JAVA 1.7 and lower and need to switch to JAVA1.8, try:
 
-- Click on the Window tab in Eclipse, and hit Preferences.
-- Navigate to Java -> Installed JREs -> Execution Environment and choose JavaSE-1.8.
-- Head to Compiler and select the Compiler compliance level to 1.8.
-
-Alternatively,
 - Open the project on Eclipse.
-- Right click project -> Properties -> Java Build Path -> JRE System Library.
-- Click edit and select the correct JRE file.
-- Click on Java Compiler and set the compliance level to 1.8.
+- Right click project -> Properties -> Java Build Path.
+- Click Add Library, and select JRE System Library.
+- Click Installed JREs, and then click Add. Select Standard VM and grab the Java 1.8 .jar from directory /usr/lib/jvm/jdk1.8.0_91
+- Click OK and click Finish.
+- Right click the project and head to properties again and set the compliance level to 1.8.
+- In our project, the directory src/group19/testcases contains two external libraries to be added (for the test cases), JUnit 4 and Hamcrest 1.3. To add these libraries, right click the project in Eclipse and click Properties. Click Java Build Path and Add External JARs. Navigate to the libraries, select them and click OK.
