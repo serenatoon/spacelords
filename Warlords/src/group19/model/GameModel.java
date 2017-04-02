@@ -9,7 +9,7 @@ public class GameModel {
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
-		brick = new BrickModel(0, 0);
+		brick = new BrickModel(100, 50);
 		paddle = new PaddleModel(0, 0);
 		warlord1 = new WarlordModel(200, 200, 1);
 		warlord2 = new WarlordModel(400, 400, 2);

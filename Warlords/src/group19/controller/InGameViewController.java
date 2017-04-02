@@ -129,12 +129,20 @@ public class InGameViewController implements IGame {
 			game.getBall().bounceY();
 		}
 		
-		
-		// BUGGY.  dies before the ball hits the warlord 
+		// I don't know why I need to use getBoundsInParent() for this
 		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
 			game.getWarlord1().setDead();
-			System.out.println("warlord ded");
 			game.getWarlord2().setWinner();
+		}
+		
+		if (InGameView.drawBall().intersects(InGameView.drawWarlord2().getBoundsInParent())) { 
+			game.getWarlord2().setDead();
+			game.getWarlord1().setWinner();
+		}
+		
+		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
+			game.getBrick().destroy(); // TODO: remove brick from view 
+			System.out.println("brick destroyed");
 		}
 	}
 	

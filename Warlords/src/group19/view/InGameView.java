@@ -89,8 +89,8 @@ public class InGameView {
 		rect.setFill(Color.CYAN);
 		rect.setStroke(Color.BLACK);
 		rect.setStrokeWidth(1.0);
-		rect.setLayoutX(500);
-		rect.setLayoutY(500);
+		rect.translateXProperty().bind(game.getBrick().getXProperty());
+        rect.translateYProperty().bind(game.getBrick().getYProperty());
 		return rect;
 	}
 	
