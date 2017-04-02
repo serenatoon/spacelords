@@ -4,6 +4,9 @@ import junit.framework.TestSuite;
 import org.junit.Before;
 import org.junit.Test;
 
+import group19.controller.*;
+import group19.model.*;
+
 import static org.junit.Assert.*;
 
 
@@ -21,7 +24,13 @@ public class WarlordsTest extends TestSuite {
 
         //Instantiate objects to initialise the fields - and preferably no other game objects, to minimise the possibility of conflicts
         //All game objects should be instantiated at coordinates (0,0) with zero velocity
-
+    	
+    	game = new InGameViewController(); 
+    	ball = new BallModel(0,0);
+    	paddle = new PaddleModel(0,0);
+    	player1Wall = new BrickModel(0,0);
+    	player1 = new WarlordModel(0,0,1);
+    	player2 = new WarlordModel(0,0,2);
     }
 
     @Test

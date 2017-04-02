@@ -5,11 +5,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -25,11 +23,13 @@ import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
 
 public class GameMenuView extends Application {
-    private VBox menuBox; //single vertical column to display all game menu options
+    private static VBox menuBox; //single vertical column to display all game menu options
     private int currentItem = 0; //cycle counter for each option
     GameStateController gsc = new GameStateController(); //create instance of game state controller
-    public Scene gameMenu = new Scene(createScene());
-    private Parent createScene() { //from javafx.scene, base class
+    private static Scene gameMenu = new Scene(createScene());
+    private static Stage window; //pass out top-level Stage container so other classes can call setScene to switch scenes
+    
+    private static Parent createScene() { //from javafx.scene, base class
         Pane root = new Pane(); 
         root.setPrefSize(1024, 768);
         Rectangle bg = new Rectangle(1024, 768); //set rectangle of 1024x768 size, default color black (change later)
@@ -51,7 +51,7 @@ public class GameMenuView extends Application {
         return root;
     }
 
-    private Node title() {
+    private static Node title() {
         String title = "WARLORDS";
         HBox letters = new HBox(5); //for aesthetic
         letters.setAlignment(Pos.CENTER);
@@ -70,7 +70,7 @@ public class GameMenuView extends Application {
         return letters;
     }
 
-    private MenuItem getMenuItem(int index) {
+    private static MenuItem getMenuItem(int index) {
         return (MenuItem)menuBox.getChildren().get(index); //cast MenuBox to MenuItem (since it consists of them)
     }
 
@@ -95,7 +95,8 @@ public class GameMenuView extends Application {
             text.setFill(b ? Color.ANTIQUEWHITE : Color.GREY); //if b = true (active option) then fill white 
         }
     }
-    @Override
+    @SuppressWarnings("static-access")
+	@Override
     public void start(Stage window) throws Exception {
         //use getClassLoader() so getResource() searches relative to classpath, instead of .class file 
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
@@ -103,6 +104,8 @@ public class GameMenuView extends Application {
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
         menuSelect.setVolume(gsc.getSFXVolume()); 
         modeSelect.setVolume(gsc.getSFXVolume());
+        window.setWidth(1024);
+        window.setHeight(768);
         gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
             	
@@ -127,9 +130,9 @@ public class GameMenuView extends Application {
                 switch(currentItem) {
                 case 0: //single player
                 	gsc.setGameState(1); //1 = game_in_progress
-                	InGameViewController newGame = new InGameViewController(); //call a new instance of InGameViewController
-                	//if you check IGVC's constructor, it calls an instance of InGameView. This is so the view we display is actually
-                	//an 'instance' on the controller, so that user input actions on the controller works out.
+                	InGameViewController newGame = new InGameViewController(); //call a new instance of IGVC
+                	//IGVC calls IGV in constructor and sets the scene up
+                	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer
@@ -148,10 +151,23 @@ public class GameMenuView extends Application {
             }
         });
         window.setScene(gameMenu);
+        window.setResizable(false); //cant change dimensions
+        window.sizeToScene();
         window.show();
+        this.window = window; //pass window out so other classes can use it 
         }
+    
+    
 
     public static void main(String[] args) { //stick main here so game starts on this file
         launch(args);
     }
+
+	public static Stage getWindow() {
+		return window;
+	}
+
+	public static Scene getGameMenu() {
+		return gameMenu;
+	}
 }

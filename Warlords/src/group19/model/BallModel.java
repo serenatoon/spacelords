@@ -12,8 +12,8 @@ public class BallModel extends ObjectModel implements IBall {
 	public BallModel(int x, int y) {
 		super(x, y);
 		radius = 5; // change later to however big we want the ball to be 
-		xVelocity = 0; // should be an argument? 
-		yVelocity = 0; 
+		xVelocity = 20; // should be an argument? 
+		yVelocity = 10; 
 	}
 	
 	// in order to implement test interfaces...
@@ -71,5 +71,10 @@ public class BallModel extends ObjectModel implements IBall {
 	
 	public int getDiameter() {
 		return 2*radius;
+	}
+	
+	public void moveBall() {
+		super.setXPos(super.getXPos() + xVelocity);
+		super.setYPos(super.getYPos() + yVelocity);
 	}
 }

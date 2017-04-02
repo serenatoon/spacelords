@@ -11,12 +11,13 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 		super(x, y);
 		width = 50;
 		height = 10;
-		xVelocity = 5;
+		xVelocity = 10;
 	}
 	
 	@Override
 	public void setXPos(int x) {
 		super.setXPos(x);
+		System.out.println("xpos: " + x +  "");
 	}
 	
 	@Override

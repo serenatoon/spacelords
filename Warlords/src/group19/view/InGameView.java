@@ -3,11 +3,7 @@ package group19.view;
 import com.sun.glass.ui.Window;
 
 import group19.controller.GameStateController;
-//import group19.controller.InGameViewController;
-import group19.model.BallModel;
-import group19.model.BrickModel;
-import group19.model.PaddleModel;
-import group19.model.WarlordModel;
+import group19.model.*;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -38,86 +34,83 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
-//This class basically works like a pop-up style window. Once a game mode is selected on the main menu, initModality blocks input
-//events from occurring on mainMenu, and does not allow the user to switch out of this window (in the in-game window). showAndWait() is 
-//also used instead of show() to support this functionality. This was done because InGameView needs to be pure .java instead of .fxml.
+//This class is called by its controller. It provides the actual UI in-game. The constructor sets up the scene,
+//ready to be loaded. When IGV wants to be loaded, .setScene() will be called to load the scene onto the 
+//top-level Stage container. As shown here, the scene is loaded with a Parent node of type Pane, which loads 
+//all the game objects as children nodes. The draw functions are binded to the respective model properties so
+//that the view can update when the model's attributes change. The function drawEverything() is called in the InGameLoop
+//in IGVC to the graphics keep redrawing.
 
 public class InGameView {
-	private static BallModel ball = new BallModel(0, 0);
-	private static BrickModel brick = new BrickModel(0, 0);
-	private static PaddleModel paddle = new PaddleModel(0, 0);
-	private static WarlordModel warlord = new WarlordModel(0, 0, 0); 
-	private Stage window;
+	
+	static GameModel game;
+	
+//	private Stage window = new Stage();
+	Pane rootGameLayout = new Pane();
 	private Scene scene;
 	
-	public InGameView (double width, double height) { //upon inititalisation, switch focus to in game view
-		Stage window = new Stage();
-		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
-		window.setTitle("Warlords");
-		window.setWidth(width);
-		window.setHeight(height);
-		this.window = window; //pass stage back out to variable that controller can call upon
-		AnchorPane rootGameLayout = new AnchorPane(); 
+	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
+		this.game = model;
 		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
 		rootGameLayout.setPrefHeight(height);
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord()); //add child nodes here 
-		Scene scene = new Scene(rootGameLayout);
-		window.setScene(scene);
-		this.scene = scene; //pass scene back out to a variable that controller can call upon
-		window.showAndWait(); //wait for close before returning
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
+		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
-	
-	public Stage getWindow() {
-		return window;
-	}
+
 	public Scene getScene() {
+		System.out.println(scene.getHeight());
 		return scene;
 	}
 	
-	
-	public void drawEverything() { //this method is called on every tick in-game so that drawings update.
-		drawBall();
-		drawPaddle();
-		drawBrick();
-		drawWarlord();
-	}
-	
-	
 	//Below are all the greyblock implementations of the ball drawing.
 	public static Node drawBall() {
-        Circle circle = new Circle(ball.getXPos(), ball.getYPos(), ball.getRadius());
+        Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
         circle.setFill(Color.RED);
         circle.setStroke(Color.BLACK);
         circle.setStrokeWidth(1.0);
-        circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
-        circle.setLayoutY(400);
+        //circle.setLayoutX(400); //remove these later once model is linked up to view, since all instances need to start at (0,0)
+        //circle.setLayoutY(400);
+        circle.translateXProperty().bind(game.getBall().getXProperty());
+        circle.translateYProperty().bind(game.getBall().getYProperty());
         return circle;
 	}
 
 	public static Node drawPaddle() {
-		Rectangle rect = new Rectangle(paddle.getXPos(), paddle.getYPos(), paddle.getWidth(), paddle.getHeight());
-		rect.setLayoutX(150);
-		rect.setLayoutY(150);
+		Rectangle rect = new Rectangle(game.getPaddle().getXPos(), game.getPaddle().getYPos(), game.getPaddle().getWidth(), game.getPaddle().getHeight());
+		//rect.setLayoutX(150);
+		//rect.setLayoutY(150);
+        rect.translateXProperty().bind(game.getPaddle().getXProperty());
+        rect.translateYProperty().bind(game.getPaddle().getYProperty());
 		return rect;
 	}
 	
 	public static Node drawBrick() {
-		Rectangle rect = new Rectangle(brick.getXPos(), brick.getYPos(), brick.getWidth(), brick.getHeight());
+		Rectangle rect = new Rectangle(game.getBrick().getXPos(), game.getBrick().getYPos(), game.getBrick().getWidth(), game.getBrick().getHeight());
 		rect.setFill(Color.CYAN);
 		rect.setStroke(Color.BLACK);
 		rect.setStrokeWidth(1.0);
-		rect.setLayoutX(500);
-		rect.setLayoutY(500);
+		rect.translateXProperty().bind(game.getBrick().getXProperty());
+        rect.translateYProperty().bind(game.getBrick().getYProperty());
 		return rect;
 	}
 	
-	public static Node drawWarlord() {
-		Rectangle rect = new Rectangle(warlord.getXPos(), warlord.getYPos(), warlord.getWidth(), warlord.getHeight());
+	public static Node drawWarlord1() {
+		Rectangle rect = new Rectangle(game.getWarlord1().getXPos(), game.getWarlord1().getYPos(), game.getWarlord1().getWidth(), game.getWarlord1().getHeight());
 		rect.setFill(Color.GREENYELLOW);
 		rect.setStroke(Color.HOTPINK);
 		rect.setStrokeWidth(3.0);
-		rect.setLayoutX(800);
-		rect.setLayoutY(500);
+		rect.translateXProperty().bind(game.getWarlord1().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord1().getYProperty());
+		return rect;
+	}
+	
+	public static Node drawWarlord2() {
+		Rectangle rect = new Rectangle(game.getWarlord2().getXPos(), game.getWarlord2().getYPos(), game.getWarlord2().getWidth(), game.getWarlord2().getHeight());
+		rect.setFill(Color.BLUE);
+		rect.setStroke(Color.HOTPINK);
+		rect.setStrokeWidth(3.0);
+		rect.translateXProperty().bind(game.getWarlord2().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord2().getYProperty());
 		return rect;
 	}
 

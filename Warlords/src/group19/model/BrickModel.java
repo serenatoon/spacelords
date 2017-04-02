@@ -11,9 +11,9 @@ public class BrickModel extends ObjectModel implements IWall {
 	// constructor 
 	public BrickModel(int x, int y) {
 		super(x, y);
-		isDestroyed = false; // initiate wall as not destroyed 
-		width = 15;
-		height = 8;
+		isDestroyed = false; // initiate brick as not destroyed 
+		width = 50;
+		height = 15;
 	}
 	
 	@Override
