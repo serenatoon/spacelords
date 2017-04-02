@@ -1,6 +1,7 @@
 package group19.view;
 import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
+import group19.model.GameModel;
 import javafx.animation.FadeTransition; 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -28,6 +29,8 @@ public class GameMenuView extends Application {
     GameStateController gsc = new GameStateController(); //create instance of game state controller
     private static Scene gameMenu = new Scene(createScene());
     private static Stage window; //pass out top-level Stage container so other classes can call setScene to switch scenes
+    
+    GameModel models = new GameModel();
     
     private static Parent createScene() { //from javafx.scene, base class
         Pane root = new Pane(); 
@@ -57,7 +60,7 @@ public class GameMenuView extends Application {
         letters.setAlignment(Pos.CENTER);
         for (int i = 0; i < title.length(); i++) {
             Text letter = new Text(title.charAt(i) + ""); //"" denotes the blank space
-            letter.setFont(Font.font("Helvetica", FontWeight.LIGHT, 96));
+            letter.setFont(Font.font("Arial", FontWeight.LIGHT, 96));
             letter.setFill(Color.ANTIQUEWHITE);
             letters.getChildren().add(letter);
             FadeTransition ft = new FadeTransition(Duration.seconds(1), letter); //fade effect
@@ -86,7 +89,7 @@ public class GameMenuView extends Application {
 
         public MenuItem(String name) {
             text = new Text(name);
-            text.setFont(Font.font("Helvetica", FontWeight.LIGHT, 40));
+            text.setFont(Font.font("Arial", FontWeight.LIGHT, 40));
             getChildren().addAll(text);
             setActive(false);
         }
@@ -130,7 +133,7 @@ public class GameMenuView extends Application {
                 switch(currentItem) {
                 case 0: //single player
                 	gsc.setGameState(1); //1 = game_in_progress
-                	InGameViewController newGame = new InGameViewController(); //call a new instance of IGVC
+                	InGameViewController newGame = new InGameViewController(models); //call a new instance of IGVC
                 	//IGVC calls IGV in constructor and sets the scene up
                 	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
                 	System.out.println("single player mode");

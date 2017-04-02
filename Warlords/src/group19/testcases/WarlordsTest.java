@@ -24,13 +24,14 @@ public class WarlordsTest extends TestSuite {
 
         //Instantiate objects to initialise the fields - and preferably no other game objects, to minimise the possibility of conflicts
         //All game objects should be instantiated at coordinates (0,0) with zero velocity
+    	GameModel models = new GameModel();
+    	game = new InGameViewController(models); 
     	
-    	game = new InGameViewController(); 
-    	ball = new BallModel(0,0);
-    	paddle = new PaddleModel(0,0);
-    	player1Wall = new BrickModel(0,0);
-    	player1 = new WarlordModel(0,0,1);
-    	player2 = new WarlordModel(0,0,2);
+    	ball = models.getBall();
+    	paddle = models.getPaddle();
+    	player1Wall = models.getBrick();
+//    	player1 = new WarlordModel(0,0,1);
+//    	player2 = new WarlordModel(0,0,2);
     }
 
     @Test
@@ -49,6 +50,7 @@ public class WarlordsTest extends TestSuite {
 
     @Test
     public void testBallCollisionWithBoundary(){
+        System.out.println("test2");
 
         this.ball.setXPos(10);
         this.ball.setYPos(500);
@@ -57,6 +59,8 @@ public class WarlordsTest extends TestSuite {
         this.ball.setYVelocity(50);
 
         this.game.tick();
+        
+ 
 
         assertTrue("The ball should remain within bounds", this.ball.getXPos() >= 0);
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 50 && this.ball.getYVelocity() == 50);
@@ -66,6 +70,8 @@ public class WarlordsTest extends TestSuite {
 
     @Test
     public void testBallCollisionWithPaddle(){
+    	
+    	System.out.println("test3");
 
         this.ball.setXPos(500);
         this.ball.setYPos(495);
@@ -77,6 +83,7 @@ public class WarlordsTest extends TestSuite {
 
         this.game.tick();
 
+        
         assertTrue("The ball should not travel through the paddle", this.ball.getYPos() <= 500);
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 10 && this.ball.getYVelocity() == -10);
 
@@ -84,6 +91,7 @@ public class WarlordsTest extends TestSuite {
 
     @Test
     public void testBallCollisionWithWall(){
+    	System.out.println("test4");
 
         this.ball.setXPos(500);
         this.ball.setYPos(495);
@@ -96,7 +104,8 @@ public class WarlordsTest extends TestSuite {
         assertFalse("The wall should not be destroyed yet", this.player1Wall.isDestroyed());
 
         this.game.tick();
-
+        
+        System.out.println("ypos test:" + this.ball.getYPos() + "");
         assertTrue("The ball should not travel through the wall", this.ball.getYPos() <= 500);
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 10 && this.ball.getYVelocity() == -10);
         assertTrue("The wall should be destroyed", this.player1Wall.isDestroyed());

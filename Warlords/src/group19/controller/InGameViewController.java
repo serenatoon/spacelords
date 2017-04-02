@@ -14,7 +14,8 @@ import javafx.animation.AnimationTimer;
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
 //References to both the models (from 'GameModel') and the view are placed here.
 public class InGameViewController implements IGame {
-	static GameModel game = new GameModel();
+	//static GameModel game = new GameModel();
+	static GameModel game;
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final Loop gameLoop = new Loop();
@@ -22,13 +23,21 @@ public class InGameViewController implements IGame {
 	private int remainingTime;
 	private boolean isFinished;
 	
-	public InGameViewController() {
+	/*public InGameViewController() {
 		super();
 		view = new InGameView(1024,768, game);
-		System.out.println("new game");	
 		//startTime = 120; // gametime of 2 minutes 
 		remainingTime = 120;
 		gameLoop.start();
+	}*/
+	
+	public InGameViewController(GameModel models) {
+		super();
+		view = new InGameView(1024,768, models);
+		//startTime = 120; // gametime of 2 minutes 
+		remainingTime = 120;
+		gameLoop.start();
+		game = models;
 	}
 	
 	
@@ -61,13 +70,17 @@ public class InGameViewController implements IGame {
 	
 	@Override
 	public void tick() {
+		System.out.println("xpos before check:" + game.getBall().getXPos());
+		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
-		game.getBall().moveBall();
+		
 		
 		if (isFinished()) {
-			gameLoop.stop();
+			//gameLoop.stop();
 		} 
+		
+		System.out.println("xpos in tick:" + game.getBall().getXPos());
 	}
 
 	@Override
@@ -105,9 +118,11 @@ public class InGameViewController implements IGame {
 
 	
 	public void checkBallCollision() {
-		if (((game.getBall().getXPos())-(game.getBall().getRadius()) < 0)) { // hit left wall
+		//if (((game.getBall().getXPos())-(game.getBall().getRadius()) < 0)) { // hit left wall
+		if (game.getBall().getXPos() < 0) {	
 			game.getBall().setXPos(game.getBall().getRadius());
 			game.getBall().bounceX();
+			System.out.println("ball bounced");
 		}
 		
 		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right left wall
@@ -126,6 +141,7 @@ public class InGameViewController implements IGame {
 		}
 		
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInLocal())) { 
+			game.getBall().setYPos(game.getPaddle().getYPos()); // TODO: account for height
 			game.getBall().bounceY();
 		}
 		
@@ -140,7 +156,9 @@ public class InGameViewController implements IGame {
 			game.getWarlord1().setWinner();
 		}
 		
-		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
+		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInLocal())) { 
+			game.getBall().setYPos(game.getBrick().getYPos());
+			game.getBall().bounceY();
 			game.getBrick().destroy(); // TODO: remove brick from view 
 			System.out.println("brick destroyed");
 		}
