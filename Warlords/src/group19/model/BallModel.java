@@ -11,9 +11,9 @@ public class BallModel extends ObjectModel implements IBall {
 	// TODO: in initiation of a new game, ball should be initiated at (0,0) and 0 velocity
 	public BallModel(int x, int y) {
 		super(x, y);
-		radius = 5; // change later to however big we want the ball to be 
-		xVelocity = 20; // should be an argument? 
-		yVelocity = 10; 
+		radius = 10; // change later to however big we want the ball to be 
+		xVelocity = 5; // should be an argument? 
+		yVelocity = 5; 
 	}
 	
 	// in order to implement test interfaces...
