@@ -104,6 +104,8 @@ public class GameMenuView extends Application {
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.mp3").toString());
         menuSelect.setVolume(gsc.getSFXVolume()); 
         modeSelect.setVolume(gsc.getSFXVolume());
+        window.setWidth(1024);
+        window.setHeight(768);
         gameMenu.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.UP) {
             	
@@ -149,6 +151,8 @@ public class GameMenuView extends Application {
             }
         });
         window.setScene(gameMenu);
+        window.setResizable(false); //cant change dimensions
+        window.sizeToScene();
         window.show();
         this.window = window; //pass window out so other classes can use it 
         }

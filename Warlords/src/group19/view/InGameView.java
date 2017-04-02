@@ -51,38 +51,16 @@ public class InGameView {
 	
 	public InGameView (double width, double height, GameModel model) { //upon inititalisation, switch focus to in game view
 		this.game = model;
-		
-//		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
-//		window.setTitle("Warlords");
-//		window.setWidth(width);
-//		window.setHeight(height);
-		
 		rootGameLayout.setPrefWidth(width); //set the root parent as an anchor pane, with same dimensions as stage
 		rootGameLayout.setPrefHeight(height);
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
-		scene = new Scene(rootGameLayout);
-	//	window.setScene(scene);
-	//	this.scene = scene; //pass scene back out to a variable that controller can call upon
-	//	window.show(); //wait for close before returning
+		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
-	
-//	public Stage getWindow() {
-//		return window;
-//	}
+
 	public Scene getScene() {
+		System.out.println(scene.getHeight());
 		return scene;
 	}
-	
-	
-	public void drawEverything() { //this method is called on every tick in-game so that drawings update.
-		rootGameLayout.getChildren().removeAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1());
-		drawBall();
-		drawPaddle();
-		drawBrick();
-		drawWarlord1();
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1());
-	}
-	
 	
 	//Below are all the greyblock implementations of the ball drawing.
 	public static Node drawBall() {

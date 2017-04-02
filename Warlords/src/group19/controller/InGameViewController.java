@@ -24,7 +24,7 @@ public class InGameViewController implements IGame {
 	
 	public InGameViewController() {
 		super();
-		view = new InGameView(1024,806, game);
+		view = new InGameView(1024,768, game);
 		System.out.println("new game");	
 		//startTime = 120; // gametime of 2 minutes 
 		remainingTime = 120;
