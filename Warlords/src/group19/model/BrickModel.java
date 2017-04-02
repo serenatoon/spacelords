@@ -4,7 +4,7 @@ import group19.testcases.IWall;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
-// One "brick" of a wall, implements the interface IWall
+// One "brick" in a wall, implements the interface IWall
 public class BrickModel extends ObjectModel implements IWall {
 	boolean isDestroyed; // boolean holding state of brick 
 	private int height;

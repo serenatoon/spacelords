@@ -4,6 +4,7 @@ import group19.testcases.IPaddle;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
+// Class for model of paddle.  Largely extends from Object model
 public class PaddleModel extends ObjectModel implements IPaddle {
 	private int width;
 	private int height;

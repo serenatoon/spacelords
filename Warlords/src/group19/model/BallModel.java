@@ -4,12 +4,15 @@ import group19.testcases.IBall;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
+// Class for model of a ball.  Contains setters and getters for positions extended from ObjectModel
+// Methods for ball characteristics, i.e. radius, diameter, movement 
 public class BallModel extends ObjectModel implements IBall {
 	private int radius;
 	private int xVelocity; // vertical speed
 	private int yVelocity; // horizontal speed 
 	AudioClip ballToWall = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/wall_collision.wav").toString());
 	// Constructor: Create ball as position (x,y) 
+	// of radius 10, vertical and horizontal velocities of 5px/frame 
 	public BallModel(int x, int y) {
 		super(x, y);
 		radius = 10;  
