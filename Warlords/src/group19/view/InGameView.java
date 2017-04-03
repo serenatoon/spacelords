@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -52,6 +54,8 @@ public class InGameView {
 		this.game = model; //pass input parameter out to local variable
 		rootGameLayout.setPrefWidth(width);
 		rootGameLayout.setPrefHeight(height);
+		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
+		rootGameLayout.setBackground(new Background(bg));
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
@@ -76,6 +80,7 @@ public class InGameView {
 		Rectangle rect = new Rectangle(game.getPaddle().getWidth(), game.getPaddle().getHeight());
         rect.translateXProperty().bind(game.getPaddle().getXProperty());
         rect.translateYProperty().bind(game.getPaddle().getYProperty());
+        rect.setFill(Color.ANTIQUEWHITE);
 		return rect;
 	}
 	

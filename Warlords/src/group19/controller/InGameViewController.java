@@ -87,19 +87,22 @@ public class InGameViewController implements IGame {
 	/*Listen for key input for paddle to move.*/
 	public void KeyEventListener() {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-	      if (key.getCode() == KeyCode.TAB) {
-	          System.out.println("You pressed TAB, exiting and moving to main menu...");
-	          gsc.setGameState(0); //back to menu state (game did not 'complete')
-	         // gameLoop.stop();
-	          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
-	      }
-	      else if (key.getCode() == KeyCode.LEFT) {
+	      if (key.getCode() == KeyCode.LEFT) {
 	  		game.getPaddle().setXPos(game.getPaddle().getXPos() - game.getPaddle().getXVelocity()); // move paddle left
 	      }
 	      else if (key.getCode() == KeyCode.RIGHT) {
 	  		game.getPaddle().setXPos(game.getPaddle().getXPos() + game.getPaddle().getXVelocity()); // move paddle right
 	      }
-	      });	
+	      });
+		view.getScene().addEventHandler(KeyEvent.KEY_RELEASED, (key) -> { //we don't want to spam these key events
+		      if (key.getCode() == KeyCode.ESCAPE) {
+		          System.out.println("You pressed ESC, exiting and moving to main menu...");
+		          gsc.setGameState(0); //back to menu state (game did not 'complete')
+		          gameLoop.stop();
+		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
+		      }
+		});
+
 	}
 	
 	// Makes sure ball stays within the bounds of the window 
@@ -135,7 +138,7 @@ public class InGameViewController implements IGame {
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInParent())) { 
 			game.getBall().setYPos(game.getPaddle().getYPos());
 			game.getBall().bounceY();
-			//game.getPaddle().paddleHitSound();
+			game.getPaddle().paddleHitSound();
 		}
 		
 		// Check for collision with warlord
