@@ -12,6 +12,7 @@ local.properties
 .launch
 .recommenders
 .classpath
+*.prefs
 
 *.class
 

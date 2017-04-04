@@ -1,5 +1,6 @@
 // Class containing properties for the positions of game objects
-// Stored as DoubleProperty for the bind() method to draw the objects
+// Stored as DoubleProperty to draw the objects
+// Getters and setters for positions which are used by all game objects 
 
 package group19.model;
 
@@ -20,11 +21,11 @@ public abstract class ObjectModel {
 		return xPos.intValue();
 	}
 	
-	public void setXPos(double x) { // don't know if need this 
+	public void setXPos(double x) { 
 		xPos.set(x);
 	}
 	
-	public void setXPos(int x) { // int for tests 
+	public void setXPos(int x) {  
 		xPos.setValue(x);
 	}
 	
@@ -40,9 +41,8 @@ public abstract class ObjectModel {
 		yPos.set(y);
 	}
 	
-	public void setYPos(int y) { // int for tests 
+	public void setYPos(int y) { 
 		yPos.setValue(y);
-		
 	}
 	
 	public DoubleProperty getYProperty() {

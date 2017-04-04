@@ -1,26 +1,26 @@
 package group19.model;
 
-import group19.testcases.IBall;
+import group19.view.GameMenuView;
+import javafx.scene.media.AudioClip;
 
-public class BallModel extends ObjectModel implements IBall {
+// Class for model of a ball.  Contains setters and getters for positions extended from ObjectModel
+// Methods for ball characteristics, i.e. radius, diameter, movement 
+public class BallModel extends ObjectModel {
 	private int radius;
 	private int xVelocity; // vertical speed
 	private int yVelocity; // horizontal speed 
-
-	// constructor: create ball as position (x,y) 
-	// TODO: in initiation of a new game, ball should be initiated at (0,0) and 0 velocity
+	AudioClip ballToWall = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/wall_collision.wav").toString());
+	// Constructor: Create ball as position (x,y) 
+	// of radius 10, vertical and horizontal velocities of 5px/frame 
 	public BallModel(int x, int y) {
 		super(x, y);
-		radius = 5; // change later to however big we want the ball to be 
-		xVelocity = 0; // should be an argument? 
-		yVelocity = 0; 
+		radius = 15;  
+		xVelocity = 5; 
+		yVelocity = 5; 
 	}
 
-	public void setXVelocity(int velocity) {
-		xVelocity = velocity;
-	}
-	
-	public void bounceX() { // to change directions when ball hits an object 
+	// Reverse ball's horizontal velocity when it hits an object 
+	public void bounceX() {
 		xVelocity = -(xVelocity);
 	}
 
@@ -28,6 +28,7 @@ public class BallModel extends ObjectModel implements IBall {
 		yVelocity = velocity;
 	}
 	
+	// Reverse ball's velocity velocity when it hits an object 
 	public void bounceY() {
 		yVelocity = -(yVelocity);
 	}
@@ -46,5 +47,15 @@ public class BallModel extends ObjectModel implements IBall {
 	
 	public int getDiameter() {
 		return 2*radius;
+	}
+	
+	// Called in each game tick().  Moves ball according to its velocities 
+	public void moveBall() {
+		super.setXPos(super.getXPos() + xVelocity);
+		super.setYPos(super.getYPos() + yVelocity);
+	}
+	
+	public void playWallSound() {
+		ballToWall.play();
 	}
 }

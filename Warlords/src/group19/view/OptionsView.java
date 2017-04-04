@@ -17,7 +17,7 @@ public class OptionsView {
 		window.setWidth(1024);
 		window.setHeight(768);
 		Text text = new Text();
-		text.setText("OPTIONS VIEW");
+		text.setText("OPTIONS VIEW: Coming soon");
 		Button closeButton = new Button("Exit");
 		closeButton.setOnAction(e -> {
 			window.close();

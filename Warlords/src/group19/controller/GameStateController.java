@@ -39,6 +39,9 @@ public class GameStateController {
 		}
 		else return false;
 	}
+	public boolean checkIfPaused() {
+		return isPaused;
+	}
 	public double getBGMVolume() {
 		return BGMvolume;
 	}
