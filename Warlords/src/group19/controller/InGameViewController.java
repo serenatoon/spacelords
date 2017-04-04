@@ -1,6 +1,5 @@
 package group19.controller;
 
-import group19.testcases.IGame;
 import group19.view.GameMenuView;
 import group19.view.InGameView;
 import javafx.scene.input.KeyCode;
@@ -13,7 +12,7 @@ import javafx.animation.AnimationTimer;
 //The in-game view controller is a user-input controller which listens to key events on the view, and updates model attributes 
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
 //References to both the models (from 'GameModel') and the view are placed here.
-public class InGameViewController implements IGame {
+public class InGameViewController {
 	static GameModel game;
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
@@ -54,18 +53,14 @@ public class InGameViewController implements IGame {
 	// Moves the ball according to its velocity 
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
-	@Override
 	public void tick() {
-		if (game.getBall().getXVelocity() >= 300) {
-			checkBallCollision(); 
-		}
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
 		
 		if (isFinished()) {
 			if (remainingTime <= 0) {
-				game.getWarlord1().setWinner();
+				//game.getWarlord1().setWinner();
 			}
 			
 			//gameLoop.stop(); // stop gameloop once the game has finished 
@@ -73,12 +68,10 @@ public class InGameViewController implements IGame {
 	}
 
 	// Check for win conditions 
-	@Override
 	public boolean isFinished() {
 		return ((remainingTime <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
 	}
 
-	@Override
 	public void setTimeRemaining(int seconds) {
 		remainingTime = seconds;		
 	}
@@ -88,10 +81,10 @@ public class InGameViewController implements IGame {
 	public void KeyEventListener() {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
-	  		game.getPaddle().setXPos(game.getPaddle().getXPos() - game.getPaddle().getXVelocity()); // move paddle left
+	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
 	      }
 	      else if (key.getCode() == KeyCode.RIGHT) {
-	  		game.getPaddle().setXPos(game.getPaddle().getXPos() + game.getPaddle().getXVelocity()); // move paddle right
+	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
 	      }
 	      });
 		view.getScene().addEventHandler(KeyEvent.KEY_RELEASED, (key) -> { //we don't want to spam these key events
@@ -136,9 +129,9 @@ public class InGameViewController implements IGame {
 		// Check for collision with paddle
 		// Ensure ball does not travel through paddle, changes direction of ball
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInParent())) { 
-			game.getBall().setYPos(game.getPaddle().getYPos());
+			game.getBall().setYPos(game.getPaddle1().getYPos());
 			game.getBall().bounceY();
-			game.getPaddle().paddleHitSound();
+			game.getPaddle1().paddleHitSound();
 		}
 		
 		// Check for collision with warlord
@@ -165,20 +158,20 @@ public class InGameViewController implements IGame {
 	
 	// Makes sure paddle stays within bounds of window 
 	public void checkPaddleBounds() {
-		if ((game.getPaddle().getXPos()-((game.getPaddle().getWidth())/2) < 0)) { // hit left wall
-			game.getPaddle().setXPos(((game.getPaddle().getWidth())/2));
+		if ((game.getPaddle1().getXPos()-((game.getPaddle1().getWidth())/2) < 0)) { // hit left wall
+			game.getPaddle1().setXPos(((game.getPaddle1().getWidth())/2));
 		}
 		
-		if (((game.getPaddle().getXPos()+((game.getPaddle().getWidth())/2)) > 1024)) { // hit right wall
-			game.getPaddle().setXPos((1024 - (game.getPaddle().getWidth())/2));
+		if (((game.getPaddle1().getXPos()+((game.getPaddle1().getWidth())/2)) > 1024)) { // hit right wall
+			game.getPaddle1().setXPos((1024 - (game.getPaddle1().getWidth())/2));
 		}
 		
-		if ((game.getPaddle().getYPos()-((game.getPaddle().getWidth())/2) < 0)) { // hit top wall
-			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
+		if ((game.getPaddle1().getYPos()-((game.getPaddle1().getWidth())/2) < 0)) { // hit top wall
+			game.getPaddle1().setYPos((game.getPaddle1().getWidth())/2);
 		}
 		
-		if (((game.getPaddle().getYPos()+((game.getPaddle().getWidth())/2)) > 768)) { // hit bottom wall
-			game.getPaddle().setYPos((game.getPaddle().getWidth())/2);
+		if (((game.getPaddle1().getYPos()+((game.getPaddle1().getWidth())/2)) > 768)) { // hit bottom wall
+			game.getPaddle1().setYPos((game.getPaddle1().getWidth())/2);
 		}
 		
 		// TODO: paddle shouldn't be able to move out of each player's bounds

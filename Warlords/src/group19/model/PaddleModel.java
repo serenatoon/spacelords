@@ -1,32 +1,24 @@
 package group19.model;
 
-import group19.testcases.IPaddle;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
 // Class for model of paddle.  Largely extends from Object model
-public class PaddleModel extends ObjectModel implements IPaddle {
+public class PaddleModel extends ObjectModel {
 	private int width;
 	private int height;
 	private int xVelocity;
+	private WarlordModel warlord;
 	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
-	public PaddleModel(int x, int y) {
+	
+	public PaddleModel(int x, int y, WarlordModel warlord) {
 		super(x, y);
-		width = 50;
-		height = 10;
+		width = 70;
+		height = 20;
 		xVelocity = 10;
+		this.warlord = warlord; // warlord which this paddle belongs to
 	}
-	
-	@Override
-	public void setXPos(int x) {
-		super.setXPos(x);
-	}
-	
-	@Override
-	public void setYPos(int y) {
-		super.setYPos(y);
-	}
-	
+
 	public int getHeight() {
 		return height;
 	}
@@ -43,5 +35,10 @@ public class PaddleModel extends ObjectModel implements IPaddle {
 	}
 	public void paddleHitSound() {
 		paddleHit.play();
+	}
+	
+	// Get the warlord/player which this paddle belongs to 
+	public WarlordModel getWarlord() {
+		return warlord;
 	}
 }

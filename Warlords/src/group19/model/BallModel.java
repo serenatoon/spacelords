@@ -1,12 +1,11 @@
 package group19.model;
 
-import group19.testcases.IBall;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
 // Class for model of a ball.  Contains setters and getters for positions extended from ObjectModel
 // Methods for ball characteristics, i.e. radius, diameter, movement 
-public class BallModel extends ObjectModel implements IBall {
+public class BallModel extends ObjectModel {
 	private int radius;
 	private int xVelocity; // vertical speed
 	private int yVelocity; // horizontal speed 
@@ -15,42 +14,16 @@ public class BallModel extends ObjectModel implements IBall {
 	// of radius 10, vertical and horizontal velocities of 5px/frame 
 	public BallModel(int x, int y) {
 		super(x, y);
-		radius = 10;  
+		radius = 15;  
 		xVelocity = 5; 
 		yVelocity = 5; 
 	}
-	
-	@Override
-	public void setXPos(int x) {
-		super.setXPos(x);
-	}
-	
-	@Override
-	public void setYPos(int y) {
-		super.setYPos(y);
-	}
-	
-	@Override
-	public int getXPos() {
-		return super.getXPos();
-	}
-	
-	@Override
-	public int getYPos() {
-		return super.getYPos();
-	}
-	
-	@Override
-	public void setXVelocity(int velocity) {
-		xVelocity = velocity;
-	}
-	
+
 	// Reverse ball's horizontal velocity when it hits an object 
 	public void bounceX() {
 		xVelocity = -(xVelocity);
 	}
 
-	@Override
 	public void setYVelocity(int velocity) {
 		yVelocity = velocity;
 	}
@@ -60,12 +33,10 @@ public class BallModel extends ObjectModel implements IBall {
 		yVelocity = -(yVelocity);
 	}
 
-	@Override
 	public int getXVelocity() {
 		return xVelocity;
 	}
 	
-	@Override
 	public int getYVelocity() {
 		return yVelocity;
 	}

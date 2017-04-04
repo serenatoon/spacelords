@@ -56,7 +56,7 @@ public class InGameView {
 		rootGameLayout.setPrefHeight(height);
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2()); //add child nodes here 
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2(), drawWarlord3(), drawWarlord4()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
 
@@ -77,9 +77,9 @@ public class InGameView {
 	}
 
 	public static Node drawPaddle() {
-		Rectangle rect = new Rectangle(game.getPaddle().getWidth(), game.getPaddle().getHeight());
-        rect.translateXProperty().bind(game.getPaddle().getXProperty());
-        rect.translateYProperty().bind(game.getPaddle().getYProperty());
+		Rectangle rect = new Rectangle(game.getPaddle1().getWidth(), game.getPaddle1().getHeight());
+        rect.translateXProperty().bind(game.getPaddle1().getXProperty());
+        rect.translateYProperty().bind(game.getPaddle1().getYProperty());
         rect.setFill(Color.ANTIQUEWHITE);
 		return rect;
 	}
@@ -112,6 +112,25 @@ public class InGameView {
 		rect.setStrokeWidth(3.0);
 		rect.translateXProperty().bind(game.getWarlord2().getXProperty());
         rect.translateYProperty().bind(game.getWarlord2().getYProperty());
+		return rect;
+	}
+	
+	public static Node drawWarlord3() {
+		Rectangle rect = new Rectangle(game.getWarlord3().getWidth(), game.getWarlord3().getHeight());
+		rect.setFill(Color.BLUE);
+		rect.setStroke(Color.HOTPINK);
+		rect.setStrokeWidth(3.0);
+		rect.translateXProperty().bind(game.getWarlord3().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord3().getYProperty());
+		return rect;
+	}
+	public static Node drawWarlord4() {
+		Rectangle rect = new Rectangle(game.getWarlord4().getWidth(), game.getWarlord4().getHeight());
+		rect.setFill(Color.BLUE);
+		rect.setStroke(Color.HOTPINK);
+		rect.setStrokeWidth(3.0);
+		rect.translateXProperty().bind(game.getWarlord4().getXProperty());
+        rect.translateYProperty().bind(game.getWarlord4().getYProperty());
 		return rect;
 	}
 }

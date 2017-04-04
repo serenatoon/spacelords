@@ -1,9 +1,7 @@
 package group19.model;
 
-import group19.testcases.IWarlord;
-
 // Holds player information as well as properties to draw the warlord itself
-public class WarlordModel extends ObjectModel implements IWarlord { 
+public class WarlordModel extends ObjectModel { 
 	private int playerNo; // player 1-4
 	private boolean isWinner;
 	private boolean isDead;
@@ -31,17 +29,7 @@ public class WarlordModel extends ObjectModel implements IWarlord {
 		setPaddleBounds();
 		score = 0;
 	}
-	
-	@Override
-	public void setXPos(int x) {
-		super.setXPos(x);
-	}
-	
-	@Override
-	public void setYPos(int y) {
-		super.setYPos(y);
-	}
-		
+
 	public void setPlayer(int player) { //this is a new method - connects player to warlord
 		playerNo = player;
 	}
@@ -95,7 +83,6 @@ public class WarlordModel extends ObjectModel implements IWarlord {
 		return playerNo;
 	}
 	
-	@Override 
 	public boolean hasWon() {
 		return isWinner;
 	}
@@ -104,7 +91,6 @@ public class WarlordModel extends ObjectModel implements IWarlord {
 		isWinner = true;
 	}
 	
-	@Override
 	public boolean isDead() {
 		return isDead;
 	}

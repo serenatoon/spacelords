@@ -1,11 +1,10 @@
 package group19.model;
 
-import group19.testcases.IWall;
 import group19.view.GameMenuView;
 import javafx.scene.media.AudioClip;
 
 // One "brick" in a wall, implements the interface IWall
-public class BrickModel extends ObjectModel implements IWall {
+public class BrickModel extends ObjectModel {
 	boolean isDestroyed; // boolean holding state of brick 
 	private int height;
 	private int width;
@@ -18,18 +17,7 @@ public class BrickModel extends ObjectModel implements IWall {
 		height = 50;
 	}
 	
-	@Override
-	public void setXPos(int x) {
-		super.setXPos(x);
-	}
-	
-	@Override 
-	public void setYPos(int y) {
-		super.setYPos(y);
-	}
-	
 	// get state of brick, i.e. whether or not it is destroyed
-	@Override
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}

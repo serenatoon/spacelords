@@ -37,6 +37,7 @@ public class GameMenuView extends Application {
     
     GameModel models = new GameModel(); 
     
+    
     private static Parent createScene() { 
         Pane root = new Pane(); 
         root.setPrefSize(1024, 768); //dimensions set by specifications
