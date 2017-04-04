@@ -2,6 +2,7 @@ package group19.controller;
 
 import group19.view.GameMenuView;
 import group19.view.InGameView;
+import group19.view.PauseView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import group19.model.*;
@@ -16,9 +17,8 @@ public class InGameViewController {
 	static GameModel game;
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
-	public final Loop gameLoop = new Loop();
+	public final  Loop gameLoop = new Loop();
 	private int remainingTime;
-	private boolean isFinished;
 	
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -26,6 +26,7 @@ public class InGameViewController {
 		view = new InGameView(1024,768, models);
 		remainingTime = 120;
 		gameLoop.start();
+		OptionsEventListener();
 		game = models;
 	}
 	
@@ -76,7 +77,6 @@ public class InGameViewController {
 		remainingTime = seconds;		
 	}
 	
-	/*Added function for debugging: pressing tab closes the in game window*/
 	/*Listen for key input for paddle to move.*/
 	public void KeyEventListener() {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -87,16 +87,28 @@ public class InGameViewController {
 	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
 	      }
 	      });
-		view.getScene().addEventHandler(KeyEvent.KEY_RELEASED, (key) -> { //we don't want to spam these key events
-		      if (key.getCode() == KeyCode.ESCAPE) {
+	}
+	//We don't want this shit to open 60 times a second. Please have mercy on my RAM.
+	//This is called in the constructor, so it is not recalled again and again.
+	public void OptionsEventListener() {
+		view.getScene().addEventHandler(KeyEvent.KEY_RELEASED, (keyR) -> { //we don't want to spam these key events
+		      if (keyR.getCode() == KeyCode.ESCAPE) {
 		          System.out.println("You pressed ESC, exiting and moving to main menu...");
 		          gsc.setGameState(0); //back to menu state (game did not 'complete')
 		          gameLoop.stop();
 		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
+		          return; //exit the function without being called til your RAM explodes
+		      }
+		      else if (keyR.getCode() == KeyCode.P) {
+		          System.out.println("You pressed pause, popping up pause menu");
+		          gsc.setGameState(3); //paused state
+		          PauseView.show();
+		          gameLoop.stop();
+		          return; 
 		      }
 		});
-
 	}
+
 	
 	// Makes sure ball stays within the bounds of the window 
 	// Processes whether or not ball has collided with a paddle, brick, or warlord
