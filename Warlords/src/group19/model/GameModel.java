@@ -17,13 +17,14 @@ public class GameModel {
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
-		brick = new BrickModel(100, 100);
+		brick = new BrickModel(200, 100);
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-140
-		warlord1 = new WarlordModel(0, 0, 1);
-		warlord2 = new WarlordModel(1024-140, 0, 2); 
-		warlord3 = new WarlordModel(0,768-140, 3);
-		warlord4 = new WarlordModel(1024-140, 768-140, 4);
+		warlord1 = new WarlordModel(128, 0, 1);
+		warlord2 = new WarlordModel(1024-140-128, 0, 2); 
+		warlord3 = new WarlordModel(128,768-140, 3);
+		warlord4 = new WarlordModel(1024-140-128, 768-140, 4);
+
 		paddle1 = new PaddleModel(0, 0, warlord1);
 		paddle2 = new PaddleModel(0, 0, warlord2);
 		paddle3 = new PaddleModel(0, 0, warlord3);
