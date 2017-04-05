@@ -27,6 +27,7 @@ public class InGameViewController {
 		remainingTime = 120;
 		gameLoop.start();
 		OptionsEventListener();
+		KeyEventListener();	
 		game = models;
 	}
 	
@@ -43,7 +44,6 @@ public class InGameViewController {
 			}			
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
-				KeyEventListener();		
 				tick();
 				lastTick = currentTime;
 			}
@@ -77,7 +77,8 @@ public class InGameViewController {
 		remainingTime = seconds;		
 	}
 	
-	/*Listen for key input for paddle to move.*/
+	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
+	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
@@ -87,6 +88,7 @@ public class InGameViewController {
 	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
 	      }
 	      });
+		
 	}
 	//We don't want this shit to open 60 times a second. Please have mercy on my RAM.
 	//This is called in the constructor, so it is not recalled again and again.
@@ -102,7 +104,7 @@ public class InGameViewController {
 		      else if (keyR.getCode() == KeyCode.P) {
 		          System.out.println("You pressed pause, popping up pause menu");
 		          gsc.setGameState(3); //paused state
-		          PauseView.show();
+		          PauseView.showScene();
 		          gameLoop.stop();
 		          return; 
 		      }
