@@ -88,6 +88,8 @@ public class PauseView {
                 case 0: //single player
                 	gsc.setGameState(1); //1 = game_in_progress
                 	System.out.println("resume game");
+                	System.out.println("current state is: " + gsc.getCurrentGameState());
+                	window.close();
                 	break;
                 case 1: 
                 	System.out.println("options");

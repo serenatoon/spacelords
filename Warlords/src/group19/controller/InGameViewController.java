@@ -44,7 +44,8 @@ public class InGameViewController {
 			}			
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
-				tick();
+					tick();
+					System.out.println("in");
 				lastTick = currentTime;
 			}
 		}
@@ -55,17 +56,16 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
+		if (gsc.getCurrentGameState() != 3) { //if game isn't paused
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
-		
-		if (isFinished()) {
-			if (remainingTime <= 0) {
-				//game.getWarlord1().setWinner();
-			}
-			
-			//gameLoop.stop(); // stop gameloop once the game has finished 
-		} 
+			if (isFinished()) {
+				if (remainingTime <= 0) {
+					//game.getWarlord1().setWinner();
+				}
+			} 
+		}
 	}
 
 	// Check for win conditions 
@@ -105,7 +105,7 @@ public class InGameViewController {
 		          System.out.println("You pressed pause, popping up pause menu");
 		          gsc.setGameState(3); //paused state
 		          PauseView.showScene();
-		          gameLoop.stop();
+		          //gameLoop.stop();
 		          return; 
 		      }
 		});
