@@ -3,6 +3,7 @@ package group19.controller;
 import group19.view.GameMenuView;
 import group19.view.InGameView;
 import group19.view.PauseView;
+import group19.view.WinnerView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import group19.model.*;
@@ -100,11 +101,16 @@ public class InGameViewController {
 		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
 		          return; //exit the function without being called til your RAM explodes
 		      }
-		      else if (keyR.getCode() == KeyCode.P) {
+		      if (keyR.getCode() == KeyCode.P) {
 		          System.out.println("You pressed pause, popping up pause menu");
 		          gsc.setGameState(3); //paused state
 		          PauseView.showScene();
 		          return; 
+		      }
+		      if (keyR.getCode() == KeyCode.PAGE_DOWN) {
+		    	  System.out.println("Fast forward to winner menu");
+		    	  gsc.setGameState(2); //game complete state
+		    	  WinnerView.showScene();
 		      }
 		});
 	}
