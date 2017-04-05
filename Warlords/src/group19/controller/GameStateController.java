@@ -42,6 +42,6 @@ public class GameStateController {
 	public void setSFXVolume(double value) {
 		SFXvolume = value;
 	}
-	
+
 }
 	

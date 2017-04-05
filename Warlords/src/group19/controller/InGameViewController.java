@@ -44,9 +44,10 @@ public class InGameViewController {
 			}			
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
+				if (gsc.getCurrentGameState() != 3) {
 					tick();
-					System.out.println("in");
 				lastTick = currentTime;
+				}
 			}
 		}
 	}
@@ -56,7 +57,6 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
-		if (gsc.getCurrentGameState() != 3) { //if game isn't paused
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
@@ -66,7 +66,6 @@ public class InGameViewController {
 				}
 			} 
 		}
-	}
 
 	// Check for win conditions 
 	public boolean isFinished() {
@@ -105,7 +104,6 @@ public class InGameViewController {
 		          System.out.println("You pressed pause, popping up pause menu");
 		          gsc.setGameState(3); //paused state
 		          PauseView.showScene();
-		          //gameLoop.stop();
 		          return; 
 		      }
 		});

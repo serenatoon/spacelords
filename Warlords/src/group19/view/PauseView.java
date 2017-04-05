@@ -24,7 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PauseView {
-	static GameStateController gsc = new GameStateController();
 	static Scene pauseScene;
 	public static int currentItem = 0;
 	private static VBox menuBox;
@@ -32,7 +31,8 @@ public class PauseView {
 	public static void showScene() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
-
+		window.setWidth(1024);
+		window.setHeight(768);
 		Pane layout = new Pane(); //settings for parent node - bg, color, size
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		layout.setBackground(new Background(bg));
@@ -54,8 +54,7 @@ public class PauseView {
 
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
-        menuSelect.setVolume(gsc.getSFXVolume());  //set volume of SFX according to gsc attribute
-        modeSelect.setVolume(gsc.getSFXVolume());
+
         getMenuItem(0).setActive(true); //highlight first item in menu
 		layout.getChildren().addAll(title, menuBox);
 		pauseScene = new Scene(layout);
@@ -86,9 +85,8 @@ public class PauseView {
                 modeSelect.play();
                 switch(currentItem) {
                 case 0: //single player
-                	gsc.setGameState(1); //1 = game_in_progress
+                	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
                 	System.out.println("resume game");
-                	System.out.println("current state is: " + gsc.getCurrentGameState());
                 	window.close();
                 	break;
                 case 1: 
