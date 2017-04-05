@@ -114,14 +114,14 @@ public class InGameViewController {
 	// Processes whether or not ball has collided with a paddle, brick, or warlord
 	// Calls the appropriate methods in those cases (e.g. destroy brick if ball collided with brick) 
 	public void checkBallCollision() {
-		if (game.getBall().getXPos() < 0) { // left edge	
-			game.getBall().setXPos(game.getBall().getRadius());
+		if (game.getBall().getXPos() < 128) { // left edge	
+			game.getBall().setXPos(game.getBall().getRadius() + 128);
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
 		}
 		
-		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 1024)) { // right edge 
-			game.getBall().setXPos(1024-game.getBall().getRadius());
+		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 896)) { // right edge 
+			game.getBall().setXPos(896-game.getBall().getRadius());
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
 		}
@@ -170,12 +170,12 @@ public class InGameViewController {
 	
 	// Makes sure paddle stays within bounds of window 
 	public void checkPaddleBounds() {
-		if ((game.getPaddle1().getXPos()-((game.getPaddle1().getWidth())/2) < 0)) { // hit left wall
-			game.getPaddle1().setXPos(((game.getPaddle1().getWidth())/2));
+		if ((game.getPaddle1().getXPos()-((game.getPaddle1().getWidth())/2) < 128)) { // hit left wall
+			game.getPaddle1().setXPos(((game.getPaddle1().getWidth())/2) + 128);
 		}
 		
-		if (((game.getPaddle1().getXPos()+((game.getPaddle1().getWidth())/2)) > 1024)) { // hit right wall
-			game.getPaddle1().setXPos((1024 - (game.getPaddle1().getWidth())/2));
+		if (((game.getPaddle1().getXPos()+((game.getPaddle1().getWidth())/2)) > 896)) { // hit right wall
+			game.getPaddle1().setXPos((896 - (game.getPaddle1().getWidth())/2));
 		}
 		
 		if ((game.getPaddle1().getYPos()-((game.getPaddle1().getWidth())/2) < 0)) { // hit top wall

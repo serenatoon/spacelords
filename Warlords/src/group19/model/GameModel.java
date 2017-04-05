@@ -17,7 +17,7 @@ public class GameModel {
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
-		brick = new BrickModel(100, 100);
+		brick = new BrickModel(200, 100);
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-140
 		warlord1 = new WarlordModel(128, 0, 1);
