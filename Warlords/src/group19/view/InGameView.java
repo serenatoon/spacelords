@@ -56,7 +56,7 @@ public class InGameView {
 		rootGameLayout.setPrefHeight(height);
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2(), drawWarlord3(), drawWarlord4()); //add child nodes here 
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(), drawBrick(), drawWarlord1(), drawWarlord2(), drawWarlord3(), drawWarlord4(), drawGUI()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
 
@@ -133,4 +133,16 @@ public class InGameView {
         rect.translateYProperty().bind(game.getWarlord4().getYProperty());
 		return rect;
 	}
+	public static Group drawGUI() {
+		Rectangle leftPanel = new Rectangle(0,0, 128, 768); //rectangle at pos(0,0) 128px wide 768px high
+		Rectangle rightPanel = new Rectangle(896,0,128,768);
+		
+		Text timer = new Text(30,384,"timer: ");
+		leftPanel.setFill(Color.ANTIQUEWHITE);
+		rightPanel.setFill(Color.ANTIQUEWHITE);
+		Group GUI = new Group(leftPanel, rightPanel, timer);
+		return GUI;
+		
+	}
+
 }
