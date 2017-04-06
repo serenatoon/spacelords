@@ -38,7 +38,7 @@ public class GameMenuView extends Application {
     private static Scene gameMenu = new Scene(createScene()); 
     private static Stage window; //pass out top-level Stage container so other classes can call setScene to switch scenes
 
-    GameModel models = new GameModel(); 
+    GameModel models; 
 
     
     private static Parent createScene() { 
@@ -141,7 +141,9 @@ public class GameMenuView extends Application {
                 switch(currentItem) {
                 case 0: //single player
                 	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
-                	InGameViewController newGame = new InGameViewController(models); //call a new instance of IGVC, gameLoop starts
+                	// every time this is called, new instance of gamemodel is made
+                	// for some reason the ball is really fking fast when a new game is made 
+                	InGameViewController newGame = new InGameViewController(new GameModel()); //call a new instance of IGVC, gameLoop starts
                 	//IGVC calls IGV in constructor and sets the scene up
                 	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
                 	System.out.println("single player mode");
