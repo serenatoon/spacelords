@@ -3,6 +3,7 @@ package group19.controller;
 import group19.view.GameMenuView;
 import group19.view.InGameView;
 import group19.view.PauseView;
+import group19.view.WinnerView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
@@ -45,10 +46,13 @@ public class InGameViewController {
 			}			
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
-				if (gsc.getCurrentGameState() != 3) {
+				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					tick();
-				lastTick = currentTime;
 				}
+				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
+					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 	
+				}
+				lastTick = currentTime;
 			}
 		}
 	}
@@ -97,15 +101,19 @@ public class InGameViewController {
 		      if (keyR.getCode() == KeyCode.ESCAPE) {
 		          System.out.println("You pressed ESC, exiting and moving to main menu...");
 		          gsc.setGameState(0); //back to menu state (game did not 'complete')
-		          gameLoop.stop();
 		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
 		          return; //exit the function without being called til your RAM explodes
 		      }
-		      else if (keyR.getCode() == KeyCode.P) {
+		      if (keyR.getCode() == KeyCode.P) {
 		          System.out.println("You pressed pause, popping up pause menu");
 		          gsc.setGameState(3); //paused state
 		          PauseView.showScene();
 		          return; 
+		      }
+		      if (keyR.getCode() == KeyCode.PAGE_DOWN) {
+		    	  System.out.println("Fast forward to winner menu");
+		    	  gsc.setGameState(2); //game complete state
+		    	  WinnerView.showScene();
 		      }
 		});
 	}

@@ -1,4 +1,7 @@
 package group19.view;
+import java.awt.GraphicsEnvironment;
+import java.io.InputStream;
+
 import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
 import group19.model.GameModel;
@@ -34,9 +37,9 @@ public class GameMenuView extends Application {
     GameStateController gsc = new GameStateController(); //gsc controls volume, and will control game states later
     private static Scene gameMenu = new Scene(createScene()); 
     private static Stage window; //pass out top-level Stage container so other classes can call setScene to switch scenes
-    
+
     GameModel models = new GameModel(); 
-    
+
     
     private static Parent createScene() { 
         Pane root = new Pane(); 
@@ -137,8 +140,8 @@ public class GameMenuView extends Application {
                 modeSelect.play();
                 switch(currentItem) {
                 case 0: //single player
-                	gsc.setGameState(1); //1 = game_in_progress
-                	InGameViewController newGame = new InGameViewController(models); //call a new instance of IGVC
+                	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
+                	InGameViewController newGame = new InGameViewController(models); //call a new instance of IGVC, gameLoop starts
                 	//IGVC calls IGV in constructor and sets the scene up
                 	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
                 	System.out.println("single player mode");
