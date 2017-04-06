@@ -17,18 +17,24 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -55,7 +61,8 @@ public class InGameView {
 		this.game = model; //pass input parameter out to local variable
 		rootGameLayout.setPrefWidth(width);
 		rootGameLayout.setPrefHeight(height);
-		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
+		Image bgImage = new Image("/res/images/space_lf.png");
+		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null);
 		rootGameLayout.setBackground(new Background(bg));
 		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(game.getPaddle1()), drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()), drawPaddle(game.getPaddle4()), drawBrick(), drawWarlord(game.getWarlord1(), Color.TOMATO), drawWarlord(game.getWarlord2(), Color.CORNFLOWERBLUE), drawWarlord(game.getWarlord3(), Color.GOLD), drawWarlord(game.getWarlord4(), Color.DARKSEAGREEN), drawGUI()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
@@ -69,9 +76,13 @@ public class InGameView {
 	//and position. The bind method helps model parameters translate to actual UI changes.
 	public static Node drawBall() {
         Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
+//        RadialGradient gradient = new RadialGradient(
+//                0, 0, 0.5,0.5, 1.2, true, CycleMethod.NO_CYCLE,
+//                new Stop(1, Color.GAINSBORO),
+//                new Stop(0, Color.FIREBRICK)
+//        );
         circle.setFill(Color.RED);
-        circle.setStroke(Color.BLACK);
-        circle.setStrokeWidth(1.0);
+        
         circle.translateXProperty().bind(game.getBall().getXProperty());
         circle.translateYProperty().bind(game.getBall().getYProperty());
         return circle;
@@ -86,10 +97,13 @@ public class InGameView {
 	}*/
 	
 	public static Node drawPaddle(PaddleModel paddle) {
-		Rectangle rect = new Rectangle(paddle.getWidth(), paddle.getHeight());
+		//Rectangle rect = new Rectangle(paddle.getWidth(), paddle.getHeight());
+		ImageView rect = new ImageView("/res/images/paddle_strip.png");
+		rect.setFitWidth(paddle.getWidth());
+		rect.setFitHeight(paddle.getHeight());
 		rect.translateXProperty().bind(paddle.getXProperty());
 		rect.translateYProperty().bind(paddle.getYProperty());
-		rect.setFill(Color.ALICEBLUE);
+	//	rect.setFill(Color.ALICEBLUE);
 		return rect;
 	}
 	
@@ -113,13 +127,29 @@ public class InGameView {
 	}
 	
 	public static Group drawGUI() {
+		//dimensions planned from scene builder view
 		Rectangle leftPanel = new Rectangle(0,0, 128, 768); //rectangle at pos(0,0) 128px wide 768px high
 		Rectangle rightPanel = new Rectangle(896,0,128,768);
-		
-		Text timer = new Text(30,384,"timer: ");
+		Text p1name = new Text(30, 50, "p1Name");
+		p1name.setFont(Font.font(18));
+		Text p1score = new Text(38,75, "<score>");
+		Text p2name = new Text(30, 718, "p2Name");
+		p2name.setFont(Font.font(18));
+		Text p2score = new Text(40,693, "<score>");
+		Text p3name = new Text(926, 50, "p3Name");
+		p3name.setFont(Font.font(18));
+		Text p3score = new Text(936,75, "<score>");
+		Text p4name = new Text(926, 718, "p4Name");
+		p4name.setFont(Font.font(18));
+		Text p4score = new Text(935,693, "<score>");
+		Text timerLeft = new Text(31,393,"-timer-"); 
+		timerLeft.setFont(Font.font(18)); 
+		Text timerRight = new Text(926, 382, "-timer-");
+		timerRight.setFont(Font.font(18)); 
 		leftPanel.setFill(Color.ANTIQUEWHITE);
 		rightPanel.setFill(Color.ANTIQUEWHITE);
-		Group GUI = new Group(leftPanel, rightPanel, timer);
+		Group GUI = 
+		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
 		return GUI;
 		
 	}
