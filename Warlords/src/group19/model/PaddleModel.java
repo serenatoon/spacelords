@@ -13,9 +13,9 @@ public class PaddleModel extends ObjectModel {
 	
 	public PaddleModel(int x, int y, WarlordModel warlord) {
 		super(x, y);
-		width = 50;
+		width = 100;
 		height = 10;
-		xVelocity = 10;
+		xVelocity = 20;
 		// warlord should belong to a paddle
 		// seems backwards but i'm thinking along the lines of how to increment score when you destroy a brick
 		// pseudocode: when ball collides with paddle then destroys a brick, getwarlord().incrementScore()

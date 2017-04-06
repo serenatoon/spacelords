@@ -17,8 +17,8 @@ public class BallModel extends ObjectModel {
 	public BallModel(int x, int y) {
 		super(x, y);
 		radius = 15;  
-		xVelocity = ThreadLocalRandom.current().nextInt(5, 16);
-		yVelocity = ThreadLocalRandom.current().nextInt(5, 16); 
+		xVelocity = ThreadLocalRandom.current().nextInt(5, 11);
+		yVelocity = ThreadLocalRandom.current().nextInt(5, 11); 
 	}
 
 	// Reverse ball's horizontal velocity when it hits an object 

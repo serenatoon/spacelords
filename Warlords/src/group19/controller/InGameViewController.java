@@ -62,6 +62,7 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
+		System.out.println("ball vel:" + game.getBall().getXVelocity() + "");
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
@@ -150,7 +151,12 @@ public class InGameViewController {
 		// Check for collision with paddle
 		// Ensure ball does not travel through paddle, changes direction of ball
 		if (InGameView.drawBall().intersects(InGameView.drawPaddle(game.getPaddle1()).getBoundsInParent())) { 
-			game.getBall().setYPos(game.getPaddle1().getYPos());
+			if (game.getBall().getYPos() < game.getPaddle1().getYPos()) { // if ball is above paddle
+				game.getBall().setYPos(game.getPaddle1().getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+			}
+			else {
+				game.getBall().setYPos(game.getPaddle1().getYPos()+game.getBall().getRadius()+10);
+			}
 			game.getBall().bounceY();
 			game.getPaddle1().paddleHitSound();
 		}
