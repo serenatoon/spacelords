@@ -5,6 +5,7 @@ import group19.view.InGameView;
 import group19.view.PauseView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.transform.Rotate;
 import group19.model.*;
 
 import javafx.animation.AnimationTimer;
@@ -140,7 +141,7 @@ public class InGameViewController {
 		
 		// Check for collision with paddle
 		// Ensure ball does not travel through paddle, changes direction of ball
-		if (InGameView.drawBall().intersects(InGameView.drawPaddle().getBoundsInParent())) { 
+		if (InGameView.drawBall().intersects(InGameView.drawPaddle(game.getPaddle1()).getBoundsInParent())) { 
 			game.getBall().setYPos(game.getPaddle1().getYPos());
 			game.getBall().bounceY();
 			game.getPaddle1().paddleHitSound();
@@ -148,7 +149,8 @@ public class InGameViewController {
 		
 		// Check for collision with warlord
 		// This kills the warlord
-		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
+		// TODO: update drawWarlord, do this for all 4 warlords...
+		/*if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
 			game.getWarlord1().setDead();
 			game.getWarlord2().setWinner();
 		}
@@ -156,7 +158,7 @@ public class InGameViewController {
 		if (InGameView.drawBall().intersects(InGameView.drawWarlord2().getBoundsInParent())) { 
 			game.getWarlord2().setDead();
 			game.getWarlord1().setWinner();
-		}
+		}*/
 		
 		// Check for collision with brick
 		// Destroy brick
@@ -169,23 +171,31 @@ public class InGameViewController {
 	}
 	
 	// Makes sure paddle stays within bounds of window 
+	// TODO: take in paddle as parameter. since we have 4 paddles now 
 	public void checkPaddleBounds() {
-		if ((game.getPaddle1().getXPos()-((game.getPaddle1().getWidth())/2) < 128)) { // hit left wall
-			game.getPaddle1().setXPos(((game.getPaddle1().getWidth())/2) + 128);
+		if ((game.getPaddle1().getXPos() < 128)) { // hit left wall
+			game.getPaddle1().setXPos(128); // changed from the paddlewidth/2 nonsense since xpos is actually the left edge of the paddle
 		}
 		
-		if (((game.getPaddle1().getXPos()+((game.getPaddle1().getWidth())/2)) > 896)) { // hit right wall
-			game.getPaddle1().setXPos((896 - (game.getPaddle1().getWidth())/2));
+		if ((game.getPaddle1().getXPos() > 896)) { // hit right wall
+			game.getPaddle1().setXPos(896);
 		}
 		
-		if ((game.getPaddle1().getYPos()-((game.getPaddle1().getWidth())/2) < 0)) { // hit top wall
-			game.getPaddle1().setYPos((game.getPaddle1().getWidth())/2);
+		// top and bottom might be interesting since the paddle rotates 90 degrees.  the left edge might no longer be the left edge?
+		if ((game.getPaddle1().getYPos() < 0)) { // hit top wall
+			game.getPaddle1().setYPos(0);
 		}
 		
-		if (((game.getPaddle1().getYPos()+((game.getPaddle1().getWidth())/2)) > 768)) { // hit bottom wall
-			game.getPaddle1().setYPos((game.getPaddle1().getWidth())/2);
+		if ((game.getPaddle1().getYPos() > 768)) { // hit bottom wall
+			game.getPaddle1().setYPos(768);
 		}
 		
 		// TODO: paddle shouldn't be able to move out of each player's bounds
+		
+		// really inefficient rn i just wanted to see if it works.  spoiler alert it doesnt 
+		if (game.getPaddle1().getXPos() > game.getWarlord1().getUpperXBounds()) {
+			InGameView.drawPaddle(game.getPaddle1()).getTransforms().add(new Rotate(90));
+			System.out.println("rotating paddle");
+		}
 	}
 }

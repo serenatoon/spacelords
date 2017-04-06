@@ -13,9 +13,14 @@ public class PaddleModel extends ObjectModel {
 	
 	public PaddleModel(int x, int y, WarlordModel warlord) {
 		super(x, y);
-		width = 70;
-		height = 20;
+		width = 50;
+		height = 10;
 		xVelocity = 10;
+		// warlord should belong to a paddle
+		// seems backwards but i'm thinking along the lines of how to increment score when you destroy a brick
+		// pseudocode: when ball collides with paddle then destroys a brick, getwarlord().incrementScore()
+		// was thinking of creating the warlord within the paddle / paddle within warlord constructor
+		// but might not bode well with ghosts. so i will stick with this messy implementation for now 
 		this.warlord = warlord; // warlord which this paddle belongs to
 	}
 

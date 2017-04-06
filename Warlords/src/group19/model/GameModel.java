@@ -17,7 +17,7 @@ public class GameModel {
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
-		brick = new BrickModel(200, 100);
+		brick = new BrickModel(300, 500);
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-140
 		warlord1 = new WarlordModel(128, 0, 1);
@@ -25,10 +25,10 @@ public class GameModel {
 		warlord3 = new WarlordModel(128,768-140, 3);
 		warlord4 = new WarlordModel(1024-140-128, 768-140, 4);
 
-		paddle1 = new PaddleModel(0, 0, warlord1);
-		paddle2 = new PaddleModel(0, 0, warlord2);
-		paddle3 = new PaddleModel(0, 0, warlord3);
-		paddle4 = new PaddleModel(0, 0, warlord4);
+		paddle1 = new PaddleModel(40, 150, warlord1);
+		paddle2 = new PaddleModel(700, 150, warlord2);
+		paddle3 = new PaddleModel(180, 768-150, warlord3);
+		paddle4 = new PaddleModel(700, 768-150, warlord4);
 	}
 	
 	public BallModel getBall() {
