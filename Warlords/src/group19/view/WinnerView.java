@@ -1,7 +1,6 @@
 package group19.view;
 
 import group19.controller.InGameViewController;
-import group19.view.PauseView.MenuItem;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -12,7 +11,6 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -79,13 +77,13 @@ public class WinnerView extends PauseView {
             if (event.getCode() == KeyCode.ENTER) {
                 modeSelect.play();
                 switch(currentItem) {
-                case 0: //single player
-                	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
-                	System.out.println("resume game");
+                case 0:
+                	InGameViewController.gsc.setGameState(0);
+                	System.out.println("back to main menu");
                 	window.close();
                 	break;
                 case 1: 
-                	System.out.println("options");
+                	System.out.println("high scores");
                 	break;
                 case 2:
                 	System.out.println("credits");

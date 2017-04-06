@@ -45,10 +45,13 @@ public class InGameViewController {
 			}			
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
-				if (gsc.getCurrentGameState() != 3) {
+				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					tick();
-				lastTick = currentTime;
 				}
+				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
+					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 	
+				}
+				lastTick = currentTime;
 			}
 		}
 	}
@@ -97,7 +100,6 @@ public class InGameViewController {
 		      if (keyR.getCode() == KeyCode.ESCAPE) {
 		          System.out.println("You pressed ESC, exiting and moving to main menu...");
 		          gsc.setGameState(0); //back to menu state (game did not 'complete')
-		          gameLoop.stop();
 		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
 		          return; //exit the function without being called til your RAM explodes
 		      }
