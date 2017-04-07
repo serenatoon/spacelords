@@ -20,14 +20,12 @@ public class InGameViewController {
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
-	private float remainingTime;
 	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment 
 	
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
 		super();
 		view = new InGameView(1024,768, models);
-		remainingTime = 120;
 		gameLoop.start();
 		OptionsEventListener();
 		KeyEventListener();	
@@ -49,12 +47,14 @@ public class InGameViewController {
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					tick();
-					remainingTime -= (float) (currentTime-lastTick)/1000000000; // decrement time (/1000000000 to convert from ns to s
-					System.out.println("time remaining: " + (int) remainingTime + "");
+					game.decrementTime((float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
+					System.out.println("time remaining: " + game.getTimeRemaining() + "");
+					
 				}
 				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
 					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 	
 				}
+				
 				lastTick = currentTime;
 			}
 		}
@@ -70,7 +70,7 @@ public class InGameViewController {
 		checkBallCollision(); 
 		checkPaddleBounds();
 			if (isFinished()) {
-				if (remainingTime <= 0) {
+				if (game.getTimeRemaining() <= 0) {
 					//game.getWarlord1().setWinner();
 				}
 			} 
@@ -78,17 +78,9 @@ public class InGameViewController {
 
 	// Check for win conditions 
 	public boolean isFinished() {
-		return ((remainingTime <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
+		return ((game.getTimeRemaining() <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
 	}
 
-	public void setTimeRemaining(int seconds) {
-		remainingTime = seconds;		
-	}
-	
-	public int getTimeRemaining(int seconds) {
-		return (int) remainingTime;
-	}
-	
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
 	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {

@@ -142,7 +142,7 @@ public class InGameView {
 		Text p4name = new Text(926, 718, "p4Name");
 		p4name.setFont(Font.font(18));
 		Text p4score = new Text(935,693, "<score>");
-		Text timerLeft = new Text(31,393,"-timer-"); 
+		Text timerLeft = new Text(31,393, game.getTimeString()); // but how to get it to update...
 		timerLeft.setFont(Font.font(18)); 
 		Text timerRight = new Text(926, 382, "-timer-");
 		timerRight.setFont(Font.font(18)); 
@@ -152,6 +152,5 @@ public class InGameView {
 		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
 		return GUI;
 		
-	}
-
+	}	
 }

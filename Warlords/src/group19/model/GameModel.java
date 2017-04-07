@@ -13,7 +13,8 @@ public class GameModel {
 	private PaddleModel paddle1;
 	private PaddleModel paddle2;
 	private PaddleModel paddle3;
-	private PaddleModel paddle4; 
+	private PaddleModel paddle4;
+	private float remainingTime;
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
@@ -29,6 +30,8 @@ public class GameModel {
 		paddle2 = new PaddleModel(700, 150, warlord2);
 		paddle3 = new PaddleModel(180, 768-150, warlord3);
 		paddle4 = new PaddleModel(700, 768-150, warlord4);
+		
+		remainingTime = 121;
 	}
 	
 	public BallModel getBall() {
@@ -70,5 +73,22 @@ public class GameModel {
 	
 	public WarlordModel getWarlord4() {
 		return warlord4;
+	}
+	
+	public int getTimeRemaining() {
+		return (int) remainingTime;
+	}
+	
+	public String getTimeString() {
+		return Integer.toString((int)remainingTime);
+	}
+	
+	// used to skip to end of time 
+	public void setTimeRemaining(float seconds) {
+		remainingTime = seconds;
+	}
+	
+	public void decrementTime(float seconds) {
+		remainingTime -= seconds;
 	}
 }
