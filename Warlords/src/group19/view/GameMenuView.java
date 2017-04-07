@@ -150,8 +150,8 @@ public class GameMenuView extends Application {
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer
-                	InGameViewController.gsc.setSinglePlayer(false); //load multiplayer mode
                 	System.out.println("multiplayer mode coming soon!");
+                	InGameViewController.gsc.setSinglePlayer(false); //load multiplayer mode
                 	break;
                 case 2://story mode
                 	System.out.println("story mode coming soon!");

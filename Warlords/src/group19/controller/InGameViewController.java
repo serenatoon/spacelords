@@ -4,6 +4,7 @@ import group19.view.GameMenuView;
 import group19.view.InGameView;
 import group19.view.PauseView;
 import group19.view.WinnerView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
@@ -30,6 +31,27 @@ public class InGameViewController {
 		OptionsEventListener();
 		KeyEventListener();	
 		game = models;
+	    Thread countdown = new Thread(new Runnable() {
+	        public void run()
+	        {
+	            try {
+		            System.out.println("3");
+					Thread.sleep(1000);
+		            System.out.println("2");
+					Thread.sleep(1000);
+		            System.out.println("1");
+					Thread.sleep(1000);
+		            
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+	        }});  
+	        countdown.start();
+	        try {
+	        	countdown.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 	}
 	
     // Game loop which 'ticks' every 16ms

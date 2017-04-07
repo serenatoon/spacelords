@@ -36,7 +36,7 @@ public class GameModel {
 		paddle3 = new PaddleModel(180, 768-150, warlord3);
 		paddle4 = new PaddleModel(700, 768-150, warlord4);
 		
-		remainingTime.set(121);
+		remainingTime.set(120);
 	}
 	
 	public BallModel getBall() {
