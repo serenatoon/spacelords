@@ -1,5 +1,8 @@
 package group19.model;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 //This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
 //are initialised with their x/y positions, and warlord1 and warlord2 are initialised with their constructors and 
 //the player number.
@@ -14,7 +17,7 @@ public class GameModel {
 	private PaddleModel paddle2;
 	private PaddleModel paddle3;
 	private PaddleModel paddle4;
-	private float remainingTime;
+	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
@@ -33,7 +36,7 @@ public class GameModel {
 		paddle3 = new PaddleModel(180, 768-150, warlord3);
 		paddle4 = new PaddleModel(700, 768-150, warlord4);
 		
-		remainingTime = 121;
+		remainingTime.set(121);
 	}
 	
 	public BallModel getBall() {
@@ -77,20 +80,17 @@ public class GameModel {
 		return warlord4;
 	}
 	
-	public int getTimeRemaining() {
-		return (int) remainingTime;
-	}
-	
-	public String getTimeString() {
-		return Integer.toString((int)remainingTime);
+	public DoubleProperty getTimeRemaining() {
+		return remainingTime;
 	}
 	
 	// used to skip to end of time 
 	public void setTimeRemaining(float seconds) {
-		remainingTime = seconds;
+		remainingTime.set(seconds);
 	}
 	
 	public void decrementTime(float seconds) {
-		remainingTime -= seconds;
+		float currentTime = remainingTime.floatValue();
+		remainingTime.set(currentTime - seconds);
 	}
 }

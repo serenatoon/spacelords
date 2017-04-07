@@ -1,5 +1,7 @@
 package group19.view;
 
+import java.text.DecimalFormat;
+
 import com.sun.glass.ui.Window;
 
 import group19.controller.GameStateController;
@@ -12,6 +14,8 @@ import javafx.animation.Timeline;
 import javafx.animation.TimelineBuilder;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Pos;
@@ -169,9 +173,12 @@ public class InGameView {
 		Text p4name = new Text(926, 718, "p4Name");
 		p4name.setFont(Font.font(18));
 		Text p4score = new Text(935,693, "<score>");
-		Text timerLeft = new Text(31,393, game.getTimeString()); // but how to get it to update...
+		Text timerLeft = new Text(35,393, game.getTimeRemaining().toString()); 
+		//StringProperty str = StringProperty.format("%02d:%02d", game.getTimeRemaining().intValue() / 60, game.getTimeRemaining().intValue() % 60);
+		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
 		timerLeft.setFont(Font.font(18)); 
-		Text timerRight = new Text(926, 382, "-timer-");
+		Text timerRight = new Text(933, 382, "-timer-");
+		timerRight.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
 		timerRight.setFont(Font.font(18)); 
 		leftPanel.setFill(Color.ANTIQUEWHITE);
 		rightPanel.setFill(Color.ANTIQUEWHITE);

@@ -70,15 +70,14 @@ public class InGameViewController {
 		checkBallCollision(); 
 		checkPaddleBounds();
 			if (isFinished()) {
-				if (game.getTimeRemaining() <= 0) {
-					//game.getWarlord1().setWinner();
-				}
+				gsc.setGameState(2); //game complete state
+				WinnerView.showScene();
 			} 
 		}
 
 	// Check for win conditions 
 	public boolean isFinished() {
-		return ((game.getTimeRemaining() <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
+		return ((game.getTimeRemaining().intValue() <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
 	}
 
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
@@ -114,6 +113,9 @@ public class InGameViewController {
 		    	  System.out.println("Fast forward to winner menu");
 		    	  gsc.setGameState(2); //game complete state
 		    	  WinnerView.showScene();
+		      }
+		      if (keyR.getCode() == KeyCode.T) { //FOR DEBUGGING PURPOSES ONLY
+		    	  game.decrementTime(5);
 		      }
 		});
 	}
