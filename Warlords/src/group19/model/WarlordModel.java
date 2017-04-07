@@ -24,8 +24,8 @@ public class WarlordModel extends ObjectModel {
 		this.playerNo = playerNo; // need to know player number to set bounds of which the paddle can move for each player
 		isWinner = false;
 		isDead = false;
-		width = 140;
-		height = 140;
+		width = 120;
+		height = 120;
 		setPaddleBounds();
 		score = 0;
 	}

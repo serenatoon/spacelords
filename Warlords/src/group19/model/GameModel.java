@@ -21,9 +21,9 @@ public class GameModel {
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-140
 		warlord1 = new WarlordModel(128, 0, 1);
-		warlord2 = new WarlordModel(1024-140-128, 0, 2); 
-		warlord3 = new WarlordModel(128,768-140, 3);
-		warlord4 = new WarlordModel(1024-140-128, 768-140, 4);
+		warlord2 = new WarlordModel(1024-120-128, 0, 2); 
+		warlord3 = new WarlordModel(128,768-120, 3);
+		warlord4 = new WarlordModel(1024-120-128, 768-120, 4);
 
 		paddle1 = new PaddleModel(40, 150, warlord1);
 		paddle2 = new PaddleModel(700, 150, warlord2);
