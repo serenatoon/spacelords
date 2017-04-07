@@ -175,9 +175,11 @@ public class InGameViewController {
 		// Check for collision with warlord
 		// This kills the warlord
 		// TODO: update drawWarlord, do this for all 4 warlords...
-		/*if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
+		/*
+		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
 			game.getWarlord1().setDead();
 			game.getWarlord2().setWinner();
+			game.getWarlord(1).playWarlordSound();
 		}
 		
 		if (InGameView.drawBall().intersects(InGameView.drawWarlord2().getBoundsInParent())) { 
