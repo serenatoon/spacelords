@@ -20,7 +20,8 @@ public class InGameViewController {
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
-	private int remainingTime;
+	private float remainingTime;
+	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment 
 	
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -48,6 +49,8 @@ public class InGameViewController {
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					tick();
+					remainingTime -= (float) (currentTime-lastTick)/1000000000; // decrement time (/1000000000 to convert from ns to s
+					System.out.println("time remaining: " + (int) remainingTime + "");
 				}
 				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
 					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 	
@@ -62,7 +65,7 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
-		System.out.println("ball vel:" + game.getBall().getXVelocity() + "");
+		//System.out.println("ball vel:" + game.getBall().getXVelocity() + "");
 		game.getBall().moveBall();
 		checkBallCollision(); 
 		checkPaddleBounds();
@@ -80,6 +83,10 @@ public class InGameViewController {
 
 	public void setTimeRemaining(int seconds) {
 		remainingTime = seconds;		
+	}
+	
+	public int getTimeRemaining(int seconds) {
+		return (int) remainingTime;
 	}
 	
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
@@ -161,6 +168,10 @@ public class InGameViewController {
 			game.getPaddle1().paddleHitSound();
 		}
 		
+		// when a warlord dies, the warlord who killed him should be the winner (or have score incremented)
+		// therefore we must note down the the last paddle (and thus warlord) that the ball bounced off
+		// store in a variable? 
+		
 		// Check for collision with warlord
 		// This kills the warlord
 		// TODO: update drawWarlord, do this for all 4 warlords...
@@ -209,7 +220,7 @@ public class InGameViewController {
 		// really inefficient rn i just wanted to see if it works.  spoiler alert it doesnt 
 		if (game.getPaddle1().getXPos() > game.getWarlord1().getUpperXBounds()) {
 			InGameView.drawPaddle(game.getPaddle1()).getTransforms().add(new Rotate(90));
-			System.out.println("rotating paddle");
+			//System.out.println("rotating paddle");
 		}
 	}
 }
