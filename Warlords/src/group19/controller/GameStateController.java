@@ -8,6 +8,7 @@ public class GameStateController {
 	public static final int GAME_IN_PROGRESS = 1;
 	public static final int GAME_COMPLETE = 2;
 	public static final int GAME_PAUSED = 3;
+	public boolean isSinglePlayer;
 	
 	public GameStateController() {
 		setGameState(MENU); // initial state is MENU
@@ -27,7 +28,13 @@ public class GameStateController {
 		}
 		else return false;
 	}
-
+	
+	public void setSinglePlayer(boolean b) {
+		if (b) {
+			isSinglePlayer = true;
+		}
+		else isSinglePlayer = false;
+	}
 	public double getBGMVolume() {
 		return BGMvolume;
 	}

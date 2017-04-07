@@ -4,7 +4,12 @@ import com.sun.glass.ui.Window;
 
 import group19.controller.GameStateController;
 import group19.model.*;
-import javafx.animation.FadeTransition; 
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.animation.TimelineBuilder;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -17,6 +22,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -64,7 +73,14 @@ public class InGameView {
 		Image bgImage = new Image("/res/images/space_lf.png");
 		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null);
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(game.getPaddle1()), drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()), drawPaddle(game.getPaddle4()), drawBrick(), drawWarlord(game.getWarlord1(), Color.TOMATO), drawWarlord(game.getWarlord2(), Color.CORNFLOWERBLUE), drawWarlord(game.getWarlord3(), Color.GOLD), drawWarlord(game.getWarlord4(), Color.DARKSEAGREEN), drawGUI()); //add child nodes here 
+		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(game.getPaddle1()),
+				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
+				drawPaddle(game.getPaddle4()), drawBrick(),
+				drawWarlord(game.getWarlord1(), new ImageView("/res/images/baseP1.png")),
+				drawWarlord(game.getWarlord2(), new ImageView("/res/images/baseP2.png")),
+				drawWarlord(game.getWarlord3(), new ImageView("/res/images/baseP3.png")), 
+				drawWarlord(game.getWarlord4(), new ImageView("/res/images/baseP4.png")),
+				drawGUI()); //add child nodes here 
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
 
@@ -81,7 +97,9 @@ public class InGameView {
 //                new Stop(1, Color.GAINSBORO),
 //                new Stop(0, Color.FIREBRICK)
 //        );
+        Glow glow = new Glow(1.0);
         circle.setFill(Color.RED);
+        circle.setEffect(glow);
         
         circle.translateXProperty().bind(game.getBall().getXProperty());
         circle.translateYProperty().bind(game.getBall().getYProperty());
@@ -118,12 +136,21 @@ public class InGameView {
 		return rect;
 	}
 	
-	public static Node drawWarlord(WarlordModel warlord, Paint colour) {
-		Rectangle rect = new Rectangle(warlord.getWidth(), warlord.getHeight());
-		rect.setFill(colour);
-		rect.translateXProperty().bind(warlord.getXProperty());
-		rect.translateYProperty().bind(warlord.getYProperty());
-		return rect;
+	public static Node drawWarlord(WarlordModel warlord, ImageView img) {
+			img.setFitWidth(warlord.getWidth());
+			img.setFitHeight(warlord.getHeight());
+			Effect glow = new Glow(0.0);
+			img.setEffect(glow);
+			Timeline timeline = new Timeline();
+		    timeline.setCycleCount(Timeline.INDEFINITE);
+		    timeline.setAutoReverse(true);
+		    KeyValue kv = new KeyValue(((Glow) glow).levelProperty(), 0.5);
+		    KeyFrame kf = new KeyFrame(Duration.millis(1500), kv);
+		    timeline.getKeyFrames().add(kf);
+		    timeline.play();  
+			img.translateXProperty().bind(warlord.getXProperty());
+			img.translateYProperty().bind(warlord.getYProperty());
+			return img;
 	}
 	
 	public static Group drawGUI() {

@@ -20,11 +20,13 @@ public class GameModel {
 		ball = new BallModel(0, 0);
 		brick = new BrickModel(300, 500);
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
-		// thus the edges-140
-		warlord1 = new WarlordModel(128, 0, 1);
-		warlord2 = new WarlordModel(1024-120-128, 0, 2); 
-		warlord3 = new WarlordModel(128,768-120, 3);
-		warlord4 = new WarlordModel(1024-120-128, 768-120, 4);
+		// thus the edges-120
+		// add +/- 128 for HUD 
+		//add +/- 10 so that warlord is not in the direct corner
+		warlord1 = new WarlordModel(128+10, 0+10, 1);
+		warlord2 = new WarlordModel(1024-120-128-10, 0+10, 2); 
+		warlord3 = new WarlordModel(128+10,768-120-10, 3);
+		warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
 
 		paddle1 = new PaddleModel(40, 150, warlord1);
 		paddle2 = new PaddleModel(700, 150, warlord2);
