@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class GameModel {
 	private BallModel ball; 
 	//private BrickModel brick; 
-    private ArrayList<BrickModel> bricks; 
+    private ArrayList<BrickModel> brickList; 
 	private WarlordModel warlord1;
 	private WarlordModel warlord2;
 	private WarlordModel warlord3;
@@ -20,13 +20,14 @@ public class GameModel {
 	private PaddleModel paddle2;
 	private PaddleModel paddle3;
 	private PaddleModel paddle4;
+	private ArrayList<PaddleModel> paddleList = new ArrayList<PaddleModel>();
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3);
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
 		//brick = new BrickModel(300, 500);
-        bricks = new ArrayList<BrickModel>();
+        brickList = new ArrayList<BrickModel>();
         initBricks();
 
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
@@ -37,11 +38,16 @@ public class GameModel {
 		warlord2 = new WarlordModel(1024-120-128-10, 0+10, 2); 
 		warlord3 = new WarlordModel(128+10,768-120-10, 3);
 		warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
-
+		
+		// might move creation of paddles into the arraylist creation instead? 
 		paddle1 = new PaddleModel(40, 150, warlord1);
+		paddleList.add(paddle1);
 		paddle2 = new PaddleModel(700, 150, warlord2);
+		paddleList.add(paddle2);
 		paddle3 = new PaddleModel(180, 768-150, warlord3);
+		paddleList.add(paddle3);
 		paddle4 = new PaddleModel(700, 768-150, warlord4);
+		paddleList.add(paddle4);
 		
 		remainingTime.set(120);
 	}
@@ -59,13 +65,13 @@ public class GameModel {
         // note that x,y co-ordinates refer to the top-left corner of the brick 
         for (int y = 128; y <= 120+60; y += 20) { // 20 = width of a brick
             for (int x = 128; x <= 120+60+120; x += 20) {
-                bricks.add(new BrickModel(x, y));
+                brickList.add(new BrickModel(x, y));
             }
         }
     }
     
     public ArrayList<BrickModel> getBrickList() {
-        return bricks;
+        return brickList;
     }
 	
 	public PaddleModel getPaddle1() {
@@ -82,7 +88,11 @@ public class GameModel {
 
 	public PaddleModel getPaddle4() {
 		return paddle4;
-	}	
+	}
+	
+	public ArrayList<PaddleModel> getPaddleList() {
+		return paddleList;
+	}
 	
 	// don't know if need all the warlord getters since they are associated with a paddle 
 	public WarlordModel getWarlord1() { 
