@@ -21,7 +21,9 @@ import javafx.animation.AnimationTimer;
 //References to both the models (from 'GameModel') and the view are placed here.
 public class InGameViewController {
 	static GameModel game;
-	static ArrayList<PaddleModel> paddles = new ArrayList<PaddleModel>();
+	// in the process of refactoring all mentions of game.getPaddle() etc to just paddle so code is cleaner 
+	static ArrayList<PaddleModel> paddles;
+	static ArrayList<BrickModel> bricks;
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
@@ -35,6 +37,7 @@ public class InGameViewController {
 		OptionsEventListener();
 		game = models;
 		paddles = game.getPaddleList();
+		bricks = game.getBrickList();
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -193,20 +196,9 @@ public class InGameViewController {
 			game.getBall().playWallSound();
 		}
 		
-		// Check for collision with paddle
+		// Iterate through all paddles, checking if the ball hits any of them
 		// Ensure ball does not travel through paddle, changes direction of ball
-//		if (InGameView.drawBall().intersects(InGameView.drawPaddle(game.getPaddle1()).getBoundsInParent())) { 
-//			if (game.getBall().getYPos() < game.getPaddle1().getYPos()) { // if ball is above paddle
-//				game.getBall().setYPos(game.getPaddle1().getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
-//			}
-//			else {
-//				game.getBall().setYPos(game.getPaddle1().getYPos()+game.getBall().getRadius()+10);
-//			}
-//			game.getBall().bounceY();
-//			game.getPaddle1().paddleHitSound();
-//		}
-		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) { 
 			if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 
 				if (game.getBall().getYPos() < paddles.get(i).getYPos()) { // if ball is above paddle
 					game.getBall().setYPos(paddles.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
@@ -240,12 +232,22 @@ public class InGameViewController {
 		
 		// Check for collision with brick
 		// Destroy brick
-//		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
-//			game.getBall().setYPos(game.getBrick().getYPos()-game.getBall().getRadius()-1);
-//			game.getBall().bounceY();
-//			game.getBrick().destroy(); // TODO: remove brick from view 
-//			game.getWarlord1().addScore();
-//		}
+		int i = 0;
+		for (BrickModel b : bricks) {
+			if (InGameView.drawBall().intersects(InGameView.drawBrick(bricks.get(i)).getBoundsInParent())) { 
+				if (game.getBall().getYPos() < bricks.get(i).getYPos()) { // if ball is above brick
+					game.getBall().setYPos(bricks.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+				}
+				else {
+					game.getBall().setYPos(bricks.get(i).getYPos()+game.getBall().getRadius()+10);
+				}
+		        game.getBall().bounceY();
+		        bricks.get(i).destroy(); 
+		        game.getWarlord1().addScore();
+		        
+			}
+			i++;
+		}
 	}
 	
 	// Makes sure paddle stays within bounds of window 
