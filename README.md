@@ -13,10 +13,22 @@ You are a wrongly accused criminal sent from your home country to participate in
 How to Play
 -----------------
 
-From the main menu, select "SINGLE PLAYER". Navigation is done using the arrow keys to select an option and ENTER to select.
+Navigation is done using the arrow keys to select an option and ENTER to select.
 
-In the game, use the arrow keys to move the paddle around.
-Use TAB to go back to the main menu without completing the game.
+In the single player mode, use the arrow keys to move the paddle around.
+You will control the top left player.
+
+In local multiplayer mode, use the following keys to move the players around:
+Player 1 - LEFT and RIGHT arrow keys
+Player 2 - A and D
+Player 3 - J and L
+Player 4 - V and N
+
+General controls:
+ESC - if in game, goes back to the main menu.
+P - pauses the game and opens up the pause menu.
+T (cheat) - decreases the time remaining in the round by 5 seconds.
+PGDN - reduces the time remaining to zero so the game ends immediately.
 
 Location of MVC Diagram
 ------------------

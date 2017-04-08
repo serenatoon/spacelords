@@ -1,5 +1,8 @@
 package group19.controller;
 
+import group19.view.GameMenuView;
+import javafx.scene.media.AudioClip;
+
 public class GameStateController {
 	private int currentState;
 	public double BGMvolume; //volume controls placed here because every scene has an instance of GSC
@@ -9,6 +12,7 @@ public class GameStateController {
 	public static final int GAME_COMPLETE = 2;
 	public static final int GAME_PAUSED = 3;
 	public boolean isSinglePlayer;
+    AudioClip gameOver = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_over.wav").toString());
 	
 	public GameStateController() {
 		setGameState(MENU); // initial state is MENU
@@ -37,6 +41,9 @@ public class GameStateController {
 	}
 	public boolean getSinglePlayer() {
 		return isSinglePlayer;
+	}
+	public void playGameOver() {
+		gameOver.play();
 	}
 	public double getBGMVolume() {
 		return BGMvolume;

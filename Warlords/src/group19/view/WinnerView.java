@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class WinnerView extends PauseView {
 	static Scene winnerScene;
-	
 	public static void showScene() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
@@ -54,6 +53,7 @@ public class WinnerView extends PauseView {
 		window.setResizable(false);
 		window.setScene(pauseScene);
 		window.sizeToScene();
+		InGameViewController.gsc.playGameOver();
 		window.show();
 		//keypress functionality and menu navigation
         pauseScene.setOnKeyPressed(event -> {
