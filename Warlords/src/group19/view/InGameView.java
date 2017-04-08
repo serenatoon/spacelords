@@ -32,22 +32,13 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.Paint;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -112,11 +103,6 @@ public class InGameView {
 	//and position. The bind method helps model parameters translate to actual UI changes.
 	public static Node drawBall() {
         Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
-//        RadialGradient gradient = new RadialGradient(
-//                0, 0, 0.5,0.5, 1.2, true, CycleMethod.NO_CYCLE,
-//                new Stop(1, Color.GAINSBORO),
-//                new Stop(0, Color.FIREBRICK)
-//        );
         Glow glow = new Glow(1.0);
         circle.setFill(Color.RED);
         circle.setEffect(glow);
@@ -126,16 +112,8 @@ public class InGameView {
         return circle;
 	}
 
-	/*public static Node drawPaddle() {
-		Rectangle rect = new Rectangle(game.getPaddle1().getWidth(), game.getPaddle1().getHeight());
-        rect.translateXProperty().bind(game.getPaddle1().getXProperty());
-        rect.translateYProperty().bind(game.getPaddle1().getYProperty());
-        rect.setFill(Color.ANTIQUEWHITE);
-		return rect;
-	}*/
 	
 	public static Node drawPaddle(PaddleModel paddle) {
-		//Rectangle rect = new Rectangle(paddle.getWidth(), paddle.getHeight());
 		ImageView rect = new ImageView("/res/images/paddle_strip.png");
 		rect.setFitWidth(paddle.getWidth());
 		rect.setFitHeight(paddle.getHeight());
@@ -152,7 +130,6 @@ public class InGameView {
         rect.setStrokeWidth(1.0);
         rect.translateXProperty().bind(brick.getXProperty());
         rect.translateYProperty().bind(brick.getYProperty());
-
         return rect;
     }
 
@@ -176,28 +153,48 @@ public class InGameView {
 	
 	public static Group drawGUI() {
 		//dimensions planned from scene builder view
-		Rectangle leftPanel = new Rectangle(0,0, 128, 768); //rectangle at pos(0,0) 128px wide 768px high
-		Rectangle rightPanel = new Rectangle(896,0,128,768);
+		ImageView leftPanel = new ImageView("/res/images/sidepane.png");
+		leftPanel.setLayoutX(0);
+		leftPanel.setLayoutY(0);
+		leftPanel.setFitWidth(128);
+		leftPanel.setFitHeight(768);
+		ImageView rightPanel = new ImageView("/res/images/sidepane.png");
+		rightPanel.setLayoutX(896);
+		rightPanel.setLayoutY(0);
+		rightPanel.setFitWidth(128);
+		rightPanel.setFitHeight(768);
 		Text p1name = new Text(30, 50, "p1Name");
-		p1name.setFont(Font.font(18));
+		p1name.setFont(Font.font("Arial", 18));
+		p1name.setFill(Color.ANTIQUEWHITE);
 		Text p1score = new Text(38,75, "<score>");
+		p1score.setFont(Font.font("Arial", 13));
+		p1score.setFill(Color.ANTIQUEWHITE);
 		Text p2name = new Text(30, 718, "p2Name");
-		p2name.setFont(Font.font(18));
+		p2name.setFont(Font.font("Arial", 18));
+		p2name.setFill(Color.ANTIQUEWHITE);
 		Text p2score = new Text(40,693, "<score>");
+		p2score.setFont(Font.font("Arial", 13));
+		p2score.setFill(Color.ANTIQUEWHITE);
 		Text p3name = new Text(926, 50, "p3Name");
-		p3name.setFont(Font.font(18));
+		p3name.setFont(Font.font("Arial", 18));
+		p3name.setFill(Color.ANTIQUEWHITE);
 		Text p3score = new Text(936,75, "<score>");
+		p3score.setFont(Font.font("Arial", 13));
+		p3score.setFill(Color.ANTIQUEWHITE);
 		Text p4name = new Text(926, 718, "p4Name");
-		p4name.setFont(Font.font(18));
+		p4name.setFont(Font.font("Arial", 18));
+		p4name.setFill(Color.ANTIQUEWHITE);
 		Text p4score = new Text(935,693, "<score>");
+		p4score.setFont(Font.font("Arial", 13));
+		p4score.setFill(Color.ANTIQUEWHITE);
 		Text timerLeft = new Text(35,393, game.getTimeRemaining().toString()); 
 		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
-		timerLeft.setFont(Font.font(18)); 
+		timerLeft.setFont(Font.font("Arial", 18));
+		timerLeft.setFill(Color.ANTIQUEWHITE);
 		Text timerRight = new Text(933, 382, "-timer-");
 		timerRight.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
-		timerRight.setFont(Font.font(18)); 
-		leftPanel.setFill(Color.ANTIQUEWHITE);
-		rightPanel.setFill(Color.ANTIQUEWHITE);
+		timerRight.setFont(Font.font("Arial", 18));
+		timerRight.setFill(Color.ANTIQUEWHITE); 
 		Group GUI = 
 		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
 		return GUI;
