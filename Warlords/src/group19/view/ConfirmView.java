@@ -21,10 +21,11 @@ import javafx.stage.Stage;
 
 public class ConfirmView {
 	static Scene confirmScene;
-	public static int currentItem = 0;
+	public static int currentItem;
 	protected static HBox menuBox;
 	
 	public static void displayConfirmation() {
+		currentItem = 0; //always start index at 'yes'
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
 		window.setWidth(400);

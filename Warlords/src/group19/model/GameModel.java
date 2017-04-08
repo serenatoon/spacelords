@@ -22,7 +22,7 @@ public class GameModel {
 	private PaddleModel paddle4;
 	private ArrayList<PaddleModel> paddleList = new ArrayList<PaddleModel>();
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
-	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3);
+	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3.5);
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
