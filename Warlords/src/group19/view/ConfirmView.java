@@ -1,10 +1,7 @@
 package group19.view;
 
-import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import group19.view.PauseView.MenuItem;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -15,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -23,57 +19,51 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class PauseView {
-	static Scene pauseScene;
+public class ConfirmView {
+	static Scene confirmScene;
 	public static int currentItem = 0;
-	protected static VBox menuBox;
-
-	public static void showScene() {
+	protected static HBox menuBox;
+	
+	public static void displayConfirmation() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
-		window.setWidth(1024);
-		window.setHeight(768);
+		window.setWidth(400);
+		window.setHeight(150);
+		window.setTitle("Are you sure?");
 		Pane layout = new Pane(); //settings for parent node - bg, color, size
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		layout.setBackground(new Background(bg));
-		layout.setPrefWidth(1024);
-		layout.setPrefHeight(768);
-		Text title = new Text(200, 300, "- game is paused -"); //settings for title - position, alignment, size/color
+		layout.setPrefWidth(600);
+		layout.setPrefHeight(200);
+		Text title = new Text(88, 50, "are you sure you want to quit?"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(new Font(70));
+		title.setFont(new Font(30));
 		title.setFill(Color.ANTIQUEWHITE);
-
-        menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
-                new MenuItem("resume game"),
-                new MenuItem("options"),
-                new MenuItem("credits"),
-                new MenuItem("quit game")
+        menuBox = new HBox(100, //settings for menuBox (helper functions below) - spacing, position
+                new MenuItem("yes"),
+                new MenuItem("no")
         		);
-        menuBox.setTranslateX(235); 
-        menuBox.setTranslateY(358);
-
+        menuBox.setTranslateX(200); 
+        menuBox.setTranslateY(100);
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
-
         getMenuItem(0).setActive(true); //highlight first item in menu
 		layout.getChildren().addAll(title, menuBox);
-		pauseScene = new Scene(layout);
-		window.setResizable(false);
-		window.setScene(pauseScene);
+		confirmScene = new Scene(layout);
 		window.sizeToScene();
-		window.show();
+		window.setScene(confirmScene);
+		window.show(); //wait for close before returning
 		//keypress functionality and menu navigation
-        pauseScene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.UP) {
+        confirmScene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.LEFT) {
                 if (currentItem > 0) { //swap active options, play sound
                     getMenuItem(currentItem).setActive(false);
                     getMenuItem(--currentItem).setActive(true); 
                     menuSelect.play();
-                    
                 }
             }
 
-            if (event.getCode() == KeyCode.DOWN) {
+            if (event.getCode() == KeyCode.RIGHT) {
                 if (currentItem < menuBox.getChildren().size() - 1) {
                     getMenuItem(currentItem).setActive(false);
                     getMenuItem(++currentItem).setActive(true);
@@ -85,28 +75,11 @@ public class PauseView {
                 modeSelect.play();
                 switch(currentItem) {
                 case 0: //single player
-                	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
-                	System.out.println("resume game");
+                	System.exit(0);
+                case 1: 
                 	window.close();
                 	break;
-                case 1: 
-                	System.out.println("options");
-                	break;
-                case 2:
-                	System.out.println("credits");
-                	break;
-                case 3:
-                	System.out.println("quit game");
-                	ConfirmView.displayConfirmation(); //open confirmation window to check if close
-                	break;
-
                 }
-            }
-            if (event.getCode() == KeyCode.P) {
-                modeSelect.play();
-            	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
-            	System.out.println("resume game");
-            	window.close();
             }
         });
 	}
@@ -125,6 +98,5 @@ public class PauseView {
         public void setActive(boolean b) {
             text.setFill(b ? Color.ANTIQUEWHITE : Color.GREY); //if b = true (active option) then fill white 
         }
-
     }
 }

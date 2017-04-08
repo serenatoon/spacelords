@@ -56,7 +56,7 @@ public class WinnerView extends PauseView {
 		InGameViewController.gsc.playGameOver();
 		window.show();
 		//keypress functionality and menu navigation
-        pauseScene.setOnKeyPressed(event -> {
+        pauseScene.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.UP) {
                 if (currentItem > 0) { //swap active options, play sound
                     getMenuItem(currentItem).setActive(false);
@@ -89,8 +89,7 @@ public class WinnerView extends PauseView {
                 	System.out.println("credits");
                 	break;
                 case 3:
-                	System.out.println("quit game");
-                	System.exit(0); //macro to close application
+                	ConfirmView.displayConfirmation();
                 	break;
 
                 }

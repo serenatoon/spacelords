@@ -117,7 +117,7 @@ public class GameMenuView extends Application {
         modeSelect.setVolume(gsc.getSFXVolume());
         window.setWidth(1024);
         window.setHeight(768);
-        gameMenu.setOnKeyPressed(event -> {
+        gameMenu.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.UP) {
             	
                 if (currentItem > 0) { //swap active options, play sound
@@ -163,7 +163,7 @@ public class GameMenuView extends Application {
                 	System.out.println("options");
                 	break;
                 case 4://exit
-                	System.exit(0); //macro to close application
+                	ConfirmView.displayConfirmation();
                 }
             }
         });
