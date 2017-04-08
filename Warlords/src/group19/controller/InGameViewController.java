@@ -8,6 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
+
+import java.util.ArrayList;
+
 import group19.model.*;
 
 import javafx.animation.AnimationTimer;
@@ -18,6 +21,7 @@ import javafx.animation.AnimationTimer;
 //References to both the models (from 'GameModel') and the view are placed here.
 public class InGameViewController {
 	static GameModel game;
+	static ArrayList<PaddleModel> paddles = new ArrayList<PaddleModel>();
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
@@ -30,6 +34,7 @@ public class InGameViewController {
 		gameLoop.start();
 		OptionsEventListener();
 		game = models;
+		paddles = game.getPaddleList();
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -190,15 +195,28 @@ public class InGameViewController {
 		
 		// Check for collision with paddle
 		// Ensure ball does not travel through paddle, changes direction of ball
-		if (InGameView.drawBall().intersects(InGameView.drawPaddle(game.getPaddle1()).getBoundsInParent())) { 
-			if (game.getBall().getYPos() < game.getPaddle1().getYPos()) { // if ball is above paddle
-				game.getBall().setYPos(game.getPaddle1().getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+//		if (InGameView.drawBall().intersects(InGameView.drawPaddle(game.getPaddle1()).getBoundsInParent())) { 
+//			if (game.getBall().getYPos() < game.getPaddle1().getYPos()) { // if ball is above paddle
+//				game.getBall().setYPos(game.getPaddle1().getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+//			}
+//			else {
+//				game.getBall().setYPos(game.getPaddle1().getYPos()+game.getBall().getRadius()+10);
+//			}
+//			game.getBall().bounceY();
+//			game.getPaddle1().paddleHitSound();
+//		}
+		
+		for (int i = 0; i < 4; i++) {
+			if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 
+				if (game.getBall().getYPos() < paddles.get(i).getYPos()) { // if ball is above paddle
+					game.getBall().setYPos(paddles.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+				}
+				else {
+					game.getBall().setYPos(paddles.get(i).getYPos()+game.getBall().getRadius()+10);
+				}
+				game.getBall().bounceY();
+				paddles.get(i).paddleHitSound();
 			}
-			else {
-				game.getBall().setYPos(game.getPaddle1().getYPos()+game.getBall().getRadius()+10);
-			}
-			game.getBall().bounceY();
-			game.getPaddle1().paddleHitSound();
 		}
 		
 		// when a warlord dies, the warlord who killed him should be the winner (or have score incremented)
