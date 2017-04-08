@@ -28,7 +28,6 @@ public class InGameViewController {
 		view = new InGameView(1024,768, models);
 		gameLoop.start();
 		OptionsEventListener();
-		KeyEventListener();	
 		game = models;
 	}
 	
@@ -48,11 +47,14 @@ public class InGameViewController {
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					if (game.getCountdownTime().intValue() <= 0) {
 						tick();
+						view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
 						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
 						System.out.println("time remaining: " + game.getTimeRemaining() + "");
+						KeyEventListener();	//if memory issues arise in future, move this out
 					}
 					else {
 						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000);
+						System.out.println(game.getCountdownTime());
 					}
 					
 				}

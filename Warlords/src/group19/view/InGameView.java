@@ -77,7 +77,7 @@ public class InGameView {
 		Image bgImage = new Image("/res/images/space_lf.png");
 		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null);
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawBall(), drawPaddle(game.getPaddle1()),
+		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
 				drawPaddle(game.getPaddle4()), drawBrick(),
 				drawWarlord(game.getWarlord1(), new ImageView("/res/images/baseP1.png")),
@@ -174,7 +174,6 @@ public class InGameView {
 		p4name.setFont(Font.font(18));
 		Text p4score = new Text(935,693, "<score>");
 		Text timerLeft = new Text(35,393, game.getTimeRemaining().toString()); 
-		//StringProperty str = StringProperty.format("%02d:%02d", game.getTimeRemaining().intValue() / 60, game.getTimeRemaining().intValue() % 60);
 		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
 		timerLeft.setFont(Font.font(18)); 
 		Text timerRight = new Text(933, 382, "-timer-");
@@ -182,21 +181,18 @@ public class InGameView {
 		timerRight.setFont(Font.font(18)); 
 		leftPanel.setFill(Color.ANTIQUEWHITE);
 		rightPanel.setFill(Color.ANTIQUEWHITE);
-		Text countdown = new Text(512, 384, "countdown");
-		countdown.textProperty().bind(game.getCountdownTime().asString("%.0f"));
-		
-		// why does none of this work >:( 
-		if (game.getCountdownTime().intValue() <= 2) {
-			//countdown.textProperty().unbind();
-			//countdown = new Text(512, 384, " "); 
-			countdown.setFill(Color.TRANSPARENT); // lol
-		}
-		countdown.setFont(Font.font(48)); 
-		countdown.setFill(Color.ALICEBLUE);
 		Group GUI = 
-		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score, countdown);
+		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
 		return GUI;
 		
+	}
+	public Node drawCountdown() {
+		Text countdown = new Text(512, 384, "countdown");
+		countdown.textProperty().bind(game.getCountdownTime().asString("%.0f"));
+		countdown.setFont(Font.font(48));
+		countdown.setFill(Color.ALICEBLUE);
+
+		return countdown; 
 	}
 	
 }
