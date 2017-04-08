@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import group19.model.*;
 
@@ -79,10 +80,16 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
-		//System.out.println("ball vel:" + game.getBall().getXVelocity() + "");
+				
 		game.getBall().moveBall();
 		checkBallCollision(); 
-		checkPaddleBounds();
+
+		// keep paddle within bounds for all 4 paddles 
+		ListIterator<PaddleModel> iterator = paddles.listIterator();
+		while (iterator.hasNext()) {
+			checkPaddleBounds(iterator.next());
+		}
+		
 			if (isFinished()) {
 				gsc.setGameState(2); //game complete state
 				WinnerView.showScene();
@@ -202,10 +209,10 @@ public class InGameViewController {
 		for (int i = 0; i < 4; i++) { 
 			if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 
 				if (game.getBall().getYPos() < paddles.get(i).getYPos()) { // if ball is above paddle
-					game.getBall().setYPos(paddles.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+					//game.getBall().setYPos(paddles.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
 				}
 				else {
-					game.getBall().setYPos(paddles.get(i).getYPos()+game.getBall().getRadius()+10);
+					//game.getBall().setYPos(paddles.get(i).getYPos()+game.getBall().getRadius()+10);
 				}
 				game.getBall().bounceY();
 				paddles.get(i).paddleHitSound();
@@ -237,10 +244,10 @@ public class InGameViewController {
 		for (BrickModel b : bricks) {
 			if (InGameView.drawBall().intersects(InGameView.drawBrick(bricks.get(i)).getBoundsInParent())) { 
 				if (game.getBall().getYPos() < bricks.get(i).getYPos()) { // if ball is above brick
-					game.getBall().setYPos(bricks.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+					game.getBall().setYPos(bricks.get(i).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
 				}
 				else {
-					game.getBall().setYPos(bricks.get(i).getYPos()+game.getBall().getRadius()+10);
+					game.getBall().setYPos(bricks.get(i).getYPos()+game.getBall().getRadius()+30);
 				}
 		        game.getBall().bounceY();
 		        bricks.get(i).destroy(); 
@@ -253,30 +260,25 @@ public class InGameViewController {
 	
 	// Makes sure paddle stays within bounds of window 
 	// TODO: take in paddle as parameter. since we have 4 paddles now 
-	public void checkPaddleBounds() {
-		if ((game.getPaddle1().getXPos() < 128)) { // hit left wall
-			game.getPaddle1().setXPos(128); // changed from the paddlewidth/2 nonsense since xpos is actually the left edge of the paddle
+	public void checkPaddleBounds(PaddleModel paddle) {
+		if ((paddle.getXPos() < 128)) { // hit left wall
+			paddle.setXPos(128); // changed from the paddlewidth/2 nonsense since xpos is actually the left edge of the paddle
 		}
 		
-		if ((game.getPaddle1().getXPos() > 896)) { // hit right wall
-			game.getPaddle1().setXPos(896);
+		// hit right wall    
+		if ((paddle.getXPos() > 768+128-100)) { // CHANGE '100' ACCORDING TO WIDTH OF PADDLE  
+			paddle.setXPos(768+128-100);
 		}
 		
 		// top and bottom might be interesting since the paddle rotates 90 degrees.  the left edge might no longer be the left edge?
-		if ((game.getPaddle1().getYPos() < 0)) { // hit top wall
-			game.getPaddle1().setYPos(0);
+		if ((paddle.getYPos() < 0)) { // hit top wall
+			paddle.setYPos(0+100);
 		}
 		
-		if ((game.getPaddle1().getYPos() > 768)) { // hit bottom wall
-			game.getPaddle1().setYPos(768);
+		if ((paddle.getYPos() > 768)) { // hit bottom wall
+			paddle.setYPos(768-100);
 		}
 		
 		// TODO: paddle shouldn't be able to move out of each player's bounds
-		
-		// really inefficient rn i just wanted to see if it works.  spoiler alert it doesnt 
-		if (game.getPaddle1().getXPos() > game.getWarlord1().getUpperXBounds()) {
-			InGameView.drawPaddle(game.getPaddle1()).getTransforms().add(new Rotate(90));
-			//System.out.println("rotating paddle");
-		}
 	}
 }

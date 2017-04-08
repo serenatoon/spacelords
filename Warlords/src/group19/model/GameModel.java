@@ -40,7 +40,7 @@ public class GameModel {
 		warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
 		
 		// might move creation of paddles into the arraylist creation instead? 
-		paddle1 = new PaddleModel(40, 150, warlord1);
+		paddle1 = new PaddleModel(128, 255, warlord1);
 		paddleList.add(paddle1);
 		paddle2 = new PaddleModel(700, 150, warlord2);
 		paddleList.add(paddle2);
