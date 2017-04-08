@@ -96,13 +96,13 @@ public class InGameView {
 	//Below are all the grey-blocked implementations of the drawn objects. The constructors call model properties to set their dimensions
 	//and position. The bind method helps model parameters translate to actual UI changes.
 	public static Node drawBall() {
-        Circle circle = new Circle(game.getBall().getXPos(), game.getBall().getYPos(), game.getBall().getRadius());
+        Circle circle = new Circle(game.getBall().getRadius());
         Glow glow = new Glow(1.0);
         circle.setFill(Color.RED);
         circle.setEffect(glow);
         
-        circle.translateXProperty().bind(game.getBall().getXProperty());
-        circle.translateYProperty().bind(game.getBall().getYProperty());
+        circle.centerXProperty().bind(game.getBall().getXProperty());
+        circle.centerYProperty().bind(game.getBall().getYProperty());
         return circle;
 	}
 

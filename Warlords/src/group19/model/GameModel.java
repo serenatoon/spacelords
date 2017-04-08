@@ -21,12 +21,13 @@ public class GameModel {
 	private PaddleModel paddle3;
 	private PaddleModel paddle4;
 	private ArrayList<PaddleModel> paddleList = new ArrayList<PaddleModel>();
+	private ArrayList<WarlordModel> warlordList = new ArrayList<WarlordModel>();
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3.5);
 	
 	public GameModel() {
-		ball = new BallModel(0, 0);
-		//brick = new BrickModel(300, 500);
+		ball = new BallModel(300, 300);
+		
         brickList = new ArrayList<BrickModel>();
         initBricks();
 
@@ -34,10 +35,14 @@ public class GameModel {
 		// thus the edges-120
 		// add +/- 128 for HUD 
 		//add +/- 10 so that warlord is not in the direct corner
-		warlord1 = new WarlordModel(128+10, 0+10, 1);
-		warlord2 = new WarlordModel(1024-120-128-10, 0+10, 2); 
-		warlord3 = new WarlordModel(128+10,768-120-10, 3);
-		warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
+        warlord1 = new WarlordModel(128+10, 0+10, 1);
+        warlordList.add(warlord1);
+        warlord2 = new WarlordModel(1024-120-128-10, 0+10, 2);
+        warlordList.add(warlord2); 
+        warlord3 = new WarlordModel(128+10,768-120-10, 3);
+        warlordList.add(warlord3);
+        warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
+        warlordList.add(warlord4);
 		
 		// might move creation of paddles into the arraylist creation instead? 
 		paddle1 = new PaddleModel(128, 255, warlord1);
@@ -109,6 +114,10 @@ public class GameModel {
 	
 	public WarlordModel getWarlord4() {
 		return warlord4;
+	}
+	
+	public ArrayList<WarlordModel> getWarlordList() {
+		return warlordList;
 	}
 	
 	public DoubleProperty getTimeRemaining() {

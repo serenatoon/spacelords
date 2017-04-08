@@ -1,5 +1,8 @@
 package group19.model;
 
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
+
 // Holds player information as well as properties to draw the warlord itself
 public class WarlordModel extends ObjectModel { 
 	private int playerNo; // player 1-4
@@ -97,6 +100,7 @@ public class WarlordModel extends ObjectModel {
 	
 	public void setDead() {
 		isDead = true;
+		super.setXPos(1500);
 	}
 
 	public int getWidth() {
@@ -114,5 +118,10 @@ public class WarlordModel extends ObjectModel {
 	public int getScore() {
 		return score;
 	}
-
+	
+	// to detect collision with warlord 
+	public Node getWarlordRect() {
+		Rectangle rect = new Rectangle(super.getXPos(), super.getYPos(), width, height);
+		return rect;
+	}
 }

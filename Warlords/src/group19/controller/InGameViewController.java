@@ -24,6 +24,7 @@ public class InGameViewController {
 	// in the process of refactoring all mentions of game.getPaddle() etc to just paddle so code is cleaner 
 	static ArrayList<PaddleModel> paddles;
 	static ArrayList<BrickModel> bricks;
+	static ArrayList<WarlordModel> warlords;
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
@@ -38,6 +39,7 @@ public class InGameViewController {
 		game = models;
 		paddles = game.getPaddleList();
 		bricks = game.getBrickList();
+		warlords = game.getWarlordList();
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -90,11 +92,11 @@ public class InGameViewController {
 			checkPaddleBounds(iterator.next());
 		}
 		
-			if (isFinished()) {
-				gsc.setGameState(2); //game complete state
-				WinnerView.showScene();
-			} 
-		}
+		if (isFinished()) {
+			gsc.setGameState(2); //game complete state
+			WinnerView.showScene();
+		} 
+	}
 
 	// Check for win conditions 
 	public boolean isFinished() {
@@ -238,23 +240,33 @@ public class InGameViewController {
 			game.getWarlord1().setWinner();
 		}*/
 		
+		int i = 0;
+		for (WarlordModel wl : warlords) {
+			if ((!warlords.get(i).isDead()) && InGameView.drawBall().intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
+				warlords.get(i).setDead();
+				// TODO: should ball travel through or bounce off? 
+				//warlords.get(i).playWarlordSound(); // TODO: sound on warlord dying 
+			}
+			i++;
+		}
+		
 		// Check for collision with brick
 		// Destroy brick
-		int i = 0;
+		int j = 0;
 		for (BrickModel b : bricks) {
-			if (InGameView.drawBall().intersects(InGameView.drawBrick(bricks.get(i)).getBoundsInParent())) { 
-				if (game.getBall().getYPos() < bricks.get(i).getYPos()) { // if ball is above brick
-					game.getBall().setYPos(bricks.get(i).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
+			if (InGameView.drawBall().intersects(InGameView.drawBrick(bricks.get(j)).getBoundsInParent())) { 
+				if (game.getBall().getYPos() < bricks.get(j).getYPos()) { // if ball is above brick
+					game.getBall().setYPos(bricks.get(j).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
 				}
 				else {
-					game.getBall().setYPos(bricks.get(i).getYPos()+game.getBall().getRadius()+30);
+					game.getBall().setYPos(bricks.get(j).getYPos()+game.getBall().getRadius()+30);
 				}
 		        game.getBall().bounceY();
-		        bricks.get(i).destroy(); 
+		        bricks.get(j).destroy(); 
 		        game.getWarlord1().addScore();
 		        
 			}
-			i++;
+			j++;
 		}
 	}
 	
