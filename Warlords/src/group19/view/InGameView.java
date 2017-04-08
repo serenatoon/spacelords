@@ -182,9 +182,21 @@ public class InGameView {
 		timerRight.setFont(Font.font(18)); 
 		leftPanel.setFill(Color.ANTIQUEWHITE);
 		rightPanel.setFill(Color.ANTIQUEWHITE);
+		Text countdown = new Text(512, 384, "countdown");
+		countdown.textProperty().bind(game.getCountdownTime().asString("%.0f"));
+		
+		// why does none of this work >:( 
+		if (game.getCountdownTime().intValue() <= 2) {
+			//countdown.textProperty().unbind();
+			//countdown = new Text(512, 384, " "); 
+			countdown.setFill(Color.TRANSPARENT); // lol
+		}
+		countdown.setFont(Font.font(48)); 
+		countdown.setFill(Color.ALICEBLUE);
 		Group GUI = 
-		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
+		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score, countdown);
 		return GUI;
 		
-	}	
+	}
+	
 }

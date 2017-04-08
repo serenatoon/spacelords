@@ -46,9 +46,14 @@ public class InGameViewController {
 						
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
-					tick();
-					game.decrementTime((float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
-					System.out.println("time remaining: " + game.getTimeRemaining() + "");
+					if (game.getCountdownTime().intValue() <= 0) {
+						tick();
+						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
+						System.out.println("time remaining: " + game.getTimeRemaining() + "");
+					}
+					else {
+						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000);
+					}
 					
 				}
 				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
@@ -115,7 +120,7 @@ public class InGameViewController {
 		    	  WinnerView.showScene();
 		      }
 		      if (keyR.getCode() == KeyCode.T) { //FOR DEBUGGING PURPOSES ONLY
-		    	  game.decrementTime(5);
+		    	  game.decrementTime(game.getTimeRemaining(), 5);
 		      }
 		});
 	}

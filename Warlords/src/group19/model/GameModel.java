@@ -18,6 +18,7 @@ public class GameModel {
 	private PaddleModel paddle3;
 	private PaddleModel paddle4;
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
+	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3);
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
@@ -89,8 +90,12 @@ public class GameModel {
 		remainingTime.set(seconds);
 	}
 	
-	public void decrementTime(float seconds) {
-		float currentTime = remainingTime.floatValue();
-		remainingTime.set(currentTime - seconds);
+	public void decrementTime(DoubleProperty time, float seconds) {
+		float currentTime = time.floatValue();
+		time.set(currentTime - seconds);
+	}
+	
+	public DoubleProperty getCountdownTime() {
+		return countdownTime;
 	}
 }
