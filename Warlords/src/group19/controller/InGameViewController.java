@@ -50,12 +50,12 @@ public class InGameViewController {
 						tick();
 						view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
 						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
-						System.out.println("time remaining: " + game.getTimeRemaining() + "");
+						//System.out.println("time remaining: " + game.getTimeRemaining() + "");
 						KeyEventListener();	//if memory issues arise in future, move this out
 					}
 					else {
 						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000);
-						System.out.println(game.getCountdownTime());
+						//System.out.println(game.getCountdownTime());
 					}
 					
 				}
@@ -191,12 +191,12 @@ public class InGameViewController {
 		
 		// Check for collision with brick
 		// Destroy brick
-		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
-			game.getBall().setYPos(game.getBrick().getYPos()-game.getBall().getRadius()-1);
-			game.getBall().bounceY();
-			game.getBrick().destroy(); // TODO: remove brick from view 
-			game.getWarlord1().addScore();
-		}
+//		if (InGameView.drawBall().intersects(InGameView.drawBrick().getBoundsInParent())) { 
+//			game.getBall().setYPos(game.getBrick().getYPos()-game.getBall().getRadius()-1);
+//			game.getBall().bounceY();
+//			game.getBrick().destroy(); // TODO: remove brick from view 
+//			game.getWarlord1().addScore();
+//		}
 	}
 	
 	// Makes sure paddle stays within bounds of window 

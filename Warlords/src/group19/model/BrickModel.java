@@ -13,8 +13,8 @@ public class BrickModel extends ObjectModel {
 	public BrickModel(int x, int y) {
 		super(x, y);
 		isDestroyed = false; // initiate brick as not destroyed 
-		width = 100;
-		height = 50;
+		width = 20;
+		height = 20;
 	}
 	
 	// get state of brick, i.e. whether or not it is destroyed

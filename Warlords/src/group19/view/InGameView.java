@@ -56,6 +56,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
+import java.util.ArrayList;
+import java.util.ListIterator;
+
 //This class is called by its controller. It provides the actual UI in-game. The constructor sets up the scene,
 //ready to be loaded. When IGV wants to be loaded, .setScene() will be called to load the scene onto the 
 //top-level Stage container. As shown here, the scene is loaded with a Parent node of type Pane, which loads 
@@ -66,12 +69,16 @@ import javafx.scene.media.AudioClip;
 public class InGameView {
 	
 	static GameModel game;
+	static ArrayList<BrickModel> brickList;
 	
 	public Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
 	private Scene scene;
 	
 	public InGameView (double width, double height, GameModel model) { //upon initialisation, switch focus to in game view
 		this.game = model; //pass input parameter out to local variable
+        // BRICKS CURRENTLY BEING MADE IN GAMEMODEL, MIGHT MOVE TO WARLORD/PADDLE LATER
+        this.brickList = game.getBrickList(); 
+
 		rootGameLayout.setPrefWidth(width);
 		rootGameLayout.setPrefHeight(height);
 		Image bgImage = new Image("/res/images/space_lf.png");
@@ -79,12 +86,21 @@ public class InGameView {
 		rootGameLayout.setBackground(new Background(bg));
 		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
-				drawPaddle(game.getPaddle4()), drawBrick(),
+				drawPaddle(game.getPaddle4()),
+				//drawBrick(),
 				drawWarlord(game.getWarlord1(), new ImageView("/res/images/baseP1.png")),
 				drawWarlord(game.getWarlord2(), new ImageView("/res/images/baseP2.png")),
 				drawWarlord(game.getWarlord3(), new ImageView("/res/images/baseP3.png")), 
 				drawWarlord(game.getWarlord4(), new ImageView("/res/images/baseP4.png")),
 				drawGUI()); //add child nodes here 
+		
+		int i = 0;
+		for (BrickModel brick : brickList) {
+			if (!brickList.get(i).isDestroyed()) {
+				rootGameLayout.getChildren().add(drawBrick(brickList.get(i)));
+			}
+			i++;
+		}
 		scene = new Scene(rootGameLayout, 1024, 768);
 	}		
 
@@ -129,16 +145,18 @@ public class InGameView {
 		return rect;
 	}
 	
-	public static Node drawBrick() {
-		Rectangle rect = new Rectangle(game.getBrick().getWidth(), game.getBrick().getHeight());
-		rect.setFill(Color.CYAN);
-		rect.setStroke(Color.BLACK);
-		rect.setStrokeWidth(1.0);
-		rect.translateXProperty().bind(game.getBrick().getXProperty());
-        rect.translateYProperty().bind(game.getBrick().getYProperty());
+    // takes a single brick in as param
+    public static Node drawBrick(BrickModel brick) {
+        Rectangle rect = new Rectangle(brick.getWidth(), brick.getHeight());
+        rect.setFill(Color.CYAN);
+        rect.setStroke(Color.BLACK);
+        rect.setStrokeWidth(1.0);
+        rect.translateXProperty().bind(brick.getXProperty());
+        rect.translateYProperty().bind(brick.getYProperty());
 
-		return rect;
-	}
+        return rect;
+    }
+
 	
 	public static Node drawWarlord(WarlordModel warlord, ImageView img) {
 			img.setFitWidth(warlord.getWidth());

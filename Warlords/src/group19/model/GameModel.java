@@ -2,13 +2,16 @@ package group19.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import java.util.ArrayList;
+
 
 //This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
 //are initialised with their x/y positions, and warlord1 and warlord2 are initialised with their constructors and 
 //the player number.
 public class GameModel {
 	private BallModel ball; 
-	private BrickModel brick; 
+	//private BrickModel brick; 
+    private ArrayList<BrickModel> bricks; 
 	private WarlordModel warlord1;
 	private WarlordModel warlord2;
 	private WarlordModel warlord3;
@@ -22,7 +25,10 @@ public class GameModel {
 	
 	public GameModel() {
 		ball = new BallModel(0, 0);
-		brick = new BrickModel(300, 500);
+		//brick = new BrickModel(300, 500);
+        bricks = new ArrayList<BrickModel>();
+        initBricks();
+
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-120
 		// add +/- 128 for HUD 
@@ -44,9 +50,23 @@ public class GameModel {
 		return ball;
 	}
 	
-	public BrickModel getBrick() {
-		return brick;
-	}
+//	public BrickModel getBrick() {
+//		return brick;
+//	}
+	
+    public void initBricks() {
+        // place bricks at periodic x,y co-ordinates
+        // note that x,y co-ordinates refer to the top-left corner of the brick 
+        for (int y = 128; y <= 120+60; y += 20) { // 20 = width of a brick
+            for (int x = 128; x <= 120+60+120; x += 20) {
+                bricks.add(new BrickModel(x, y));
+            }
+        }
+    }
+    
+    public ArrayList<BrickModel> getBrickList() {
+        return bricks;
+    }
 	
 	public PaddleModel getPaddle1() {
 		return paddle1;
