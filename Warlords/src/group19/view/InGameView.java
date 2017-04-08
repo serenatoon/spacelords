@@ -1,17 +1,11 @@
 package group19.view;
 
-import java.text.DecimalFormat;
-
-import com.sun.glass.ui.Window;
-
-import group19.controller.GameStateController;
 import group19.model.*;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.TimelineBuilder;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;

@@ -116,8 +116,8 @@ public class GameModel {
 	}
 	
 	// used to skip to end of time 
-	public void setTimeRemaining(float seconds) {
-		remainingTime.set(seconds);
+	public void skipToEnd() {
+		remainingTime.set(0);
 	}
 	
 	public void decrementTime(DoubleProperty time, float seconds) {

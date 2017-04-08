@@ -4,7 +4,6 @@ import group19.view.GameMenuView;
 import group19.view.InGameView;
 import group19.view.PauseView;
 import group19.view.WinnerView;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
@@ -58,17 +57,16 @@ public class InGameViewController {
 						tick();
 						view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
 						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
-						//System.out.println("time remaining: " + game.getTimeRemaining() + "");
 						KeyEventListener();	//if memory issues arise in future, move this out
 					}
 					else {
-						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000);
-						//System.out.println(game.getCountdownTime());
+						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000); //do 3 2 1 counter
 					}
 					
 				}
 				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
-					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 	
+					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
+					gameLoop.stop();
 				}
 				
 				lastTick = currentTime;
@@ -148,6 +146,7 @@ public class InGameViewController {
 		          System.out.println("You pressed ESC, exiting and moving to main menu...");
 		          gsc.setGameState(0); //back to menu state (game did not 'complete')
 		          GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
+		          gameLoop.stop();
 		          return; //exit the function without being called til your RAM explodes
 		      }
 		      if (keyR.getCode() == KeyCode.P) {
@@ -159,6 +158,8 @@ public class InGameViewController {
 		      if (keyR.getCode() == KeyCode.PAGE_DOWN) {
 		    	  System.out.println("Fast forward to winner menu");
 		    	  gsc.setGameState(2); //game complete state
+		    	  //change later to just tick time remaining to 0 
+		    	  game.skipToEnd(); //set seconds to 0 
 		    	  WinnerView.showScene();
 		      }
 		      if (keyR.getCode() == KeyCode.T) { //FOR DEBUGGING PURPOSES ONLY
