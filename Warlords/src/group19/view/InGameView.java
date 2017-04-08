@@ -141,7 +141,6 @@ public class InGameView {
 		rect.setFitHeight(paddle.getHeight());
 		rect.translateXProperty().bind(paddle.getXProperty());
 		rect.translateYProperty().bind(paddle.getYProperty());
-	//	rect.setFill(Color.ALICEBLUE);
 		return rect;
 	}
 	
@@ -205,11 +204,10 @@ public class InGameView {
 		
 	}
 	public Node drawCountdown() {
-		Text countdown = new Text(512, 384, "countdown");
+		Text countdown = new Text(480, 404, "countdown");
 		countdown.textProperty().bind(game.getCountdownTime().asString("%.0f"));
-		countdown.setFont(Font.font(48));
-		countdown.setFill(Color.ALICEBLUE);
-
+		countdown.setFont(Font.font("/res/fonts/kenvector_future_thin.ttf", 98));
+		countdown.setFill(Color.ANTIQUEWHITE);
 		return countdown; 
 	}
 	

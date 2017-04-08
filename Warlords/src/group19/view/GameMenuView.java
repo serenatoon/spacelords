@@ -143,15 +143,17 @@ public class GameMenuView extends Application {
                 	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
                 	InGameViewController.gsc.setSinglePlayer(true); //make it single player mode
                 	// every time this is called, new instance of gamemodel is made
-                	// for some reason the ball is really fking fast when a new game is made 
-                	InGameViewController newGame = new InGameViewController(new GameModel()); //call a new instance of IGVC, gameLoop starts
+                	InGameViewController singlePlayerGame = new InGameViewController(new GameModel()); //call a new instance of IGVC, gameLoop starts
                 	//IGVC calls IGV in constructor and sets the scene up
                 	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
                 	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer
-                	System.out.println("multiplayer mode coming soon!");
+                	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
                 	InGameViewController.gsc.setSinglePlayer(false); //load multiplayer mode
+                	InGameViewController multiplayerGame = new InGameViewController(new GameModel()); 
+                	window.setScene(InGameViewController.view.getScene());
+                	System.out.println("multiplayer mode");
                 	break;
                 case 2://story mode
                 	System.out.println("story mode coming soon!");

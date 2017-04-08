@@ -91,15 +91,46 @@ public class InGameViewController {
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
 	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {
+		
+		if (gsc.getSinglePlayer() == true) {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
 	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
 	      }
-	      else if (key.getCode() == KeyCode.RIGHT) {
+	      if (key.getCode() == KeyCode.RIGHT) {
 	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
 	      }
 	      });
-		
+		}
+		else { //multiplayer mode on 
+			view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
+			      if (key.getCode() == KeyCode.LEFT) { //p1
+			  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
+			      }
+			      if (key.getCode() == KeyCode.RIGHT) {
+			  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
+			      }
+			      if (key.getCode() == KeyCode.A) { //p2 
+				  	game.getPaddle2().setXPos(game.getPaddle2().getXPos() - game.getPaddle2().getXVelocity()); // move paddle left
+			      }
+			      if (key.getCode() == KeyCode.D) {
+			    	game.getPaddle2().setXPos(game.getPaddle2().getXPos() + game.getPaddle2().getXVelocity()); // move paddle right
+			      }
+			      if (key.getCode() == KeyCode.J) { //p3 
+				  	game.getPaddle3().setXPos(game.getPaddle3().getXPos() - game.getPaddle3().getXVelocity()); 
+			      }
+			      if (key.getCode() == KeyCode.L) {
+			    	game.getPaddle3().setXPos(game.getPaddle3().getXPos() + game.getPaddle3().getXVelocity()); 
+			      }
+			      if (key.getCode() == KeyCode.V) { //p4
+				  	game.getPaddle4().setXPos(game.getPaddle4().getXPos() - game.getPaddle4().getXVelocity()); 
+			      }
+			      if (key.getCode() == KeyCode.N) {
+			    	game.getPaddle4().setXPos(game.getPaddle4().getXPos() + game.getPaddle4().getXVelocity()); 
+			      }
+			     
+ 			      });
+		}
 	}
 	//We don't want this shit to open 60 times a second. Please have mercy on my RAM.
 	//This is called in the constructor, so it is not recalled again and again.

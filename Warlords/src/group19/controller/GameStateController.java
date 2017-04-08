@@ -35,6 +35,9 @@ public class GameStateController {
 		}
 		else isSinglePlayer = false;
 	}
+	public boolean getSinglePlayer() {
+		return isSinglePlayer;
+	}
 	public double getBGMVolume() {
 		return BGMvolume;
 	}
