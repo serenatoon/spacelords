@@ -30,27 +30,6 @@ public class InGameViewController {
 		gameLoop.start();
 		OptionsEventListener();
 		game = models;
-	    Thread countdown = new Thread(new Runnable() {
-	        public void run()
-	        {
-	            try {
-		            System.out.println("3");
-					Thread.sleep(1000);
-		            System.out.println("2");
-					Thread.sleep(1000);
-		            System.out.println("1");
-					Thread.sleep(1000);
-		            
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-	        }});  
-	        countdown.start();
-	        try {
-	        	countdown.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 	}
 	
     // Game loop which 'ticks' every 16ms
