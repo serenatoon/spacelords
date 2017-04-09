@@ -1,6 +1,8 @@
 package group19.model;
 
+import group19.view.GameMenuView;
 import javafx.scene.Node;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 
 // Holds player information as well as properties to draw the warlord itself
@@ -16,6 +18,7 @@ public class WarlordModel extends ObjectModel {
 	private int upperYBounds;
 	private int score;
 	
+	AudioClip warlordDead = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
 	
 	/* Player # positions are as follows: 
 	 *				 | 1    2 |
@@ -127,5 +130,9 @@ public class WarlordModel extends ObjectModel {
 	public Node getWarlordRect() {
 		Rectangle rect = new Rectangle(super.getXPos(), super.getYPos(), width, height);
 		return rect;
+	}
+	public void playWarlordDead() {
+		warlordDead.setRate(0.5);
+		warlordDead.play(5.0);
 	}
 }
