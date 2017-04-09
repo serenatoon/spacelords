@@ -1,5 +1,7 @@
 package group19.model;
 
+import java.util.ArrayList;
+
 import group19.view.GameMenuView;
 import javafx.scene.Node;
 import javafx.scene.media.AudioClip;
@@ -17,6 +19,7 @@ public class WarlordModel extends ObjectModel {
 	private int lowerYBounds;
 	private int upperYBounds;
 	private int score;
+    //private ArrayList<BrickModel> brickList;  // bricks belong to a warlord 
 	
 	AudioClip warlordDead = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
 	
@@ -47,23 +50,23 @@ public class WarlordModel extends ObjectModel {
 	 * 			 	 | 3    4 |                         */	
 	public void setPaddleBounds() {
 		if (playerNo%2 == 1) { // left players, lower x bounds are 0
-			lowerXBounds = 0;
-			upperXBounds = super.getXPos() + 25; // paddle should not be able to move beyond each player's bounds
+			lowerXBounds = 128;
+			upperXBounds = super.getXPos() + 120+60; // xPos is top left, + 120 for width of warlord, + 60 for bricks 
 		}
 		
-		if (playerNo%2 == 0) { // right players, upper x bounds are 768
-			upperXBounds = 768;
-			lowerXBounds = super.getXPos() - 25;
+		if (playerNo%2 == 0) { // right players, upper x bounds are 768+128
+			upperXBounds = 768+128;
+			lowerXBounds = super.getXPos() - 60+9;
 		}
 		
 		if (playerNo >= 3) { // bottom players
-			lowerYBounds = 0;
-			upperYBounds = super.getYPos() + 25;
+			lowerYBounds = super.getYPos()-60+9;
+			upperYBounds = 768;
 		}
 		
 		if (playerNo <= 2) { // top players
-			upperYBounds = 768;
-			lowerYBounds = super.getXPos() - 25;
+			upperYBounds = super.getYPos() + 120 + 60;
+			lowerYBounds = 0;
 		}
 	}
 	

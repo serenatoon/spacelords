@@ -32,7 +32,7 @@ public class GameModel {
 		ball = new BallModel(300, 300);
 		
         brickList = new ArrayList<BrickModel>();
-        initBricks();
+
 
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-120
@@ -47,6 +47,11 @@ public class GameModel {
         warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
         warlordList.add(warlord4);
         warlordsAlive = 4;
+        
+		ListIterator<WarlordModel> i = warlordList.listIterator();
+		while (i.hasNext()) {
+			initBricks(i.next());
+		}
 		
 		// might move creation of paddles into the arraylist creation instead? 
 		paddle1 = new PaddleModel(128, 255, warlord1);
@@ -77,6 +82,54 @@ public class GameModel {
                 brickList.add(new BrickModel(x, y));
             }
         }
+    }
+    
+	// im sorry this is inefficient as fk i tried to math it out but u cant.  or im too dumb. 
+	// plz lmk if u have a better solution 
+    public void initBricks(WarlordModel warlord) {
+    	// INIT THE COLUMNS OF BRICKS (next to the warlord) 
+    	for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-20; y += 20) {
+    		if (warlord.getPlayer() % 2 != 0) {
+	    		for (int x = warlord.getLowerXBounds()+120; x < warlord.getUpperXBounds()-20; x += 20) {
+	    			brickList.add(new BrickModel(x,y)); // every warlord doesn't need their own bricklist do they? 
+	    		}
+    		}
+    		else {
+    			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-120-20; x += 20) {
+	    			brickList.add(new BrickModel(x,y));  
+	    		}
+    		}
+    	}	
+    	
+    	// INIT BRICKS BELOW/ABOVE WARLORD 
+    	if (warlord.getPlayer() <= 2) { 
+	    	for (int y = warlord.getLowerYBounds()+120; y < warlord.getUpperYBounds()-20; y += 20) {
+	    		if (warlord.getPlayer() == 1) {
+		    		for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-60; x += 20) {
+		    			brickList.add(new BrickModel(x,y)); 
+		    		}
+		    	}
+	    		else {
+	    			for (int x = warlord.getLowerXBounds()+60; x < warlord.getUpperXBounds()-20; x += 20) {
+		    			brickList.add(new BrickModel(x,y)); 
+		    		}
+	    		}
+	    	}
+    	}
+    	else {
+    		for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-120-20; y += 20) {
+    			if (warlord.getPlayer() == 3) {
+	    			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-20-60; x += 20) {
+		    			brickList.add(new BrickModel(x,y)); 
+		    		}
+    			}
+    			else {
+    				for (int x = warlord.getLowerXBounds()+60; x < warlord.getUpperXBounds()-20; x += 20) {
+		    			brickList.add(new BrickModel(x,y)); 
+		    		}
+    			}
+	    	}
+    	}
     }
     
     public ArrayList<BrickModel> getBrickList() {

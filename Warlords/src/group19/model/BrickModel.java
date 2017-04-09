@@ -8,6 +8,7 @@ public class BrickModel extends ObjectModel {
 	boolean isDestroyed; // boolean holding state of brick 
 	private int height;
 	private int width;
+	private WarlordModel owner;
 	AudioClip brickBreak = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/brick_break.wav").toString());
 	// Constructor: Create ball at position (x,y) 
 	public BrickModel(int x, int y) {
@@ -15,6 +16,7 @@ public class BrickModel extends ObjectModel {
 		isDestroyed = false; // initiate brick as not destroyed 
 		width = 20;
 		height = 20;
+		//this.owner = owner; // owner of this brick 
 	}
 	
 	// get state of brick, i.e. whether or not it is destroyed
