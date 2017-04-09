@@ -11,12 +11,12 @@ public class BrickModel extends ObjectModel {
 	private WarlordModel owner;
 	AudioClip brickBreak = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/brick_break.wav").toString());
 	// Constructor: Create ball at position (x,y) 
-	public BrickModel(int x, int y) {
+	public BrickModel(int x, int y, WarlordModel owner) {
 		super(x, y);
 		isDestroyed = false; // initiate brick as not destroyed 
 		width = 20;
 		height = 20;
-		//this.owner = owner; // owner of this brick 
+		this.owner = owner; // owner of this brick 
 	}
 	
 	// get state of brick, i.e. whether or not it is destroyed
@@ -36,5 +36,9 @@ public class BrickModel extends ObjectModel {
 	
 	public int getWidth() {
 		return width;
+	}
+	
+	public WarlordModel getOwner() {
+		return owner;
 	}
 }

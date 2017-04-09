@@ -119,7 +119,18 @@ public class InGameView {
     // takes a single brick in as param
     public static Node drawBrick(BrickModel brick) {
         Rectangle rect = new Rectangle(brick.getWidth(), brick.getHeight());
-        rect.setFill(Color.CYAN);
+        if (brick.getOwner().getPlayerNo() == 1) {	
+        	rect.setFill(Color.CYAN);
+        }
+        else if (brick.getOwner().getPlayerNo() == 2) {
+        	rect.setFill(Color.CHARTREUSE);
+        }
+        else if (brick.getOwner().getPlayerNo() == 3) {
+        	rect.setFill(Color.CRIMSON);
+        }
+        else if (brick.getOwner().getPlayerNo() == 4) {
+        	rect.setFill(Color.GOLD);
+        }
         rect.setStroke(Color.BLACK);
         rect.setStrokeWidth(1.0);
         rect.translateXProperty().bind(brick.getXProperty());

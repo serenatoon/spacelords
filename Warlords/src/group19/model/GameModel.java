@@ -56,11 +56,11 @@ public class GameModel {
 		// might move creation of paddles into the arraylist creation instead? 
 		paddle1 = new PaddleModel(128, 255, warlord1);
 		paddleList.add(paddle1);
-		paddle2 = new PaddleModel(700, 150, warlord2);
+		paddle2 = new PaddleModel(700, 255, warlord2);
 		paddleList.add(paddle2);
-		paddle3 = new PaddleModel(180, 768-150, warlord3);
+		paddle3 = new PaddleModel(180, 768-255, warlord3);
 		paddleList.add(paddle3);
-		paddle4 = new PaddleModel(700, 768-150, warlord4);
+		paddle4 = new PaddleModel(700, 768-255, warlord4);
 		paddleList.add(paddle4);
 		
 		remainingTime.set(120);
@@ -73,59 +73,49 @@ public class GameModel {
 //	public BrickModel getBrick() {
 //		return brick;
 //	}
-	
-    public void initBricks() {
-        // place bricks at periodic x,y co-ordinates
-        // note that x,y co-ordinates refer to the top-left corner of the brick 
-        for (int y = 128; y <= 120+60; y += 20) { // 20 = width of a brick
-            for (int x = 128; x <= 120+60+120; x += 20) {
-                brickList.add(new BrickModel(x, y));
-            }
-        }
-    }
     
-	// im sorry this is inefficient as fk i tried to math it out but u cant.  or im too dumb. 
+	// im sorry this is inefficient as fk i tried to math it out.
 	// plz lmk if u have a better solution 
     public void initBricks(WarlordModel warlord) {
     	// INIT THE COLUMNS OF BRICKS (next to the warlord) 
     	for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-20; y += 20) {
-    		if (warlord.getPlayer() % 2 != 0) {
+    		if (warlord.getPlayerNo() % 2 != 0) {
 	    		for (int x = warlord.getLowerXBounds()+120; x < warlord.getUpperXBounds()-20; x += 20) {
-	    			brickList.add(new BrickModel(x,y)); // every warlord doesn't need their own bricklist do they? 
+	    			brickList.add(new BrickModel(x, y, warlord)); // every warlord doesn't need their own bricklist do they? 
 	    		}
     		}
     		else {
     			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-120-20; x += 20) {
-	    			brickList.add(new BrickModel(x,y));  
+	    			brickList.add(new BrickModel(x, y, warlord));  
 	    		}
     		}
     	}	
     	
     	// INIT BRICKS BELOW/ABOVE WARLORD 
-    	if (warlord.getPlayer() <= 2) { 
+    	if (warlord.getPlayerNo() <= 2) { 
 	    	for (int y = warlord.getLowerYBounds()+120; y < warlord.getUpperYBounds()-20; y += 20) {
-	    		if (warlord.getPlayer() == 1) {
+	    		if (warlord.getPlayerNo() == 1) {
 		    		for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-60; x += 20) {
-		    			brickList.add(new BrickModel(x,y)); 
+		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
 		    	}
 	    		else {
 	    			for (int x = warlord.getLowerXBounds()+60; x < warlord.getUpperXBounds()-20; x += 20) {
-		    			brickList.add(new BrickModel(x,y)); 
+		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
 	    		}
 	    	}
     	}
     	else {
     		for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-120-20; y += 20) {
-    			if (warlord.getPlayer() == 3) {
+    			if (warlord.getPlayerNo() == 3) {
 	    			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-20-60; x += 20) {
-		    			brickList.add(new BrickModel(x,y)); 
+		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
     			}
     			else {
     				for (int x = warlord.getLowerXBounds()+60; x < warlord.getUpperXBounds()-20; x += 20) {
-		    			brickList.add(new BrickModel(x,y)); 
+		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
     			}
 	    	}
