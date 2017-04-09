@@ -52,15 +52,15 @@ public class PaddleModel extends ObjectModel {
 		return angle;
 	}
 	public void addToAngle() {
-		if (angle < 3.15) { //only allow movement between 1.5 to 3.15... values chosen because angle is 90 degrees w/ 60 ticks (1 sec) req for total movement
+		if (angle < 3.15) { //only allow movement between 1.55 to 3.15... values chosen because angle is 90 degrees w/ 60 ticks (1 sec) req for total movement
 			angle += 0.1;
 		}
 		else angle = 3.15;
 	}
 	public void subtractToAngle() {
-		if (angle > 1.5) {
+		if (angle > 1.55) {
 			angle -= 0.1;
 		}
-		else angle = 1.5;
+		else angle = 1.55;
 	}
 }
