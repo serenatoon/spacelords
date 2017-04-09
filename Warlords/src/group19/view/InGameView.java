@@ -85,7 +85,7 @@ public class InGameView {
 		int i = 0;
 		for (BrickModel brick : brickList) {
 			if (!brickList.get(i).isDestroyed()) {
-				rootGameLayout.getChildren().add(drawBrick(brickList.get(i)));
+				rootGameLayout.getChildren().add(game.getBrickList().get(i).getNode());
 			}
 			i++;
 		}
@@ -118,29 +118,6 @@ public class InGameView {
 		rect.translateYProperty().bind(paddle.getYProperty());
 		return rect;
 	}
-	
-    // takes a single brick in as param
-    public static Node drawBrick(BrickModel brick) {
-        Rectangle rect = new Rectangle(brick.getWidth(), brick.getHeight());
-        if (brick.getOwner().getPlayerNo() == 1) {	
-        	rect.setFill(Color.CYAN);
-        }
-        else if (brick.getOwner().getPlayerNo() == 2) {
-        	rect.setFill(Color.CHARTREUSE);
-        }
-        else if (brick.getOwner().getPlayerNo() == 3) {
-        	rect.setFill(Color.CRIMSON);
-        }
-        else if (brick.getOwner().getPlayerNo() == 4) {
-        	rect.setFill(Color.GOLD);
-        }
-        rect.setStroke(Color.BLACK);
-        rect.setStrokeWidth(1.0);
-        rect.translateXProperty().bind(brick.getXProperty());
-        rect.translateYProperty().bind(brick.getYProperty());
-        return rect;
-    }
-
 	
 	public static Node drawWarlord(WarlordModel warlord, ImageView img) {
 			img.setFitWidth(warlord.getWidth());

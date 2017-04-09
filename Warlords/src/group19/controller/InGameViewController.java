@@ -28,7 +28,9 @@ public class InGameViewController {
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
-	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment 
+	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
+    private boolean keyListenerCalled;
+
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
 		super();
@@ -56,10 +58,15 @@ public class InGameViewController {
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					if (game.getCountdownTime().intValue() <= 0) {
+                        if (!keyListenerCalled) {
+                            view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
+                            KeyEventListener();    //if memory issues arise in future, move this out
+                        }
+
 						tick();
-						view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
+						//view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
 						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
-						KeyEventListener();	//if memory issues arise in future, move this out
+						//KeyEventListener();	//if memory issues arise in future, move this out
 					}
 					else {
 						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000); //do 3 2 1 counter
@@ -83,7 +90,19 @@ public class InGameViewController {
 	public void tick() {
 				
 		game.getBall().moveBall();
-		checkBallCollision(); 
+		//checkBallCollision();
+		
+		// check that ball doesn't hit edges of screen. might fk up if it hits right in the corner
+		// if ball hits edge, it can't have hit a paddle (unless it hits the corner but.... no pls) 
+		// etc etc... in other words i don't want to check for brick collision until i have to 
+		// game still lags.  angry reacts only i am going to sleep :^( 
+		if (!checkBallBounds()) {  
+			if (!checkPaddleCollision()) { // 
+				if (!checkWarlordCollision()) {
+					//checkBrickCollision();
+				} 
+			}
+		}
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
@@ -189,33 +208,41 @@ public class InGameViewController {
 	// Makes sure ball stays within the bounds of the window 
 	// Processes whether or not ball has collided with a paddle, brick, or warlord
 	// Calls the appropriate methods in those cases (e.g. destroy brick if ball collided with brick) 
-	public void checkBallCollision() {
+	
+	// might break if hits corners 
+	public boolean checkBallBounds() {
 		if (game.getBall().getXPos() < 128) { // left edge	
 			game.getBall().setXPos(game.getBall().getRadius() + 128);
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
+			return true;
 		}
-		
 		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 896)) { // right edge 
 			game.getBall().setXPos(896-game.getBall().getRadius());
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
+			return true;
 		}
-		
 		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // bottom edge 
 			game.getBall().setYPos(768-game.getBall().getRadius());
 			game.getBall().bounceY();
 			game.getBall().playWallSound();
+			return true;
 		}
 		
 		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // top edge 
 			game.getBall().setYPos(game.getBall().getRadius());
 			game.getBall().bounceY();
 			game.getBall().playWallSound();
+			return true;
 		}
 		
-		// Iterate through all paddles, checking if the ball hits any of them
-		// Ensure ball does not travel through paddle, changes direction of ball
+		return false;
+	}
+	
+	// Iterate through all paddles, checking if the ball hits any of them
+	// Ensure ball does not travel through paddle, changes direction of ball
+	public boolean checkPaddleCollision() {
 		for (int i = 0; i < 4; i++) { 
 			if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 
 				if (game.getBall().getYPos() < paddles.get(i).getYPos()) { // if ball is above paddle
@@ -226,41 +253,49 @@ public class InGameViewController {
 				}
 				game.getBall().bounceY();
 				paddles.get(i).paddleHitSound();
+				return true;
 			}
 		}
-		
-		// when a warlord dies, the warlord who killed him should be the winner (or have score incremented)
-		// therefore we must note down the the last paddle (and thus warlord) that the ball bounced off
-		// store in a variable? 
-		
-		// Check for collision with warlords
-		// This kills the warlord	
-		int i = 0;
-		for (WarlordModel wl : warlords) {
+		return false;
+	}
+	
+	// when a warlord dies, the warlord who killed him should be the winner (or have score incremented)
+	// therefore we must note down the the last paddle (and thus warlord) that the ball bounced off
+	// store in a variable? 
+	// Check for collision with warlords
+	// This kills the warlord
+	public boolean checkWarlordCollision() {
+		for (int i = 0; i < 4; i++) {
 			if ((!warlords.get(i).isDead()) && InGameView.drawBall().intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
 				warlords.get(i).setDead();
 				game.killWarlord();
+				//warlords.remove(i);
 				// TODO: should ball travel through or bounce off? 
 				warlords.get(i).playWarlordDead(); // TODO: sound on warlord dying 
+				return true;
 			}
-			i++;
 		}
-		
-		// Check for collision with brick
-		// Destroy brick
+		return false;
+	}
+	
+	public boolean checkBrickCollision() {
 		int j = 0;
 		for (BrickModel b : bricks) {
-			if (InGameView.drawBall().intersects(InGameView.drawBrick(bricks.get(j)).getBoundsInParent())) { 
-				if (game.getBall().getYPos() < bricks.get(j).getYPos()) { // if ball is above brick
-					game.getBall().setYPos(bricks.get(j).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
-				}
-				else {
-					game.getBall().setYPos(bricks.get(j).getYPos()+game.getBall().getRadius()+30);
-				}
+			if (InGameView.drawBall().intersects(bricks.get(j).getNode().getBoundsInParent())) { 
+//				if (game.getBall().getYPos() < bricks.get(j).getYPos()) { // if ball is above brick
+//					//game.getBall().setYPos(bricks.get(j).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
+//				}
+//				else {
+//					//game.getBall().setYPos(bricks.get(j).getYPos()+game.getBall().getRadius()+30);
+//				}
 		        game.getBall().bounceY();
-		        bricks.get(j).destroy(); 		        
+		        game.getBall().bounceX();
+		        bricks.get(j).destroy(); 
+		        bricks.remove(j); // oh lol i forgot u could do this i lied i am not slep 
+		        return true;
 			}
 			j++;
 		}
+		return false;
 	}
 }
