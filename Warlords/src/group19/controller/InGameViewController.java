@@ -164,6 +164,8 @@ public class InGameViewController {
 		          PauseView.showScene();
 		          return; 
 		      }
+		      // this is broken atm  because I THINK the game cannot determine an actual winner yet
+		      // I THINK it should be fixed once we implement score mechanics to determine winner 
 		      if (keyR.getCode() == KeyCode.PAGE_DOWN) {
 		    	  System.out.println("Fast forward to winner menu");
 		    	  gsc.setGameState(2); //game complete state
@@ -233,7 +235,7 @@ public class InGameViewController {
 				warlords.get(i).setDead();
 				game.killWarlord();
 				// TODO: should ball travel through or bounce off? 
-				//warlords.get(i).playWarlordSound(); // TODO: sound on warlord dying 
+				warlords.get(i).playWarlordDead(); // TODO: sound on warlord dying 
 			}
 			i++;
 		}
