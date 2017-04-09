@@ -86,6 +86,10 @@ public class WarlordModel extends ObjectModel {
 		return playerNo;
 	}
 	
+	public String getPlayerName() {
+		return String.format("Player %d", playerNo);
+	}
+	
 	public boolean hasWon() {
 		return isWinner;
 	}

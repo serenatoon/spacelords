@@ -1,6 +1,7 @@
 package group19.view;
 
 import group19.controller.InGameViewController;
+import group19.model.GameModel;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
@@ -29,7 +30,7 @@ public class WinnerView extends PauseView {
 		Text title = new Text(235, 100, "- game over -"); //settings for title - position, alignment, size/color
 		title.setFont(new Font(70));
 		title.setFill(Color.ANTIQUEWHITE);
-		Text winner = new Text(235, 200, "Winner: ");
+		Text winner = new Text(235, 200, "Winner: " + GameModel.getWinner().getPlayerName());
 		winner.setFont(new Font(30));
 		winner.setFill(Color.ANTIQUEWHITE);
 		Text score = new Text(235, 250, "Score: ");

@@ -3,6 +3,7 @@ package group19.model;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 
 //This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
@@ -16,6 +17,8 @@ public class GameModel {
 	private WarlordModel warlord2;
 	private WarlordModel warlord3;
 	private WarlordModel warlord4;
+	private int warlordsAlive;
+	private static WarlordModel winner;
 	private PaddleModel paddle1;
 	private PaddleModel paddle2;
 	private PaddleModel paddle3;
@@ -43,6 +46,7 @@ public class GameModel {
         warlordList.add(warlord3);
         warlord4 = new WarlordModel(1024-120-128-10, 768-120-10, 4);
         warlordList.add(warlord4);
+        warlordsAlive = 4;
 		
 		// might move creation of paddles into the arraylist creation instead? 
 		paddle1 = new PaddleModel(128, 255, warlord1);
@@ -118,6 +122,35 @@ public class GameModel {
 	
 	public ArrayList<WarlordModel> getWarlordList() {
 		return warlordList;
+	}
+	
+	public int getWarlordsAlive() {
+		return warlordsAlive;
+	}
+	
+	public void killWarlord() {
+		warlordsAlive -= 1;
+	}
+	
+	// called in each tick of gameloop, returns whether or not the game has a winner and subsequently sets winner of game  
+	public boolean setWinner() {
+		if (warlordsAlive == 1) { // if there is only one remaining warlord 
+			for (int i = 0; i < 4; i++) {
+				if (!warlordList.get(i).isDead()) { // iterate until we find a warlord that isn't dead 
+					warlordList.get(i).setWinner(); // set that warlord as winner 
+					winner = warlordList.get(i);
+					return true; // return that there is a winner 
+				}
+			}
+		}
+		else {
+			return false;
+		}	
+		return false; // ????? tfw unsynthesisable code  
+	}
+	
+	public static WarlordModel getWinner() {
+		return winner;
 	}
 	
 	public DoubleProperty getTimeRemaining() {

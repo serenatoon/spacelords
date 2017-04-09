@@ -100,7 +100,7 @@ public class InGameViewController {
 
 	// Check for win conditions 
 	public boolean isFinished() {
-		return ((game.getTimeRemaining().intValue() <= 0) || (game.getWarlord1().hasWon()) || game.getWarlord2().hasWon());
+		return ((game.getTimeRemaining().intValue() <= 0) || game.setWinner());
 	}
 
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
@@ -225,25 +225,13 @@ public class InGameViewController {
 		// therefore we must note down the the last paddle (and thus warlord) that the ball bounced off
 		// store in a variable? 
 		
-		// Check for collision with warlord
-		// This kills the warlord
-		// TODO: update drawWarlord, do this for all 4 warlords...
-		/*
-		if (InGameView.drawBall().intersects(InGameView.drawWarlord1().getBoundsInParent())) { 
-			game.getWarlord1().setDead();
-			game.getWarlord2().setWinner();
-			game.getWarlord(1).playWarlordSound();
-		}
-		
-		if (InGameView.drawBall().intersects(InGameView.drawWarlord2().getBoundsInParent())) { 
-			game.getWarlord2().setDead();
-			game.getWarlord1().setWinner();
-		}*/
-		
+		// Check for collision with warlords
+		// This kills the warlord	
 		int i = 0;
 		for (WarlordModel wl : warlords) {
 			if ((!warlords.get(i).isDead()) && InGameView.drawBall().intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
 				warlords.get(i).setDead();
+				game.killWarlord();
 				// TODO: should ball travel through or bounce off? 
 				//warlords.get(i).playWarlordSound(); // TODO: sound on warlord dying 
 			}
