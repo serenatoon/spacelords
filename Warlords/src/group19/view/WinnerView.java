@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class WinnerView extends PauseView {
 	static Scene winnerScene;
@@ -22,6 +23,7 @@ public class WinnerView extends PauseView {
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
 		window.setWidth(1024);
 		window.setHeight(768);
+		window.initStyle(StageStyle.UNDECORATED);
 		Pane layout = new Pane(); //settings for parent node - bg, color, size
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		layout.setBackground(new Background(bg));
@@ -33,9 +35,10 @@ public class WinnerView extends PauseView {
 		Text winner = new Text(235, 200, "Winner: " + GameModel.getWinner().getPlayerName());
 		winner.setFont(new Font(30));
 		winner.setFill(Color.ANTIQUEWHITE);
-		Text score = new Text(235, 250, "Score: ");
-		score.setFont(new Font(30));
-		score.setFill(Color.ANTIQUEWHITE);
+		//ONLY SHOW SCORE IF ATTACK MODE
+		//Text score = new Text(235, 250, "Score: ");
+		//score.setFont(new Font(30));
+		//score.setFill(Color.ANTIQUEWHITE);
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
                 new MenuItem("back to main menu"),
                 new MenuItem("instructions"),
@@ -49,7 +52,8 @@ public class WinnerView extends PauseView {
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
 
         getMenuItem(0).setActive(true); //highlight first item in menu
-		layout.getChildren().addAll(title, winner, score, menuBox);
+		layout.getChildren().addAll(title, winner, menuBox);
+		//if attack mode, add score text too!!
 		pauseScene = new Scene(layout);
 		window.setResizable(false);
 		window.setScene(pauseScene);

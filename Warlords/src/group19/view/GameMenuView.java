@@ -23,6 +23,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.media.AudioClip;
 
@@ -49,16 +50,16 @@ public class GameMenuView extends Application {
         HBox title = new HBox(titleFrame); //child node of content frame, for title
         title.setTranslateX(185);
         title.setTranslateY(100);
-        menuBox = new VBox(10,
-                new MenuItem("SINGLE PLAYER"),
-                new MenuItem("LOCAL MULTIPLAYER"),
-                new MenuItem("STORY MODE"),
-                new MenuItem("ATTACK MODE"),
-                new MenuItem("INSTRUCTIONS"),
-                new MenuItem("QUIT GAME")
+        menuBox = new VBox(20,
+                new MenuItem("single player"),
+                new MenuItem("local multiplayer"),
+                new MenuItem("story mode"),
+                new MenuItem("attack mode"),
+                new MenuItem("instructions"),
+                new MenuItem("quit game")
         		);
-        menuBox.setTranslateX(235); 
-        menuBox.setTranslateY(318);
+        menuBox.setTranslateX(185); 
+        menuBox.setTranslateY(298);
         getMenuItem(0).setActive(true); //highlight first item in menu
         root.getChildren().addAll(bg, title, menuBox); //place all created items as children of parent Pane
         return root;
@@ -173,6 +174,7 @@ public class GameMenuView extends Application {
         window.setScene(gameMenu); //if setOnKeyPressed didn't trigger scene change, keep Stage on gameMenu
         window.setResizable(false); //disallow dimension changes
         window.sizeToScene(); //make window same size as scene (locked to 768 width no matter what OS)
+		window.initStyle(StageStyle.UNDECORATED);
         window.show();
         this.window = window; //pass window out so other classes can use it 
         }

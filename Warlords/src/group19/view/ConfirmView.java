@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ConfirmView {
 	static Scene confirmScene;
@@ -32,7 +33,7 @@ public class ConfirmView {
 		layout.setBackground(new Background(bg));
 		layout.setPrefWidth(600);
 		layout.setPrefHeight(200);
-		Text title = new Text(88, 50, "are you sure you want to quit?"); //settings for title - position, alignment, size/color
+		Text title = new Text(78, 50, "Are you sure you want to quit?"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
 		title.setFont(new Font(30));
 		title.setFill(Color.ANTIQUEWHITE);

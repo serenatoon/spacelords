@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class PauseView {
 	static Scene pauseScene;
@@ -31,6 +32,7 @@ public class PauseView {
 	public static void showScene() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
+		window.initStyle(StageStyle.UNDECORATED);
 		window.setWidth(1024);
 		window.setHeight(768);
 		Pane layout = new Pane(); //settings for parent node - bg, color, size

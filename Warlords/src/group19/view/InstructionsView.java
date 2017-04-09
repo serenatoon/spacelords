@@ -1,16 +1,11 @@
 package group19.view;
 
-import group19.controller.GameStateController;
-import group19.view.ConfirmView.MenuItem;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class InstructionsView {
 	static Scene instructionsScene;
@@ -28,6 +24,7 @@ public class InstructionsView {
 	public static void displayInstructions() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
+		window.initStyle(StageStyle.UNDECORATED);
 		window.setWidth(1024);
 		window.setHeight(768);
 		window.setTitle("Instructions");
@@ -71,7 +68,7 @@ public class InstructionsView {
         menuBox.setTranslateX(480); 
         menuBox.setTranslateY(700);
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
-        getMenuItem(0).setActive(true); //highlight first item in menu
+        getMenuItem(0).setActive(true); 
 		layout.getChildren().addAll(title, menuBox, instructions);
 		instructionsScene = new Scene(layout);
 		window.sizeToScene();
