@@ -9,15 +9,15 @@ public class PaddleModel extends ObjectModel {
 	private int height;
 	private int xVelocity;
 	private WarlordModel warlord;
-	private float angle;
+	private double angle;
 	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
 	
 	public PaddleModel(int x, int y, WarlordModel warlord) {
 		super(x, y);
-		width = 100;
-		height = 10;
+		width = 40;
+		height = 40;
 		xVelocity = 20;
-		angle = 0;
+		angle = 1.5;
 		// warlord should belong to a paddle
 		// seems backwards but i'm thinking along the lines of how to increment score when you destroy a brick
 		// pseudocode: when ball collides with paddle then destroys a brick, getwarlord().incrementScore()
@@ -48,13 +48,19 @@ public class PaddleModel extends ObjectModel {
 	public WarlordModel getWarlord() {
 		return warlord;
 	}
-	public float getAngle() {
+	public double getAngle() {
 		return angle;
 	}
 	public void addToAngle() {
-		angle += 0.1;
+		if (angle < 3.15) { //only allow movement between 1.5 to 3.15... values chosen because angle is 90 degrees w/ 60 ticks (1 sec) req for total movement
+			angle += 0.1;
+		}
+		else angle = 3.15;
 	}
 	public void subtractToAngle() {
-		angle -= 0.1;
+		if (angle > 1.5) {
+			angle -= 0.1;
+		}
+		else angle = 1.5;
 	}
 }
