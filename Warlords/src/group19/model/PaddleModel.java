@@ -9,6 +9,7 @@ public class PaddleModel extends ObjectModel {
 	private int height;
 	private int xVelocity;
 	private WarlordModel warlord;
+	private float angle;
 	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
 	
 	public PaddleModel(int x, int y, WarlordModel warlord) {
@@ -16,6 +17,7 @@ public class PaddleModel extends ObjectModel {
 		width = 100;
 		height = 10;
 		xVelocity = 20;
+		angle = 0;
 		// warlord should belong to a paddle
 		// seems backwards but i'm thinking along the lines of how to increment score when you destroy a brick
 		// pseudocode: when ball collides with paddle then destroys a brick, getwarlord().incrementScore()
@@ -45,5 +47,14 @@ public class PaddleModel extends ObjectModel {
 	// Get the warlord/player which this paddle belongs to 
 	public WarlordModel getWarlord() {
 		return warlord;
+	}
+	public float getAngle() {
+		return angle;
+	}
+	public void addToAngle() {
+		angle += 0.1;
+	}
+	public void subtractToAngle() {
+		angle -= 0.1;
 	}
 }

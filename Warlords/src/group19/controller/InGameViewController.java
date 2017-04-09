@@ -110,10 +110,17 @@ public class InGameViewController {
 		if (gsc.getSinglePlayer() == true) {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
-	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
+	  		//game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
+		    game.getPaddle1().subtractToAngle();
+		  	game.getPaddle1().setXPos(128 + 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+			game.getPaddle1().setYPos(0 - 255*Math.sin(game.getPaddle1().getAngle()));
+
 	      }
 	      if (key.getCode() == KeyCode.RIGHT) {
-	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
+	  		//game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
+	  		game.getPaddle1().addToAngle();
+			game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+	  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
 	      }
 	      });
 		}
@@ -245,7 +252,7 @@ public class InGameViewController {
 			if ((!warlords.get(i).isDead()) && InGameView.drawBall().intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
 				warlords.get(i).setDead();
 				// TODO: should ball travel through or bounce off? 
-				//warlords.get(i).playWarlordSound(); // TODO: sound on warlord dying 
+				warlords.get(i).playWarlordDead(); // TODO: sound on warlord dying 
 			}
 			i++;
 		}
