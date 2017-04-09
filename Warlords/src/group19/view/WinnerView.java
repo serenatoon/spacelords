@@ -30,10 +30,10 @@ public class WinnerView extends PauseView {
 		layout.setPrefWidth(1024);
 		layout.setPrefHeight(768);
 		Text title = new Text(235, 100, "- game over -"); //settings for title - position, alignment, size/color
-		title.setFont(new Font(70));
+		title.setFont(new Font("Arial",70));
 		title.setFill(Color.ANTIQUEWHITE);
 		Text winner = new Text(235, 200, "Winner: " + GameModel.getWinner().getPlayerName());
-		winner.setFont(new Font(30));
+		winner.setFont(new Font("Arial",30));
 		winner.setFill(Color.ANTIQUEWHITE);
 		//ONLY SHOW SCORE IF ATTACK MODE
 		//Text score = new Text(235, 250, "Score: ");
