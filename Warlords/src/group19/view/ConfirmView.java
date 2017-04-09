@@ -33,9 +33,9 @@ public class ConfirmView {
 		layout.setBackground(new Background(bg));
 		layout.setPrefWidth(600);
 		layout.setPrefHeight(200);
-		Text title = new Text(78, 50, "Are you sure you want to quit?"); //settings for title - position, alignment, size/color
+		Text title = new Text(90, 50, "Are you sure you want to quit?"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(new Font(30));
+		title.setFont(new Font("Arial",30));
 		title.setFill(Color.ANTIQUEWHITE);
         menuBox = new HBox(100, //settings for menuBox (helper functions below) - spacing, position
                 new MenuItem("yes"),

@@ -36,7 +36,7 @@ public class PauseView {
 		layout.setPrefHeight(768);
 		Text title = new Text(200, 300, "- game is paused -"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(new Font(70));
+		title.setFont(new Font("Arial",70));
 		title.setFill(Color.ANTIQUEWHITE);
 
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
