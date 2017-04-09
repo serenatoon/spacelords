@@ -53,8 +53,8 @@ public class GameMenuView extends Application {
         menuBox = new VBox(20,
                 new MenuItem("single player"),
                 new MenuItem("local multiplayer"),
-                new MenuItem("story mode"),
                 new MenuItem("attack mode"),
+                new MenuItem("credits"),
                 new MenuItem("instructions"),
                 new MenuItem("quit game")
         		);
@@ -155,15 +155,14 @@ public class GameMenuView extends Application {
                 	window.setScene(InGameViewController.view.getScene());
                 	System.out.println("multiplayer mode");
                 	break;
-                case 2://story mode
-                	System.out.println("story mode coming soon!");
-                	break;
-                case 3://attack mode
+                case 2://attack mode
                 	System.out.println("attack mode coming soon!");
                 	break;
+                case 3://credits
+                	CreditsView.displayCredits();
+                	break;
                 case 4://instructions
-                	InstructionsView.displayInstructions
-                	(); //popup the options view
+                	InstructionsView.displayInstructions(); //popup the instructions view
                 	System.out.println("instructions");
                 	break;
                 case 5://exit

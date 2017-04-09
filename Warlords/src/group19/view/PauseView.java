@@ -1,12 +1,7 @@
 package group19.view;
 
-import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -15,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -96,7 +90,7 @@ public class PauseView {
                 	InstructionsView.displayInstructions();
                 	break;
                 case 2:
-                	System.out.println("credits");
+                	CreditsView.displayCredits();
                 	break;
                 case 3:
                 	System.out.println("quit game");

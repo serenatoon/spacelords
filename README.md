@@ -26,8 +26,6 @@ Player 2 - A and D
 Player 3 - J and L
 Player 4 - V and N
 
-Story mode is a special single player mode where you play through the story. As you progress through the rounds, the story is progressively unlocked.
-
 Attack mode is a special multiplayer mode where a score is kept. Scores are incremented as players destroy other player's bricks, encourage players to attack instead of defending
 
 General controls:

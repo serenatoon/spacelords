@@ -52,8 +52,6 @@ public class InstructionsView {
 				"Player 2 - A and D \n" +
 				"Player 3 - J and L \n" +
 				"Player 4 - V and N \n\n" +
-				"Story mode is a special single player mode where you play through the story.\n" +
-				"As you progress through the rounds, the story is progressively unlocked. \n\n" +
 				"Attack mode is a special multiplayer mode where a score is kept.\n" +
 				"Scores are incremented as players destroy other player's bricks, encouraging players \n" +
 				"to attack instead of defending. \n\n" +

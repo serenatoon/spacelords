@@ -92,7 +92,7 @@ public class WinnerView extends PauseView {
                 	InstructionsView.displayInstructions();
                 	break;
                 case 2:
-                	System.out.println("credits");
+                	CreditsView.displayCredits();
                 	break;
                 case 3:
                 	ConfirmView.displayConfirmation();

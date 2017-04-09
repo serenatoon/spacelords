@@ -93,22 +93,10 @@ public class InGameViewController {
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
 	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {
-//		ArrayList<Integer> xValues = new ArrayList<Integer>();
-//		xValues.add(255); //starting point 
-//		for(int i = 1; i < 33; i++){ //specified 32 ticks
-//				xValues.add(xValues.get(i-1) + 4);
-//		}
-//		ArrayList<Integer> yValues = new ArrayList<Integer>();
-//		yValues.add(128); //starting point 
-//		for(int i = 1; i < 33; i++){ //specified 32 ticks
-//				yValues.add(yValues.get(i-1) - 4);
-//		}
-
 		if (gsc.getSinglePlayer() == true) {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
 		    game.getPaddle1().subtractToAngle(1);
-		    //System.out.println(game.getPaddle1().getAngle());
 		  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
 			game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
 	    	
@@ -135,37 +123,33 @@ public class InGameViewController {
 			      }
 			      if (key.getCode() == KeyCode.A) { //p2 
 				  		game.getPaddle2().subtractToAngle(2);
-					  	game.getPaddle2().setXPos(1024-128 - 255*Math.cos(game.getPaddle2().getAngle())); 
-						game.getPaddle2().setYPos(0 + 255*Math.sin(game.getPaddle2().getAngle()));
+					  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+						game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.D) {
 					    game.getPaddle2().addToAngle(2);
-						game.getPaddle2().setXPos(1024-128 - 255*Math.cos(game.getPaddle2().getAngle())); 
-				  		game.getPaddle2().setYPos(0 + 255*Math.sin(game.getPaddle2().getAngle()));
+						game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+				  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.J) { //p3 
 					    game.getPaddle3().addToAngle(3);
-					    System.out.println(game.getPaddle3().getAngle());
-					  	game.getPaddle3().setXPos(128 - 255*Math.cos(game.getPaddle3().getAngle())); 
-						game.getPaddle3().setYPos(768 + 255*Math.sin(game.getPaddle3().getAngle()));
+					  	game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+						game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.L) {
 				  		game.getPaddle3().subtractToAngle(3);
-					    System.out.println(game.getPaddle3().getAngle());
-						game.getPaddle3().setXPos(128 - 255*Math.cos(game.getPaddle3().getAngle())); 
-				  		game.getPaddle3().setYPos(768 + 255*Math.sin(game.getPaddle3().getAngle()));
+						game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+				  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.V) { //p4
 					    game.getPaddle4().addToAngle(4);
-					    System.out.println(game.getPaddle4().getAngle());
-					  	game.getPaddle4().setXPos(1024-128 - 255*Math.cos(game.getPaddle4().getAngle())); 
-						game.getPaddle4().setYPos(768 + 255*Math.sin(game.getPaddle4().getAngle()));
+					  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+						game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.N) {
 				  		game.getPaddle4().subtractToAngle(4);
-					    System.out.println(game.getPaddle4().getAngle());
-						game.getPaddle4().setXPos(1024-128 - 255*Math.cos(game.getPaddle4().getAngle())); 
-				  		game.getPaddle4().setYPos(768 + 255*Math.sin(game.getPaddle4().getAngle()));
+						game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+				  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
 			      }
 			     
  			      });
