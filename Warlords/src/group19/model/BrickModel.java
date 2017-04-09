@@ -29,6 +29,7 @@ public class BrickModel extends ObjectModel {
 		isDestroyed = true;
 		brickBreak.play();
 		setXPos(1500);
+		owner.destroyBrick();
 	}
 	public int getHeight() {
 		return height;

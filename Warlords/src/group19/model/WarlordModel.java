@@ -143,4 +143,8 @@ public class WarlordModel extends ObjectModel {
 	public int getBricksAlive() {
 		return bricksAlive;
 	}
+	
+	public void destroyBrick() {
+		bricksAlive -= 1;
+	}
 }

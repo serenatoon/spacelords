@@ -185,9 +185,26 @@ public class GameModel {
 					return true; // return that there is a winner 
 				}
 			}
-		}
-		else {
-			return false;
+		}  
+		else if (remainingTime.intValue() <= 0) {
+			WarlordModel tempWinner = null;
+			int i = 0;
+			for (i = 0; i < 4; i++) {
+				if (!warlordList.get(i).isDead()) { // traverse list, find first alive warlord
+					tempWinner = warlordList.get(i);
+					break;
+				}
+			}
+			for (int j = i; j < 4; j++) {
+				if (!warlordList.get(j).isDead()) { 
+					if (warlordList.get(j).getBricksAlive() > tempWinner.getBricksAlive()) {
+						tempWinner = warlordList.get(j);
+					}
+				}
+			}
+			tempWinner.setWinner();
+			winner = tempWinner;
+			return true;
 		}	
 		return false; // ????? tfw unsynthesisable code  
 	}
@@ -203,6 +220,7 @@ public class GameModel {
 	// used to skip to end of time 
 	public void skipToEnd() {
 		remainingTime.set(0);
+		setWinner();
 	}
 	
 	public void decrementTime(DoubleProperty time, float seconds) {

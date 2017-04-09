@@ -92,15 +92,10 @@ public class InGameViewController {
 			checkPaddleBounds(iterator.next());
 		}
 		
-		if (isFinished()) {
+		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
 		} 
-	}
-
-	// Check for win conditions 
-	public boolean isFinished() {
-		return ((game.getTimeRemaining().intValue() <= 0) || game.setWinner());
 	}
 
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
@@ -164,8 +159,6 @@ public class InGameViewController {
 		          PauseView.showScene();
 		          return; 
 		      }
-		      // this is broken atm  because I THINK the game cannot determine an actual winner yet
-		      // I THINK it should be fixed once we implement score mechanics to determine winner 
 		      if (keyR.getCode() == KeyCode.PAGE_DOWN) {
 		    	  System.out.println("Fast forward to winner menu");
 		    	  gsc.setGameState(2); //game complete state
@@ -252,9 +245,7 @@ public class InGameViewController {
 					game.getBall().setYPos(bricks.get(j).getYPos()+game.getBall().getRadius()+30);
 				}
 		        game.getBall().bounceY();
-		        bricks.get(j).destroy(); 
-		        game.getWarlord1().addScore();
-		        
+		        bricks.get(j).destroy(); 		        
 			}
 			j++;
 		}
