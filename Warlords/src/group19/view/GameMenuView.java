@@ -47,17 +47,18 @@ public class GameMenuView extends Application {
         Rectangle bg = new Rectangle(1024, 768); 
         ContentFrame titleFrame = new ContentFrame(title()); 
         HBox title = new HBox(titleFrame); //child node of content frame, for title
-        title.setTranslateX(235);
+        title.setTranslateX(185);
         title.setTranslateY(100);
         menuBox = new VBox(10,
                 new MenuItem("SINGLE PLAYER"),
                 new MenuItem("LOCAL MULTIPLAYER"),
                 new MenuItem("STORY MODE"),
-                new MenuItem("OPTIONS"),
-                new MenuItem("EXIT")
+                new MenuItem("ATTACK MODE"),
+                new MenuItem("INSTRUCTIONS"),
+                new MenuItem("QUIT GAME")
         		);
         menuBox.setTranslateX(235); 
-        menuBox.setTranslateY(358);
+        menuBox.setTranslateY(318);
         getMenuItem(0).setActive(true); //highlight first item in menu
         root.getChildren().addAll(bg, title, menuBox); //place all created items as children of parent Pane
         return root;
@@ -69,7 +70,7 @@ public class GameMenuView extends Application {
         letters.setAlignment(Pos.CENTER);
         for (int i = 0; i < title.length(); i++) {
             Text letter = new Text(title.charAt(i) + ""); //"" denotes the blank spacing
-            letter.setFont(Font.font("Arial", FontWeight.LIGHT, 96));
+            letter.setFont(Font.font("Arial", FontWeight.LIGHT, 110));
             letter.setFill(Color.ANTIQUEWHITE);
             letters.getChildren().add(letter); //letter is child node of letters 
             FadeTransition ft = new FadeTransition(Duration.seconds(1), letter); //fade effect
@@ -113,8 +114,6 @@ public class GameMenuView extends Application {
         //NOTE: .ogg files do not work with AudioClip, need to import MediaPlayer for that
         AudioClip menuSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/menu_select.wav").toString());
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
-        menuSelect.setVolume(gsc.getSFXVolume());  //set volume of SFX according to gsc attribute
-        modeSelect.setVolume(gsc.getSFXVolume());
         window.setWidth(1024);
         window.setHeight(768);
         gameMenu.setOnKeyReleased(event -> {
@@ -158,11 +157,15 @@ public class GameMenuView extends Application {
                 case 2://story mode
                 	System.out.println("story mode coming soon!");
                 	break;
-                case 3://options
-                	OptionsView.displayOptionsView(); //popup the options view
-                	System.out.println("options");
+                case 3://attack mode
+                	System.out.println("attack mode coming soon!");
                 	break;
-                case 4://exit
+                case 4://instructions
+                	InstructionsView.displayInstructions
+                	(); //popup the options view
+                	System.out.println("instructions");
+                	break;
+                case 5://exit
                 	ConfirmView.displayConfirmation();
                 }
             }

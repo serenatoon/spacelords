@@ -45,7 +45,7 @@ public class PauseView {
 
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
                 new MenuItem("resume game"),
-                new MenuItem("options"),
+                new MenuItem("instructions"),
                 new MenuItem("credits"),
                 new MenuItem("quit game")
         		);
@@ -90,7 +90,8 @@ public class PauseView {
                 	window.close();
                 	break;
                 case 1: 
-                	System.out.println("options");
+                	System.out.println("instructions");
+                	InstructionsView.displayInstructions();
                 	break;
                 case 2:
                 	System.out.println("credits");

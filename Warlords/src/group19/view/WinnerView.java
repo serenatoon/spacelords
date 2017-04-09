@@ -38,7 +38,7 @@ public class WinnerView extends PauseView {
 		score.setFill(Color.ANTIQUEWHITE);
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
                 new MenuItem("back to main menu"),
-                new MenuItem("see high scores"),
+                new MenuItem("instructions"),
                 new MenuItem("credits"),
                 new MenuItem("quit game")
         		);
@@ -84,7 +84,8 @@ public class WinnerView extends PauseView {
                 	window.close();
                 	break;
                 case 1: 
-                	System.out.println("high scores");
+                	System.out.println("instructions");
+                	InstructionsView.displayInstructions();
                 	break;
                 case 2:
                 	System.out.println("credits");

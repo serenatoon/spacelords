@@ -15,7 +15,9 @@ How to Play
 
 Navigation is done using the arrow keys to select an option and ENTER to select.
 
-In the single player mode, use the arrow keys to move the paddle around.
+The objective of the game is to destroy all other opponent's bases while defending your own. If the timer runs out before this occurs (2 minute timer), the winner is decided based on the player with the highest number of bricks remaining.
+
+In single player mode, use the arrow keys to move the paddle around.
 You will control the top left player.
 
 In local multiplayer mode, use the following keys to move the players around:
@@ -23,6 +25,10 @@ Player 1 - LEFT and RIGHT arrow keys
 Player 2 - A and D
 Player 3 - J and L
 Player 4 - V and N
+
+Story mode is a special single player mode where you play through the story. As you progress through the rounds, the story is progressively unlocked.
+
+Attack mode is a special multiplayer mode where a score is kept. Scores are incremented as players destroy other player's bricks, encourage players to attack instead of defending
 
 General controls:
 ESC - if in game, goes back to the main menu.
