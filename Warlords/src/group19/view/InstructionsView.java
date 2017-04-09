@@ -27,7 +27,6 @@ public class InstructionsView {
 		window.initStyle(StageStyle.UNDECORATED);
 		window.setWidth(1024);
 		window.setHeight(768);
-		window.setTitle("Instructions");
 		Pane layout = new Pane(); //settings for parent node - bg, color, size
 		BackgroundFill bg = new BackgroundFill(Color.BLACK, null, null);
 		layout.setBackground(new Background(bg));
@@ -35,12 +34,12 @@ public class InstructionsView {
 		layout.setPrefHeight(768);
 		Text title = new Text(88, 100, "Instructions"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(new Font(48));
+		title.setFont(new Font("Arial",48));
 		title.setFill(Color.ANTIQUEWHITE);
 		Text instructions = new Text();
 		instructions.setX(88);
 		instructions.setY(170);
-		instructions.setFont(Font.font(16));
+		instructions.setFont(Font.font("Arial",20));
 		instructions.setFill(Color.ANTIQUEWHITE);
 		instructions.setText("The objective of the game is to destroy all other opponent's bases while defending your own.\n" +
 				"If the timer runs out before this occurs (2 minute timer), the winner is decided based on the \n" +

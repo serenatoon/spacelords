@@ -36,27 +36,27 @@ public class CreditsView {
 		layout.setBackground(new Background(bg));
 		layout.setPrefWidth(1024);
 		layout.setPrefHeight(768);
-		Text title = new Text(315, 150, "- credits -"); //settings for title - position, alignment, size/color
+		Text title = new Text(340, 150, "- credits -"); //settings for title - position, alignment, size/color
 		title.setTextAlignment(TextAlignment.CENTER);
-		title.setFont(new Font(80));
+		title.setFont(new Font("Arial", 80));
 		Text creditsText = new Text();
-		creditsText.setX(330);
+		creditsText.setX(340);
 		creditsText.setY(250);
 		creditsText.setTextAlignment(TextAlignment.CENTER);
-		creditsText.setFont(Font.font(24));
+		creditsText.setFont(Font.font("Arial", 24));
 		creditsText.setFill(Color.ANTIQUEWHITE);
-		creditsText.setText("Created by Group 19:\n\n\n\n\n\nCOMPSYS302\nUniversity of Auckland\n2017\n\n\n" + 
+		creditsText.setText("Created by Group 19:\n\n\n\n\nCOMPSYS302\nUniversity of Auckland\n2017\n\n\n" + 
 							"Assets sourced from:\n" +
 							"freesound.org\n" +
 							"incompetech.com\n" + 
 							"kenney.nl assets\n" + 
 							"ansimuz from opengameart.org");
 		Text namesText = new Text();
-		namesText.setX(432);
+		namesText.setX(436);
 		namesText.setY(250);
 		namesText.setTextAlignment(TextAlignment.CENTER);
-		namesText.setFont(Font.font(24));
-		namesText.setText("\n\n\n" + "Serena Toon" + "\n" + "Marcus Wong");
+		namesText.setFont(Font.font("Arial", 24));
+		namesText.setText("\n\n" + "Serena Toon" + "\n" + "Marcus Wong");
 		namesText.setFill(Color.ANTIQUEWHITE);
 		//rainbow code
 	    FillTransition r = new FillTransition(Duration.millis(600), title);
