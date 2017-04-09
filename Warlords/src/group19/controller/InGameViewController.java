@@ -29,7 +29,6 @@ public class InGameViewController {
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
 	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment 
-	
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
 		super();
@@ -101,42 +100,79 @@ public class InGameViewController {
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
 	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {
-		
+//		ArrayList<Integer> xValues = new ArrayList<Integer>();
+//		xValues.add(255); //starting point 
+//		for(int i = 1; i < 33; i++){ //specified 32 ticks
+//				xValues.add(xValues.get(i-1) + 4);
+//		}
+//		ArrayList<Integer> yValues = new ArrayList<Integer>();
+//		yValues.add(128); //starting point 
+//		for(int i = 1; i < 33; i++){ //specified 32 ticks
+//				yValues.add(yValues.get(i-1) - 4);
+//		}
+
 		if (gsc.getSinglePlayer() == true) {
 		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 	      if (key.getCode() == KeyCode.LEFT) {
-	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
+		    game.getPaddle1().subtractToAngle(1);
+		    //System.out.println(game.getPaddle1().getAngle());
+		  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+			game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+	    	
 	      }
 	      if (key.getCode() == KeyCode.RIGHT) {
-	  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
+	  		game.getPaddle1().addToAngle(1);
+			game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+	  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+	    	
 	      }
 	      });
 		}
 		else { //multiplayer mode on 
 			view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
 			      if (key.getCode() == KeyCode.LEFT) { //p1
-			  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() - game.getPaddle1().getXVelocity()); // move paddle left
+					    game.getPaddle1().subtractToAngle(1);
+					  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+						game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.RIGHT) {
-			  		game.getPaddle1().setXPos(game.getPaddle1().getXPos() + game.getPaddle1().getXVelocity()); // move paddle right
+				  		game.getPaddle1().addToAngle(1);
+						game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+				  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.A) { //p2 
-				  	game.getPaddle2().setXPos(game.getPaddle2().getXPos() - game.getPaddle2().getXVelocity()); // move paddle left
+				  		game.getPaddle2().subtractToAngle(2);
+					  	game.getPaddle2().setXPos(1024-128 - 255*Math.cos(game.getPaddle2().getAngle())); 
+						game.getPaddle2().setYPos(0 + 255*Math.sin(game.getPaddle2().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.D) {
-			    	game.getPaddle2().setXPos(game.getPaddle2().getXPos() + game.getPaddle2().getXVelocity()); // move paddle right
+					    game.getPaddle2().addToAngle(2);
+						game.getPaddle2().setXPos(1024-128 - 255*Math.cos(game.getPaddle2().getAngle())); 
+				  		game.getPaddle2().setYPos(0 + 255*Math.sin(game.getPaddle2().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.J) { //p3 
-				  	game.getPaddle3().setXPos(game.getPaddle3().getXPos() - game.getPaddle3().getXVelocity()); 
+					    game.getPaddle3().addToAngle(3);
+					    System.out.println(game.getPaddle3().getAngle());
+					  	game.getPaddle3().setXPos(128 - 255*Math.cos(game.getPaddle3().getAngle())); 
+						game.getPaddle3().setYPos(768 + 255*Math.sin(game.getPaddle3().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.L) {
-			    	game.getPaddle3().setXPos(game.getPaddle3().getXPos() + game.getPaddle3().getXVelocity()); 
+				  		game.getPaddle3().subtractToAngle(3);
+					    System.out.println(game.getPaddle3().getAngle());
+						game.getPaddle3().setXPos(128 - 255*Math.cos(game.getPaddle3().getAngle())); 
+				  		game.getPaddle3().setYPos(768 + 255*Math.sin(game.getPaddle3().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.V) { //p4
-				  	game.getPaddle4().setXPos(game.getPaddle4().getXPos() - game.getPaddle4().getXVelocity()); 
+					    game.getPaddle4().addToAngle(4);
+					    System.out.println(game.getPaddle4().getAngle());
+					  	game.getPaddle4().setXPos(1024-128 - 255*Math.cos(game.getPaddle4().getAngle())); 
+						game.getPaddle4().setYPos(768 + 255*Math.sin(game.getPaddle4().getAngle()));
 			      }
 			      if (key.getCode() == KeyCode.N) {
-			    	game.getPaddle4().setXPos(game.getPaddle4().getXPos() + game.getPaddle4().getXVelocity()); 
+				  		game.getPaddle4().subtractToAngle(4);
+					    System.out.println(game.getPaddle4().getAngle());
+						game.getPaddle4().setXPos(1024-128 - 255*Math.cos(game.getPaddle4().getAngle())); 
+				  		game.getPaddle4().setYPos(768 + 255*Math.sin(game.getPaddle4().getAngle()));
 			      }
 			     
  			      });
@@ -249,29 +285,5 @@ public class InGameViewController {
 			}
 			j++;
 		}
-	}
-	
-	// Makes sure paddle stays within bounds of window 
-	// TODO: take in paddle as parameter. since we have 4 paddles now 
-	public void checkPaddleBounds(PaddleModel paddle) {
-		if ((paddle.getXPos() < 128)) { // hit left wall
-			paddle.setXPos(128); // changed from the paddlewidth/2 nonsense since xpos is actually the left edge of the paddle
-		}
-		
-		// hit right wall    
-		if ((paddle.getXPos() > 768+128-100)) { // CHANGE '100' ACCORDING TO WIDTH OF PADDLE  
-			paddle.setXPos(768+128-100);
-		}
-		
-		// top and bottom might be interesting since the paddle rotates 90 degrees.  the left edge might no longer be the left edge?
-		if ((paddle.getYPos() < 0)) { // hit top wall
-			paddle.setYPos(0+100);
-		}
-		
-		if ((paddle.getYPos() > 768)) { // hit bottom wall
-			paddle.setYPos(768-100);
-		}
-		
-		// TODO: paddle shouldn't be able to move out of each player's bounds
 	}
 }

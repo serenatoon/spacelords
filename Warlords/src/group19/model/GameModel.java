@@ -54,13 +54,13 @@ public class GameModel {
 		}
 		
 		// might move creation of paddles into the arraylist creation instead? 
-		paddle1 = new PaddleModel(128, 255, warlord1);
+		paddle1 = new PaddleModel(128, 255, warlord1, 1);
 		paddleList.add(paddle1);
-		paddle2 = new PaddleModel(700, 255, warlord2);
+		paddle2 = new PaddleModel(1024-128-40, 255, warlord2, 2); //x = window width - HUD - paddle length, y = radius of curved path
 		paddleList.add(paddle2);
-		paddle3 = new PaddleModel(180, 768-255, warlord3);
+		paddle3 = new PaddleModel(128, 768-255, warlord3, 3);
 		paddleList.add(paddle3);
-		paddle4 = new PaddleModel(700, 768-255, warlord4);
+		paddle4 = new PaddleModel(1024-128-40, 768-255, warlord4, 4);
 		paddleList.add(paddle4);
 		
 		remainingTime.set(120);
