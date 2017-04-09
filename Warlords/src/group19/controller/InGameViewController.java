@@ -84,13 +84,6 @@ public class InGameViewController {
 				
 		game.getBall().moveBall();
 		checkBallCollision(); 
-
-		// keep paddle within bounds for all 4 paddles 
-		ListIterator<PaddleModel> iterator = paddles.listIterator();
-		while (iterator.hasNext()) {
-			checkPaddleBounds(iterator.next());
-		}
-		
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
