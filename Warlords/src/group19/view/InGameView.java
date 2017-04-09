@@ -72,7 +72,7 @@ public class InGameView {
 		Image bgImage = new Image("/res/images/space_lf.png");
 		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null);
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawCountdown(), drawP1Arc(), drawBall(), drawPaddle(game.getPaddle1()),
+		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
 				drawPaddle(game.getPaddle4()),
 				//drawBrick(),
@@ -203,20 +203,6 @@ public class InGameView {
 		countdown.setFont(Font.font("/res/fonts/kenvector_future_thin.ttf", 98));
 		countdown.setFill(Color.ANTIQUEWHITE);
 		return countdown; 
-	}
-	
-	public Node drawP1Arc() {
-        Arc arc = new Arc();
-        arc.setLayoutX(0);
-        arc.setLayoutY(0);
-        arc.setCenterX(128.0f);
-        arc.setRadiusX(255.0f);
-        arc.setRadiusY(255.0f);
-        arc.setStartAngle(270.0f);
-        arc.setLength(90.0f);
-        arc.setFill(Color.RED);
-        arc.setType(ArcType.ROUND);
-        return arc;
 	}
 	
 }
