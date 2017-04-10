@@ -31,6 +31,7 @@ public class InGameViewController {
 	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
     private boolean gameStarted;
     boolean paddleCollision;
+    private int ticksElapsed; // we don't want AI to move every tick 
 
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -42,6 +43,7 @@ public class InGameViewController {
 		paddles = game.getPaddleList();
 		bricks = game.getBrickList();
 		warlords = game.getWarlordList();
+		ticksElapsed = 0;
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -95,8 +97,16 @@ public class InGameViewController {
 				
 		game.getBall().moveBall();
 		//checkBallCollision(); // REFACTORED TO 3 SEPARATE METHODS, SEE BELOW vvvvvvv
+		
+		// move AI once every 3 ticks 
 		if (gsc.getSinglePlayer() == true) {
-			moveAI();
+			if (ticksElapsed >= 3) {
+				moveAI();
+				ticksElapsed = 0;
+			}
+			else {
+				ticksElapsed++;
+			}
 		}
 		
 		// check that ball doesn't hit edges of screen. might fk up if it hits right in the corner
@@ -248,8 +258,8 @@ public class InGameViewController {
 			public void run() {
 		
 				int distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
-		        int distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
-		        int distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
+		        int distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
+		        int distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
 				/*
 		         * Do nothing if the ball is not moving towards us.
 		         */
@@ -276,8 +286,6 @@ public class InGameViewController {
 //					game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
 //			  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
 //		        }
-		        
-		        /////
 		        
 		        if (distanceFromPaddle2 < 0) { // move right
 				    game.getPaddle2().addToAngle(2); 
@@ -363,23 +371,26 @@ public class InGameViewController {
 			for (int i = 0; i < 4; i++) { 
 				if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 	
 					// sorry spaghetti code... 
-					if (game.getBall().getYPos() < paddles.get(i).getYPos() // if ball hits top edge of paddle 
-							|| game.getBall().getYPos() > paddles.get(i).getYPos()+40) { // or bottom edge of paddle
-						if (game.getBall().getYPos() < paddles.get(i).getYPos()) {
+					// +20 because in one tick the ball might move PAST the actual edge of the paddle so +20 is midway point of the paddle 
+					// instances of +40 is because the x,y co-ordinate is actually the TOP LEFT of the paddle
+					// +10 just because it works 
+					if (game.getBall().getYPos() < paddles.get(i).getYPos()+20 // if ball hits top edge of paddle 
+							|| game.getBall().getYPos() > paddles.get(i).getYPos()+20) { // or bottom edge of paddle
+						if (game.getBall().getYPos() <= paddles.get(i).getYPos()+20) {
 							game.getBall().setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't go SKKRTTTT
 						}
 						else {
-							game.getBall().setYPos(paddles.get(i).getYPos()+40+10); // set y pos to below 
+							game.getBall().setYPos(paddles.get(i).getYPos() + 40 + 10); // set y pos to below 
 						}
 						game.getBall().bounceY(); // only bounce on Y axis 
 					}
-					else if (game.getBall().getXPos() < paddles.get(i).getXPos() // if ball hits left edge of paddle 
-							|| game.getBall().getXPos() > paddles.get(i).getXPos()+40) { // or right edge of paddle
-						if (game.getBall().getXPos() < paddles.get(i).getXPos()) {
+					else if (game.getBall().getXPos() < paddles.get(i).getXPos()+20 // if ball hits left edge of paddle 
+							|| game.getBall().getXPos() > paddles.get(i).getXPos()+20) { // or right edge of paddle
+						if (game.getBall().getXPos() < paddles.get(i).getXPos()+20) {
 							game.getBall().setXPos(paddles.get(i).getXPos()-10);
 						}
 						else {
-							game.getBall().setXPos(paddles.get(i).getXPos()+40+10);
+							game.getBall().setXPos(paddles.get(i).getXPos()+ 40 + 10);
 						}
 						game.getBall().bounceX(); // only bounce on X axis 
 					}
