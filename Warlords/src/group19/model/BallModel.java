@@ -36,6 +36,10 @@ public class BallModel extends ObjectModel {
 		yVelocity = velocity;
 	}
 	
+	public void setXVelocity(int velocity) {
+		xVelocity = velocity;
+	}
+	
 	// Reverse ball's velocity velocity when it hits an object 
 	public void bounceY() {
 		yVelocity = -(yVelocity);
@@ -68,5 +72,9 @@ public class BallModel extends ObjectModel {
 	}
 	public void playWarlordSound() {
 		ballToWarlord.play();
+	}
+	
+	public void setRadius(int radius) {
+		this.radius = radius;
 	}
 }

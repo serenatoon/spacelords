@@ -20,6 +20,7 @@ public class WarlordModel extends ObjectModel {
 	private int upperYBounds;
 	private int score;
 	private int bricksAlive;
+	private int lives;
     //private ArrayList<BrickModel> brickList;  // bricks belong to a warlord 
 	
 	AudioClip warlordDead = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
@@ -38,6 +39,7 @@ public class WarlordModel extends ObjectModel {
 		height = 120;
 		setPaddleBounds();
 		score = 0;
+		lives = 1;
 	}
 
 	public void setPlayer(int player) { //this is a new method - connects player to warlord
@@ -146,5 +148,17 @@ public class WarlordModel extends ObjectModel {
 	
 	public void destroyBrick() {
 		bricksAlive -= 1;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+	
+	public void addLives() {
+		lives++;
+	}
+	
+	public void loseLife() {
+		lives--;
 	}
 }
