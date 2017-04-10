@@ -30,6 +30,7 @@ public class InGameViewController {
 	public final  Loop gameLoop = new Loop();
 	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
     private boolean gameStarted;
+    boolean paddleCollision;
 
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -135,66 +136,77 @@ public class InGameViewController {
 	/*Listen for key input for paddle to move. if input is true, input is allowed to occur. if input is false, 
 	(e.g. gameLoop.stop() was called in pause, then don't listen to key events) */
 	public void KeyEventListener() {
-		if (gsc.getSinglePlayer() == true) {
-		view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-	      if (key.getCode() == KeyCode.LEFT) {
-		    game.getPaddle1().subtractToAngle(1);
-		  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
-			game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
-	    	
-	      }
-	      if (key.getCode() == KeyCode.RIGHT) {
-	  		game.getPaddle1().addToAngle(1);
-			game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
-	  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
-	    	
-	      }
-	      });
-		}
-		else { //multiplayer mode on 
-			view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
-			      if (key.getCode() == KeyCode.LEFT) { //p1
-					    game.getPaddle1().subtractToAngle(1);
-					  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
-						game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+		Thread keyListenerThread = new Thread() {
+			public void run() {
+				if (gsc.getSinglePlayer() == true) {
+				view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+			      if (key.getCode() == KeyCode.LEFT) {
+				    game.getPaddle1().subtractToAngle(1);
+				  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+					game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+			    	
 			      }
 			      if (key.getCode() == KeyCode.RIGHT) {
-				  		game.getPaddle1().addToAngle(1);
-						game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
-				  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+			  		game.getPaddle1().addToAngle(1);
+					game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); //orbit
+			  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+			    	
 			      }
-			      if (key.getCode() == KeyCode.A) { //p2 
-				  		game.getPaddle2().subtractToAngle(2);
-					  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-						game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-			      }
-			      if (key.getCode() == KeyCode.D) {
-					    game.getPaddle2().addToAngle(2);
-						game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-				  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-			      }
-			      if (key.getCode() == KeyCode.J) { //p3 
-					    game.getPaddle3().addToAngle(3);
-					  	game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-						game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
-			      }
-			      if (key.getCode() == KeyCode.L) {
-				  		game.getPaddle3().subtractToAngle(3);
-						game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-				  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
-			      }
-			      if (key.getCode() == KeyCode.V) { //p4
-					    game.getPaddle4().addToAngle(4);
-					  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-						game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
-			      }
-			      if (key.getCode() == KeyCode.N) {
-				  		game.getPaddle4().subtractToAngle(4);
-						game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-				  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
-			      }
-			     
- 			      });
+			      });
+				}
+				else { //multiplayer mode on 
+					view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
+					      if (key.getCode() == KeyCode.LEFT) { //p1
+							    game.getPaddle1().subtractToAngle(1);
+							  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+								game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.RIGHT) {
+						  		game.getPaddle1().addToAngle(1);
+								game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+						  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.A) { //p2 
+						  		game.getPaddle2().subtractToAngle(2);
+							  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+								game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.D) {
+							    game.getPaddle2().addToAngle(2);
+								game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+						  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.J) { //p3 
+							    game.getPaddle3().addToAngle(3);
+							  	game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+								game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.L) {
+						  		game.getPaddle3().subtractToAngle(3);
+								game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+						  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.V) { //p4
+							    game.getPaddle4().addToAngle(4);
+							  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+								game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+					      }
+					      if (key.getCode() == KeyCode.N) {
+						  		game.getPaddle4().subtractToAngle(4);
+								game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+						  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+					      }
+					     
+		 			      });
+				}
+			}
+		};
+		keyListenerThread.start();
+		try {
+			keyListenerThread.join(); // main thread waits for this thread to finish 
+		}
+		catch(InterruptedException ie) {
+				// ??? 
 		}
 	}
 	//We don't want this shit to open 60 times a second. Please have mercy on my RAM.
@@ -235,26 +247,26 @@ public class InGameViewController {
 	// might break if hits corners 
 	public boolean checkBallBounds() {
 		if (game.getBall().getXPos() < 128) { // left edge	
-			//game.getBall().setXPos(game.getBall().getRadius() + 128);
+			game.getBall().setXPos(game.getBall().getRadius() + 128); // needs to be here or else the ball goes SKRRRT sometimes 
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
 			return true;
 		}
 		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 896)) { // right edge 
-			//game.getBall().setXPos(896-game.getBall().getRadius());
+			game.getBall().setXPos(896-game.getBall().getRadius());
 			game.getBall().bounceX();
 			game.getBall().playWallSound();
 			return true;
 		}
 		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // bottom edge 
-			//game.getBall().setYPos(768-game.getBall().getRadius());
+			game.getBall().setYPos(768-game.getBall().getRadius());
 			game.getBall().bounceY();
 			game.getBall().playWallSound();
 			return true;
 		}
 		
 		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // top edge 
-			//game.getBall().setYPos(game.getBall().getRadius());
+			game.getBall().setYPos(game.getBall().getRadius());
 			game.getBall().bounceY();
 			game.getBall().playWallSound();
 			return true;
@@ -266,23 +278,37 @@ public class InGameViewController {
 	// Iterate through all paddles, checking if the ball hits any of them
 	// Ensure ball does not travel through paddle, changes direction of ball
 	public boolean checkPaddleCollision() {
-		for (int i = 0; i < 4; i++) { 
-			if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 
-				if (game.getBall().getYPos() < paddles.get(i).getYPos()) { // if ball is above paddle
-					//game.getBall().setYPos(paddles.get(i).getYPos()-game.getBall().getRadius()-10); // I don't know why it's 10. but it works
+			for (int i = 0; i < 4; i++) { 
+				if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 	
+					// sorry spaghetti code... 
+					if (game.getBall().getYPos() < paddles.get(i).getYPos() // if ball hits top edge of paddle 
+							|| game.getBall().getYPos() > paddles.get(i).getYPos()+40) { // or bottom edge of paddle
+						if (game.getBall().getYPos() < paddles.get(i).getYPos()) {
+							game.getBall().setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't go SKKRTTTT
+						}
+						else {
+							game.getBall().setYPos(paddles.get(i).getYPos()+40+10); // set y pos to below 
+						}
+						game.getBall().bounceY(); // only bounce on Y axis 
+					}
+					else if (game.getBall().getXPos() < paddles.get(i).getXPos() // if ball hits left edge of paddle 
+							|| game.getBall().getXPos() > paddles.get(i).getXPos()+40) { // or right edge of paddle
+						if (game.getBall().getXPos() < paddles.get(i).getXPos()) {
+							game.getBall().setXPos(paddles.get(i).getXPos()-10);
+						}
+						else {
+							game.getBall().setXPos(paddles.get(i).getXPos()+40+10);
+						}
+						game.getBall().bounceX(); // only bounce on X axis 
+					}
+					
+					paddles.get(i).paddleHitSound();
+					return true;
 				}
-				else {
-					//game.getBall().setYPos(paddles.get(i).getYPos()+game.getBall().getRadius()+10);
-				}
-				game.getBall().bounceY();
-				game.getBall().bounceX(); // TODO: when to bounce x when to bounce y 
-				paddles.get(i).paddleHitSound();
-				return true;
 			}
-		}
-		return false;
+			return false;
 	}
-	
+
 	// when a warlord dies, the warlord who killed him should be the winner (or have score incremented)
 	// therefore we must note down the the last paddle (and thus warlord) that the ball bounced off
 	// store in a variable? 
@@ -318,15 +344,14 @@ public class InGameViewController {
 			int j = 0;
 			for (BrickModel b : bricks) {
 				if (InGameView.drawBall().intersects(bricks.get(j).getNode().getBoundsInParent())) { 
-					// this made things bug out (i.e. destroy lots of bricks at a time) 
-	//				if (game.getBall().getYPos() < bricks.get(j).getYPos()) { // if ball is above brick
-	//					//game.getBall().setYPos(bricks.get(j).getYPos()-game.getBall().getRadius()-30); // I don't know why it's 10. but it works
-	//				}
-	//				else {
-	//					//game.getBall().setYPos(bricks.get(j).getYPos()+game.getBall().getRadius()+30);
-	//				}
-			        game.getBall().bounceY();
-			        game.getBall().bounceX(); // TODO: when to bounce x when to bounce y 
+					if (game.getBall().getYPos() < bricks.get(j).getYPos() // if ball hits top edge of brick 
+							|| game.getBall().getYPos() > bricks.get(j).getYPos()+20) { // or bottom edge of brick (+20 for width/height of brick) 
+						game.getBall().bounceY(); // only bounce on Y axis 
+					}
+					else if (game.getBall().getXPos() < bricks.get(j).getXPos() // if ball hits left edge of brick 
+							|| game.getBall().getXPos() > bricks.get(j).getXPos()+20) { // or right edge of brick 
+						game.getBall().bounceX(); // only bounce on X axis 
+					}
 			        bricks.get(j).destroy(); 
 			        bricks.remove(j); // remove element from arraylist so there are fewer bricks to check 
 			        return true;

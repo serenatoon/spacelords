@@ -22,7 +22,7 @@ public class BallModel extends ObjectModel {
 	// of radius 10, vertical and horizontal velocities of 5px/frame 
 	public BallModel(int x, int y) {
 		super(x, y);
-		radius = 6;  
+		radius = 8;  
 		xVelocity = ThreadLocalRandom.current().nextInt(5, 11);
 		yVelocity = ThreadLocalRandom.current().nextInt(5, 11); 
 	}
