@@ -60,7 +60,7 @@ public class InGameViewController {
 					if (game.getCountdownTime().intValue() <= 0) {
                         if (!keyListenerCalled) {
                             view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
-                            KeyEventListener();    //if memory issues arise in future, move this out
+                            KeyEventListener();   
                         }
 
 						tick();
@@ -91,7 +91,6 @@ public class InGameViewController {
 				
 		game.getBall().moveBall();
 		//checkBallCollision();
-		
 		// check that ball doesn't hit edges of screen. might fk up if it hits right in the corner
 		// if ball hits edge, it can't have hit a paddle (unless it hits the corner but.... no pls) 
 		// etc etc... in other words i don't want to check for brick collision until i have to 
@@ -127,6 +126,39 @@ public class InGameViewController {
 	    	
 	      }
 	      });
+		//make other three paddles move (AI)
+        
+
+		int distanceFromPaddle2 = game.getPaddle2().getXPos() - game.getBall().getXPos();
+        int distanceFromPaddle3 = game.getPaddle3().getXPos() - game.getBall().getXPos();
+        int distanceFromPaddle4 = game.getPaddle4().getXPos() - game.getBall().getXPos();
+		/*
+         * Do nothing if the ball is not moving towards us.
+         */
+        if (Math.signum(distanceFromPaddle2) != Math.signum(game.getBall().getXVelocity())) { //returns -1 or 1 based on T/F
+            game.getPaddle2().setXPos(game.getPaddle2().getXPos());
+            game.getPaddle2().setYPos(game.getPaddle2().getYPos());
+        }
+
+        /*
+         * Find out where the ball is heading for and move in that direction (this does not look
+         * ahead past collisions).
+         */
+        int target2 =game.getBall().getYPos() + distanceFromPaddle2 * (int)Math.tan(game.getBall().getXPos()); //deliberate cast to int to increase inaccuracies
+        boolean paddleOnTarget = (target2 >= game.getPaddle2().getYPos()) && (game.getPaddle2().getYPos()) <= (game.getPaddle2().getYPos() + 40);
+        if (paddleOnTarget) {
+            game.getPaddle2().setXPos(game.getPaddle2().getXPos()); //stay 
+            game.getPaddle2().setYPos(game.getPaddle2().getYPos());
+        } else if (target2 < game.getPaddle2().getYPos()) { 
+	  		game.getPaddle2().subtractToAngle(2); //move left, as with multiplayer code
+		  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+			game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+        } else if (target2 > game.getPaddle2().getYPos()) {
+		    game.getPaddle2().addToAngle(2); //move right
+			game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+	  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+        }
+        
 		}
 		else { //multiplayer mode on 
 			view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
