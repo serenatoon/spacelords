@@ -109,4 +109,9 @@ public class PaddleModel extends ObjectModel {
 			else angle = 4.84;
 		}
 	}
+	
+	// TODO: turn off keylistener 
+	public void setDead() {
+		super.setXPos(1500); // move paddle off screen
+	}
 }

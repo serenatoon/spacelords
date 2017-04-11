@@ -169,46 +169,57 @@ public class InGameViewController {
 				}
 				else { //multiplayer mode on 
 					view.getScene().addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { 
-					      if (key.getCode() == KeyCode.LEFT) { //p1
-							    game.getPaddle1().subtractToAngle(1);
-							  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
-								game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.RIGHT) {
-						  		game.getPaddle1().addToAngle(1);
-								game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
-						  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.A) { //p2 
-						  		game.getPaddle2().subtractToAngle(2);
-							  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-								game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.D) {
-							    game.getPaddle2().addToAngle(2);
-								game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-						  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.J) { //p3 
-							    game.getPaddle3().addToAngle(3);
-							  	game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-								game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.L) {
-						  		game.getPaddle3().subtractToAngle(3);
-								game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-						  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.V) { //p4
-							    game.getPaddle4().addToAngle(4);
-							  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-								game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
-					      }
-					      if (key.getCode() == KeyCode.N) {
-						  		game.getPaddle4().subtractToAngle(4);
-								game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-						  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
-					      }
+						if (!(warlords.get(0).isDead())) {
+						      if (key.getCode() == KeyCode.LEFT) { //p1
+								    game.getPaddle1().subtractToAngle(1);
+								  	game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+									game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+						      }
+						      if (key.getCode() == KeyCode.RIGHT) {
+							  		game.getPaddle1().addToAngle(1);
+									game.getPaddle1().setXPos(128 - 255*Math.cos(game.getPaddle1().getAngle())); 
+							  		game.getPaddle1().setYPos(0 + 255*Math.sin(game.getPaddle1().getAngle()));
+						      }
+						}
+						
+						if (!(warlords.get(1).isDead())) {
+						      if (key.getCode() == KeyCode.A) { //p2 
+							  		game.getPaddle2().subtractToAngle(2);
+								  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+									game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+						      }
+						      if (key.getCode() == KeyCode.D) {
+								    game.getPaddle2().addToAngle(2);
+									game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+							  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+						      }
+						}
+						
+						if (!(warlords.get(2).isDead())) {
+						      if (key.getCode() == KeyCode.J) { //p3 
+								    game.getPaddle3().addToAngle(3);
+								  	game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+									game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+						      }
+						      if (key.getCode() == KeyCode.L) {
+							  		game.getPaddle3().subtractToAngle(3);
+									game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+							  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+						      }
+						}
+						
+						if (!(warlords.get(3).isDead())) {
+						      if (key.getCode() == KeyCode.V) { //p4
+								    game.getPaddle4().addToAngle(4);
+								  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+									game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+						      }
+						      if (key.getCode() == KeyCode.N) {
+							  		game.getPaddle4().subtractToAngle(4);
+									game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+							  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+						      }
+						}
 					     
 		 			      });
 				}
@@ -260,64 +271,44 @@ public class InGameViewController {
 				int distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
 		        int distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
 		        int distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
-				/*
-		         * Do nothing if the ball is not moving towards us.
-		         */
-//		        if (Math.signum(distanceFromPaddle2) != Math.signum(game.getBall().getXVelocity())) { //returns -1 or 1 based on T/F
-//		            game.getPaddle2().setXPos(game.getPaddle2().getXPos());
-//		            game.getPaddle2().setYPos(game.getPaddle2().getYPos());
-//		        }
-//		
-//		        /*
-//		         * Find out where the ball is heading for and move in that direction (this does not look
-//		         * ahead past collisions).
-//		         */
-//		        int target2 = game.getBall().getYPos() + distanceFromPaddle2 * (int)Math.tan(game.getBall().getXPos()); //deliberate cast to int to increase inaccuracies
-//		        boolean paddleOnTarget = (target2 >= game.getPaddle2().getYPos()) && (game.getPaddle2().getYPos()) <= (game.getPaddle2().getYPos() + 40);
-//		        if (paddleOnTarget) {
-//		            game.getPaddle2().setXPos(game.getPaddle2().getXPos()); //stay 
-//		            game.getPaddle2().setYPos(game.getPaddle2().getYPos());
-//		        } else if (target2 < game.getPaddle2().getYPos()) { 
-//			  		game.getPaddle2().subtractToAngle(2); //move left, as with multiplayer code
-//				  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-//					game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-//		        } else if (target2 > game.getPaddle2().getYPos()) {
-//				    game.getPaddle2().addToAngle(2); //move right
-//					game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-//			  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-//		        }
 		        
-		        if (distanceFromPaddle2 < 0) { // move right
-				    game.getPaddle2().addToAngle(2); 
-					game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-			  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
-		        }
-		        else if (distanceFromPaddle2 > 0) {
-			  		game.getPaddle2().subtractToAngle(2); //move left, as with multiplayer code
-				  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
-					game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+		        if (!(warlords.get(1).isDead())) {
+			        if (distanceFromPaddle2 < 0) { // move right
+					    game.getPaddle2().addToAngle(2); 
+						game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+				  		game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+			        }
+			        else if (distanceFromPaddle2 > 0) {
+				  		game.getPaddle2().subtractToAngle(2); //move left, as with multiplayer code
+					  	game.getPaddle2().setXPos(1024-128 - 275*Math.cos(game.getPaddle2().getAngle())); 
+						game.getPaddle2().setYPos(0 + 275*Math.sin(game.getPaddle2().getAngle()));
+			        }
 		        }
 		        
-		        if (distanceFromPaddle3 < 0) { // move right
-		        	game.getPaddle3().subtractToAngle(3);
-					game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-			  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
-		        }
-		        else if (distanceFromPaddle3 > 0) {
-		        	 game.getPaddle3().addToAngle(3);
-		        	 game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
-		        	 game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+		        if (!(warlords.get(2).isDead())) {
+			        if (distanceFromPaddle3 < 0) { // move right
+			        	game.getPaddle3().subtractToAngle(3);
+						game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+				  		game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+			        }
+			        else if (distanceFromPaddle3 > 0) {
+			        	 game.getPaddle3().addToAngle(3);
+			        	 game.getPaddle3().setXPos(128 - 280*Math.cos(game.getPaddle3().getAngle())); 
+			        	 game.getPaddle3().setYPos(768 + 280*Math.sin(game.getPaddle3().getAngle()));
+			        }
 		        }
 		        
-		        if (distanceFromPaddle4 < 0) { // move right
-			  		game.getPaddle4().subtractToAngle(4);
-					game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-			  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
-		        }
-		        else if (distanceFromPaddle4 > 0) {
-		        	game.getPaddle4().addToAngle(4);
-				  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
-					game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+		        if (!(warlords.get(3).isDead())) {
+			        if (distanceFromPaddle4 < 0) { // move right
+				  		game.getPaddle4().subtractToAngle(4);
+						game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+				  		game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+			        }
+			        else if (distanceFromPaddle4 > 0) {
+			        	game.getPaddle4().addToAngle(4);
+					  	game.getPaddle4().setXPos(1024-128 - 290*Math.cos(game.getPaddle4().getAngle())); 
+						game.getPaddle4().setYPos(768 + 290*Math.sin(game.getPaddle4().getAngle()));
+			        }
 		        }
 			}
 		};
@@ -415,6 +406,7 @@ public class InGameViewController {
 				//warlords.remove(i);
 				// TODO: should ball travel through or bounce off? 
 				warlords.get(i).playWarlordDead();
+				paddles.get(i).setDead();
 				return true;
 			}
 		}
