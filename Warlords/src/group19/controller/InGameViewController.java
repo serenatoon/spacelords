@@ -10,6 +10,7 @@ import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import group19.model.*;
 
@@ -458,5 +459,13 @@ public class InGameViewController {
 			}
 		}
 		return false;
+	}
+	
+	public void spawnPowerUp() {
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 50) { // 50% chance to spawn a powerup, change later 
+			PowerUpModel powerup = new PowerUpModel(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90), 
+					ThreadLocalRandom.current().nextInt(129+90, 768-120-90),
+					ThreadLocalRandom.current().nextInt(1, 6));
+		}
 	}
 }
