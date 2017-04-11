@@ -1,5 +1,6 @@
 package group19.view;
 
+import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
 import group19.model.GameModel;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.stage.StageStyle;
 
 public class WinnerView extends PauseView {
 	static Scene winnerScene;
+	static String story;
 	public static void showScene() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //block input events in other windows 
@@ -35,9 +37,19 @@ public class WinnerView extends PauseView {
 		Text winner = new Text(235, 200, "Winner: " + GameModel.getWinner().getPlayerName());
 		winner.setFont(new Font("Arial",30));
 		winner.setFill(Color.ANTIQUEWHITE);
-		//Text score = new Text(235, 250, "Score: ");
-		//score.setFont(new Font(30));
-		//score.setFill(Color.ANTIQUEWHITE);
+		GameStateController.totalGamesPlayed++;
+		if (GameStateController.totalGamesPlayed == 1) {
+			story = "Well done, you have talent in this intergalactic sport.\nPlay again to continue through the tournament.";
+		}
+		else if (GameStateController.totalGamesPlayed == 2) {
+			story = "You have proven to be talented. Continue your journey to redemption.";
+		}
+		else {
+			story = "Just one more round to go before you are free.";
+		}
+		Text storyText = new Text(235, 250, GameModel.getWinner().getPlayerName() + " - " + story);
+		storyText.setFont(new Font(14));
+		storyText.setFill(Color.ANTIQUEWHITE);
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
                 new MenuItem("back to main menu"),
                 new MenuItem("instructions"),
@@ -51,7 +63,7 @@ public class WinnerView extends PauseView {
         AudioClip modeSelect = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_start.wav").toString());
 
         getMenuItem(0).setActive(true); //highlight first item in menu
-		layout.getChildren().addAll(title, winner, menuBox);
+		layout.getChildren().addAll(title, winner, menuBox, storyText);
 		//if attack mode, add score text too!!
 		pauseScene = new Scene(layout);
 		window.setResizable(false);

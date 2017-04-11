@@ -9,6 +9,7 @@ public class GameStateController {
 	public static final int GAME_IN_PROGRESS = 1;
 	public static final int GAME_COMPLETE = 2;
 	public static final int GAME_PAUSED = 3;
+	public static int totalGamesPlayed = 0;
 	public boolean isSinglePlayer;
     AudioClip gameOver = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/game_over.wav").toString());
 	
@@ -41,6 +42,5 @@ public class GameStateController {
 	public void playGameOver() {
 		gameOver.play();
 	}
-
 }
 	
