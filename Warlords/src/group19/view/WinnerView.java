@@ -35,7 +35,7 @@ public class WinnerView extends PauseView {
 		Text winner = new Text(235, 200, "Winner: " + GameModel.getWinner().getPlayerName());
 		winner.setFont(new Font("Arial",30));
 		winner.setFill(Color.ANTIQUEWHITE);
-		//ONLY SHOW SCORE IF ATTACK MODE
+		//ONLY SHOW SCORE IF ATTACK MODEwhen th
 		//Text score = new Text(235, 250, "Score: ");
 		//score.setFont(new Font(30));
 		//score.setFill(Color.ANTIQUEWHITE);

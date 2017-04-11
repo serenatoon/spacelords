@@ -66,12 +66,12 @@ public class GameMenuView extends Application {
     }
 
     private static Node title() {
-        String title = "WARLORDS";
+        String title = "SPACELORDS";
         HBox letters = new HBox(5); //for slight spacing
         letters.setAlignment(Pos.CENTER);
         for (int i = 0; i < title.length(); i++) {
             Text letter = new Text(title.charAt(i) + ""); //"" denotes the blank spacing
-            letter.setFont(Font.font("Arial", FontWeight.LIGHT, 110));
+            letter.setFont(Font.font("Arial", FontWeight.LIGHT, 90));
             letter.setFill(Color.ANTIQUEWHITE);
             letters.getChildren().add(letter); //letter is child node of letters 
             FadeTransition ft = new FadeTransition(Duration.seconds(1), letter); //fade effect
