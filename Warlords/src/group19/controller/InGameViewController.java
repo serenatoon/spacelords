@@ -429,14 +429,11 @@ public class InGameViewController {
 			int j = 0;
 			for (BrickModel b : bricks) {
 				if (InGameView.drawBall().intersects(bricks.get(j).getNode().getBoundsInParent())) { 
-					if (game.getBall().getYPos() < bricks.get(j).getYPos() // if ball hits top edge of brick 
-							|| game.getBall().getYPos() > bricks.get(j).getYPos()+20) { // or bottom edge of brick (+20 for width/height of brick) 
-						game.getBall().bounceY(); // only bounce on Y axis 
-					}
-					else if (game.getBall().getXPos() < bricks.get(j).getXPos() // if ball hits left edge of brick 
-							|| game.getBall().getXPos() > bricks.get(j).getXPos()+20) { // or right edge of brick 
-						game.getBall().bounceX(); // only bounce on X axis 
-					}
+					
+					game.getBall().bounceY(); // only bounce on Y axis 
+
+					game.getBall().bounceX(); // only bounce on X axis 
+
 			        bricks.get(j).destroy(); 
 			        bricks.remove(j); // remove element from arraylist so there are fewer bricks to check 
 			        return true;
