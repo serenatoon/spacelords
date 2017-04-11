@@ -125,6 +125,11 @@ public class InGameViewController {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
 		} 
+		
+		// ball speeds up a lot because time%10==0 happens multiple times because it is a double->int
+		if (game.getTimeRemaining().intValue() < 120 && game.getTimeRemaining().intValue() % 10 == 0) {
+			game.getBall().incrementVelocity();
+		}
 	}
 
 
@@ -257,9 +262,9 @@ public class InGameViewController {
 		Thread thread = new Thread() {
 			public void run() {
 		
-				int distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
-		        int distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
-		        int distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
+				double distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
+		        double distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
+		        double distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
 				/*
 		         * Do nothing if the ball is not moving towards us.
 		         */
