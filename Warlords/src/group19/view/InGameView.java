@@ -39,6 +39,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -61,7 +62,11 @@ public class InGameView {
 	
 	public Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
 	private Scene scene;
-	
+	public static String p1Name = "Player 1"; //these vars can be edited in PlayerNameView
+	public static String p2Name = "Player 2";
+	public static String p3Name = "Player 3";
+	public static String p4Name = "Player 4";
+
 	public InGameView (double width, double height, GameModel model) { //upon initialisation, switch focus to in game view
 		this.game = model; //pass input parameter out to local variable
         // BRICKS CURRENTLY BEING MADE IN GAMEMODEL, MIGHT MOVE TO WARLORD/PADDLE LATER
@@ -148,30 +153,22 @@ public class InGameView {
 		rightPanel.setLayoutY(0);
 		rightPanel.setFitWidth(128);
 		rightPanel.setFitHeight(768);
-		Text p1name = new Text(30, 50, "p1Name");
+		Text p1name = new Text(30, 50, p1Name);
 		p1name.setFont(Font.font("Arial", 18));
 		p1name.setFill(Color.ANTIQUEWHITE);
-		Text p1score = new Text(38,75, "<score>");
-		p1score.setFont(Font.font("Arial", 13));
-		p1score.setFill(Color.ANTIQUEWHITE);
-		Text p2name = new Text(926, 50, "p2Name");
+		p1name.setTextAlignment(TextAlignment.CENTER);
+		Text p2name = new Text(926, 50, p2Name);
 		p2name.setFont(Font.font("Arial", 18));
 		p2name.setFill(Color.ANTIQUEWHITE);
-		Text p2score = new Text(936, 75, "<score>");
-		p2score.setFont(Font.font("Arial", 13));
-		p2score.setFill(Color.ANTIQUEWHITE);
-		Text p3name = new Text(30, 718, "p3Name");
+		p2name.setTextAlignment(TextAlignment.CENTER);
+		Text p3name = new Text(30, 718, p3Name);
 		p3name.setFont(Font.font("Arial", 18));
 		p3name.setFill(Color.ANTIQUEWHITE);
-		Text p3score = new Text(40, 693, "<score>");
-		p3score.setFont(Font.font("Arial", 13));
-		p3score.setFill(Color.ANTIQUEWHITE);
-		Text p4name = new Text(926, 718, "p4Name");
+		p3name.setTextAlignment(TextAlignment.CENTER);
+		Text p4name = new Text(926, 718, p4Name);
 		p4name.setFont(Font.font("Arial", 18));
 		p4name.setFill(Color.ANTIQUEWHITE);
-		Text p4score = new Text(935,693, "<score>");
-		p4score.setFont(Font.font("Arial", 13));
-		p4score.setFill(Color.ANTIQUEWHITE);
+		p4name.setTextAlignment(TextAlignment.CENTER);
 		Text timerLeft = new Text(35,393, game.getTimeRemaining().toString()); 
 		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
 		timerLeft.setFont(Font.font("Arial", 18));
@@ -181,7 +178,7 @@ public class InGameView {
 		timerRight.setFont(Font.font("Arial", 18));
 		timerRight.setFill(Color.ANTIQUEWHITE); 
 		Group GUI = 
-		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p1score, p2name, p2score, p3name, p3score, p4name, p4score);
+		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p2name, p3name, p4name);
 		return GUI;
 		
 	}
