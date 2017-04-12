@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 public class PowerUpModel extends ObjectModel {
 	private int type;
 	public static final int SPEEDUP_BALL = 1;
+	public static final int EXTRA_BALL = 2;
 	private int radius;
 	private Circle circle; 
 	private int time; // how much time is remainng for the powerup effect (how long until it wears off) 
@@ -25,6 +26,9 @@ public class PowerUpModel extends ObjectModel {
 		circle = new Circle(radius);
         if (type == SPEEDUP_BALL) {
         	circle.setFill(Color.ROYALBLUE);
+        }
+        else if (type == EXTRA_BALL) {
+        	circle.setFill(Color.CRIMSON);
         }
         circle.setOpacity(30);
         circle.translateXProperty().bind(super.getXProperty());
@@ -43,6 +47,11 @@ public class PowerUpModel extends ObjectModel {
 		super.setXPos(1500); // once the power-up has been consumed, take it out of the field 
 	}
 	
+	public void consumePowerUp(GameModel game) {
+		game.addBall();
+		super.setXPos(1500); // once the power-up has been consumed, take it out of the field
+	}
+	
 	public int getTimeRemaining() {
 		return time;
 	}
@@ -58,5 +67,12 @@ public class PowerUpModel extends ObjectModel {
 	// Change powerup type along with its colour 
 	public void setType(int type) {
 		this.type = type;
+		
+		if (type == SPEEDUP_BALL) {
+        	circle.setFill(Color.ROYALBLUE);
+        }
+        else if (type == EXTRA_BALL) {
+        	circle.setFill(Color.CRIMSON);
+        }
 	}
 }

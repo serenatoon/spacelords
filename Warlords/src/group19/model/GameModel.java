@@ -12,6 +12,8 @@ import java.util.concurrent.ThreadLocalRandom;
 //the player number.
 public class GameModel {
 	private BallModel ball; 
+	private BallModel extraBall;
+	private int ballCount;
 	//private BrickModel brick; 
     private ArrayList<BrickModel> brickList; 
 	private WarlordModel warlord1;
@@ -29,9 +31,12 @@ public class GameModel {
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3.5);
 	private PowerUpModel powerup;
+
 	
 	public GameModel() {
 		ball = new BallModel(300, 300);
+		extraBall = new BallModel(1500, 1500); // create extra ball off-screen first 
+		ballCount = 1; // start game with 1 ball
 		
         brickList = new ArrayList<BrickModel>();
 
@@ -72,6 +77,10 @@ public class GameModel {
 	
 	public BallModel getBall() {
 		return ball;
+	}
+	
+	public BallModel getExtraBall() {
+		return extraBall;
 	}
 	
 //	public BrickModel getBrick() {
@@ -244,6 +253,21 @@ public class GameModel {
 	// We are actually reusing the same object
 	// Only changing the type 
 	public void newPowerUp() {
-		powerup.setType(ThreadLocalRandom.current().nextInt(1,3));
+		if (ballCount == 1) {
+			powerup.setType(ThreadLocalRandom.current().nextInt(1,2));
+		}
+		else {
+			powerup.setType(1);
+		}
+	}
+	
+	public void addBall() {
+		extraBall.setXPos(512);
+		extraBall.setYPos(384);
+		ballCount++;
+	}
+	
+	public int getBallCount() {
+		return ballCount;
 	}
 }
