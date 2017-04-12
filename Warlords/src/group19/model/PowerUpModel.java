@@ -13,7 +13,7 @@ public class PowerUpModel extends ObjectModel {
 	public static final int EXTRA_BALL = 2;
 	private int radius;
 	private Circle circle; 
-	private int time; // how much time is remaining for the powerup effect (how long until it wears off) 
+	private int time; 
 	
 	public PowerUpModel(int x, int y, int powerup_type) {
 		super(x, y);
@@ -40,8 +40,8 @@ public class PowerUpModel extends ObjectModel {
 	
 	public void consumePowerUp(BallModel ball) {
 		if (type == SPEEDUP_BALL) {
-			ball.setYVelocity((int) (ball.getYVelocity() * 1.2)); // might make these RNG 
-			ball.setXVelocity((int) (ball.getXVelocity() * 1.2));
+			ball.setYVelocity((int) (ball.getYVelocity() * 1.1)); 
+			ball.setXVelocity((int) (ball.getXVelocity() * 1.1));
 		}
 		super.setXPos(1500); // once the power-up has been consumed, take it out of the field 
 	}
@@ -59,6 +59,7 @@ public class PowerUpModel extends ObjectModel {
 		time--;
 	}
 	
+	// Used to determine collisions and also draw the object 
 	public Node getNode() {
 		return circle;
 	}

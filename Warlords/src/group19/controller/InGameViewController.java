@@ -7,6 +7,8 @@ import group19.view.WinnerView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.transform.Rotate;
+import java.lang.Math;
+
 
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -104,9 +106,17 @@ public class InGameViewController {
 		// move AI once every 3 ticks 
 		// AI should not move every single tick or else it will be moving too quickly 
 		if (gsc.getSinglePlayer() == true) {
-			if (ticksElapsed >= 3) {
-				moveAI();
-				ticksElapsed = 0;
+			if (Math.abs(game.getBall().getXVelocity()) > 15) {
+				if (ticksElapsed >= 2) {
+					moveAI();
+				}
+				else {
+					ticksElapsed++;
+				}
+			}
+			else if (ticksElapsed >= 3) {
+					moveAI();
+					ticksElapsed = 0;
 			}
 			else {
 				ticksElapsed++;
@@ -115,7 +125,7 @@ public class InGameViewController {
 		
 		// frequency at which powerups are spawned 
 		if (!powerUpSpawned) {
-			if (powerUpTicks >= 200) {
+			if (powerUpTicks >= 500) {
 				spawnPowerUp();
 				powerUpTicks = 0;
 			}
@@ -473,21 +483,32 @@ public class InGameViewController {
 	}
 	
 	public void spawnPowerUp() {
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 100) { // 90% chance to spawn a powerup
+		if (ThreadLocalRandom.current().nextInt(0, 101) <= 50) { // 50% chance to spawn a powerup
+			// place power-up in random position: 
+			/* | x |        | x |
+			 * ----         ----
+			 *     ////////
+			 *     ////////    <------------  within this area
+			 *    ////////				         
+			 * ----         ----
+			 * | x |       | x |
+			 */
 			game.getPowerUp().setXPos(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90)); 
 			game.getPowerUp().setYPos(ThreadLocalRandom.current().nextInt(129+90, 768-120-90));
 			powerUpSpawned = true;
 		}
 	}
 	
+	// Checks whether or not the ball has hit a power-up 
+	// Activate the power-up if it has 
 	public boolean checkPowerUpCollision(BallModel ball) {
-		if (powerUpSpawned) {
+		if (powerUpSpawned) { // only go through logic if there is currently a power-up on the board 
 			if (InGameView.drawBall(ball).intersects(game.getPowerUp().getNode().getBoundsInParent())) {
 				if (game.getPowerUp().getType() == 1) {
-					game.getPowerUp().consumePowerUp(game.getBall());
+					game.getPowerUp().consumePowerUp(game.getBall()); // speed up ball 
 				}
 				else {
-					game.getPowerUp().consumePowerUp(game);
+					game.getPowerUp().consumePowerUp(game); // add ball 
 				}
 				game.newPowerUp();
 				powerUpSpawned = false;

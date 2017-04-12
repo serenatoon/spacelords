@@ -237,15 +237,18 @@ public class GameModel {
 		setWinner();
 	}
 	
+	// Timer
 	public void decrementTime(DoubleProperty time, float seconds) {
 		float currentTime = time.floatValue();
 		time.set(currentTime - seconds);
 	}
 	
+	// Return current time of countdown timer (3-2-1 countdown at beginning) 
 	public DoubleProperty getCountdownTime() {
 		return countdownTime;
 	}
 	
+	// Return current power-up which is in queue 
 	public PowerUpModel getPowerUp() {
 		return powerup;
 	}
@@ -262,12 +265,14 @@ public class GameModel {
 		}
 	}
 	
+	// Spawn a new ball with random velocity in the centre of the screen
 	public void addBall() {
 		extraBall.setXPos(512);
 		extraBall.setYPos(384);
 		ballCount++;
 	}
 	
+	// Get number of balls in the playing field 
 	public int getBallCount() {
 		return ballCount;
 	}
