@@ -26,18 +26,12 @@ Player 2 - A and D
 Player 3 - J and L
 Player 4 - V and N
 
-Attack mode is a special multiplayer mode where a score is kept. Scores are incremented as players destroy other player's bricks, encourage players to attack instead of defending
-
 General controls:
 ESC - if in game, goes back to the main menu.
 P - pauses the game and opens up the pause menu.
 T (cheat) - decreases the time remaining in the round by 5 seconds.
 PGDN - reduces the time remaining to zero so the game ends immediately.
 
-Location of MVC Diagram
-------------------
-
-The MVC Diagram can be found in the project root folder, labelled "mvcPrototype_group19.pdf".
 
 Compilation Instructions
 ------------------
