@@ -3,7 +3,6 @@ package group19.model;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 // Class for a model of a power-up
 // Has many things in common with a regular game object, thus inherits from the ObjectModel class
@@ -14,7 +13,7 @@ public class PowerUpModel extends ObjectModel {
 	public static final int EXTRA_BALL = 2;
 	private int radius;
 	private Circle circle; 
-	private int time; // how much time is remainng for the powerup effect (how long until it wears off) 
+	private int time; // how much time is remaining for the powerup effect (how long until it wears off) 
 	
 	public PowerUpModel(int x, int y, int powerup_type) {
 		super(x, y);

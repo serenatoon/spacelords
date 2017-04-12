@@ -47,7 +47,6 @@ public class InGameViewController {
 		warlords = game.getWarlordList();
 		ticksElapsed = 0;
 		powerUpSpawned = false;
-		attacker = null;
 		powerUpTicks = 0;
 	}
 	
@@ -445,7 +444,7 @@ public class InGameViewController {
 	
 	// Loop through every brick which has not yet been destroyed, checking if the ball collides with any of them 
 	// Returns a bool as to whether or not a collision was detected 
-	public boolean checkBrickCollision(BallModel) {
+	public boolean checkBrickCollision(BallModel ball) {
 		/* | x |        | x |
 		 * ----         ----
 		 *     ////////
@@ -474,7 +473,7 @@ public class InGameViewController {
 	}
 	
 	public void spawnPowerUp() {
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 90) { // 50% chance to spawn a powerup, change later 
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 100) { // 90% chance to spawn a powerup
 			game.getPowerUp().setXPos(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90)); 
 			game.getPowerUp().setYPos(ThreadLocalRandom.current().nextInt(129+90, 768-120-90));
 			powerUpSpawned = true;

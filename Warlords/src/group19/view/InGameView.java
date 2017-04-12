@@ -54,11 +54,11 @@ public class InGameView {
 		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(game.getBall()), drawBall(game.getExtraBall()), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
 				drawPaddle(game.getPaddle4()),
-				//drawBrick(),
 				drawWarlord(game.getWarlord1(), new ImageView("/res/images/baseP1.png")),
 				drawWarlord(game.getWarlord2(), new ImageView("/res/images/baseP2.png")),
 				drawWarlord(game.getWarlord3(), new ImageView("/res/images/baseP3.png")), 
 				drawWarlord(game.getWarlord4(), new ImageView("/res/images/baseP4.png")),
+				game.getPowerUp().getNode(),
 				drawGUI()); //add child nodes here (all GUI elements)
 		
 		int i = 0;
