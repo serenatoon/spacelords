@@ -4,6 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 //This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
@@ -11,6 +12,8 @@ import java.util.ListIterator;
 //the player number.
 public class GameModel {
 	private BallModel ball; 
+	private BallModel extraBall;
+	private int ballCount;
     private ArrayList<BrickModel> brickList; 
 	private WarlordModel warlord1;
 	private WarlordModel warlord2;
@@ -26,9 +29,13 @@ public class GameModel {
 	private ArrayList<WarlordModel> warlordList = new ArrayList<WarlordModel>();
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3.5);
+	private PowerUpModel powerup;
+
 	
 	public GameModel() {
 		ball = new BallModel(300, 300);
+		extraBall = new BallModel(1500, 1500); // create extra ball off-screen first 
+		ballCount = 1; // start game with 1 ball
 		
         brickList = new ArrayList<BrickModel>();
 
@@ -64,10 +71,15 @@ public class GameModel {
 		paddleList.add(paddle4);
 		
 		remainingTime.set(120); // each game should start with 120 seconds remaining on the clock 
+		powerup = new PowerUpModel(1500, 1500, ThreadLocalRandom.current().nextInt(1,2)); // first create the powerup 
 	}
 	
 	public BallModel getBall() {
 		return ball;
+	}
+	
+	public BallModel getExtraBall() {
+		return extraBall;
 	}
 	
     
@@ -232,5 +244,31 @@ public class GameModel {
 	
 	public DoubleProperty getCountdownTime() {
 		return countdownTime;
+	}
+	
+	public PowerUpModel getPowerUp() {
+		return powerup;
+	}
+	
+	// Create a new powerup
+	// We are actually reusing the same object
+	// Only changing the type 
+	public void newPowerUp() {
+		if (ballCount == 1) {
+			powerup.setType(ThreadLocalRandom.current().nextInt(1,2));
+		}
+		else {
+			powerup.setType(1);
+		}
+	}
+	
+	public void addBall() {
+		extraBall.setXPos(512);
+		extraBall.setYPos(384);
+		ballCount++;
+	}
+	
+	public int getBallCount() {
+		return ballCount;
 	}
 }

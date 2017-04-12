@@ -10,6 +10,7 @@ import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import group19.model.*;
 
@@ -28,10 +29,11 @@ public class InGameViewController {
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); // to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
-	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
     private boolean gameStarted;
     boolean paddleCollision;
-    private int ticksElapsed;
+    private int ticksElapsed; // ticks elapsed since last AI movement 
+    private boolean powerUpSpawned;
+    private int powerUpTicks; // ticks elapsed since last power-up spawn 
 
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -44,6 +46,9 @@ public class InGameViewController {
 		bricks = game.getBrickList();
 		warlords = game.getWarlordList();
 		ticksElapsed = 0;
+		powerUpSpawned = false;
+		attacker = null;
+		powerUpTicks = 0;
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -93,6 +98,9 @@ public class InGameViewController {
 	public void tick() {
 				
 		game.getBall().moveBall();
+		if (game.getBallCount() != 1) {
+			game.getExtraBall().moveBall();
+		}
 		
 		// move AI once every 3 ticks 
 		// AI should not move every single tick or else it will be moving too quickly 
@@ -106,29 +114,61 @@ public class InGameViewController {
 			}
 		}
 		
-		// check that ball doesn't hit edges of screen
-		// if ball hits edge, it can't have hit a paddle 
-		// don't check for brick collision until it is known that it has not collided with anything else (and is within the bounds of brick collision)  
-		if (!checkBallBounds()) {  
-			if (!checkPaddleCollision()) { // 
-				if (!checkWarlordCollision()) {
-					checkBricksThread();
+		// frequency at which powerups are spawned 
+		if (!powerUpSpawned) {
+			if (powerUpTicks >= 200) {
+				spawnPowerUp();
+				powerUpTicks = 0;
+			}
+			else {
+				powerUpTicks++;
+				
+			}
+		}
+		
+		if (!checkBallBounds(game.getBall())) {  
+			if (!checkPaddleCollision(game.getBall())) { // 
+				if (!checkWarlordCollision(game.getBall())) {
+					checkBricksThread(game.getBall());
 				} 
 			}
 		}
+		
+		// check collisions for other ball if there is one 
+		if (game.getBallCount() != 1) {
+			if (!checkBallBounds(game.getExtraBall())) {  
+				if (!checkPaddleCollision(game.getExtraBall())) { // 
+					if (!checkWarlordCollision(game.getExtraBall())) {
+						//checkBrickCollision(); // moved to thread
+						checkBricksThread(game.getExtraBall());
+					} 
+				}
+			}
+		}
+		
+		checkPowerUpCollision(game.getBall()); // TODO: put this in ^^^^ i just don't want merge conflicts :-/
+		checkPowerUpCollision(game.getExtraBall());
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
 		} 
+		
+		// ball speeds up a lot because time%10==0 happens multiple times because it is a double->int
+		if (game.getTimeRemaining().intValue() < 120 && game.getTimeRemaining().intValue() % 10 == 0) {
+			game.getBall().incrementVelocity();
+			if (game.getBallCount() != 1) {
+				game.getExtraBall().incrementVelocity();
+			}
+		}
 	}
 
 
 	// perform brick collision checking on a new thread  
 	// threading adapted from http://stackoverflow.com/questions/10658696/how-to-use-threads-for-collision-detection-simultaneously-for-different-pair-of
-	public void checkBricksThread() {
+	public void checkBricksThread(BallModel ball) {
 		Thread collisionThread = new Thread() {
 			public void run() {
-				checkBrickCollision();
+				checkBrickCollision(ball);
 			}
 		};
 		collisionThread.start();
@@ -263,9 +303,9 @@ public class InGameViewController {
 		Thread thread = new Thread() { // run on thread 
 			public void run() {
 		
-				int distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
-		        int distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
-		        int distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
+				double distanceFromPaddle2 = game.getPaddle2().getXPos() - (game.getBall().getXPos()+game.getBall().getXVelocity());
+		        double distanceFromPaddle3 = game.getPaddle3().getXPos() - (game.getBall().getXPos()+2*game.getBall().getXVelocity());
+		        double distanceFromPaddle4 = game.getPaddle4().getXPos() - (game.getBall().getXPos()+3*game.getBall().getXVelocity());
 		        
 		        if (!(warlords.get(1).isDead())) {
 			        if (distanceFromPaddle2 < 0) { // move right
@@ -321,78 +361,78 @@ public class InGameViewController {
 	// Calls the appropriate methods in those cases (e.g. destroy brick if ball collided with brick) 
 	
 	// Keeps ball within the playing area, bounce against the window edges 
-	public boolean checkBallBounds() {
-		if (game.getBall().getXPos() < 128) { // left edge	
-			game.getBall().setXPos(game.getBall().getRadius() + 128); // needs to be here or else the ball goes SKRRRT sometimes 
-			game.getBall().bounceX();
-			game.getBall().playWallSound();
+	public boolean checkBallBounds(BallModel ball) {
+		if (ball.getXPos() < 128) { // left edge	
+			ball.setXPos(ball.getRadius() + 128); // needs to be here or else the ball goes SKRRRT sometimes 
+			ball.bounceX();
+			ball.playWallSound();
 			return true;
 		}
-		if (((game.getBall().getXPos()+game.getBall().getRadius()) > 896)) { // right edge 
-			game.getBall().setXPos(896-game.getBall().getRadius());
-			game.getBall().bounceX();
-			game.getBall().playWallSound();
+		if (((ball.getXPos()+ball.getRadius()) > 896)) { // right edge 
+			ball.setXPos(896-ball.getRadius());
+			ball.bounceX();
+			ball.playWallSound();
 			return true;
 		}
-		if (((game.getBall().getYPos()+game.getBall().getRadius())) > 768) { // bottom edge 
-			game.getBall().setYPos(768-game.getBall().getRadius());
-			game.getBall().bounceY();
-			game.getBall().playWallSound();
-			return true;
-		}
-		
-		if ((game.getBall().getYPos()-game.getBall().getRadius()) < 0) { // top edge 
-			game.getBall().setYPos(game.getBall().getRadius());
-			game.getBall().bounceY();
-			game.getBall().playWallSound();
+		if (((ball.getYPos()+ball.getRadius())) > 768) { // bottom edge 
+			ball.setYPos(768-ball.getRadius());
+			ball.bounceY();
+			ball.playWallSound();
 			return true;
 		}
 		
+		if ((ball.getYPos()-ball.getRadius()) < 0) { // top edge 
+			ball.setYPos(ball.getRadius());
+			ball.bounceY();
+			ball.playWallSound();
+			return true;
+		}
 		return false;
 	}
 	
 	// Iterate through all paddles, checking if the ball hits any of them
 	// Ensure ball does not travel through paddle, changes direction of ball
 	// Returns a bool of whether or not the ball hit a paddle 
-	public boolean checkPaddleCollision() {
-			for (int i = 0; i < 4; i++) { 
-				if (InGameView.drawBall().intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 	
-					// +20 because in one tick the ball might move PAST the actual edge of the paddle so +20 is midway point of the paddle 
-					// instances of +40 is because the x,y co-ordinate is actually the TOP LEFT of the paddle
+	public boolean checkPaddleCollision(BallModel ball) {
+		for (int i = 0; i < 4; i++) { 
+			if (InGameView.drawBall(ball).intersects(InGameView.drawPaddle(paddles.get(i)).getBoundsInParent())) { 	
+				// +20 because in one tick the ball might move PAST the actual edge of the paddle so +20 is midway point of the paddle 
+				// instances of +40 is because the x,y co-ordinate is actually the TOP LEFT of the paddle
 					// +10 to offset
-					if (game.getBall().getYPos() < paddles.get(i).getYPos()+20 // if ball hits top edge of paddle 
-							|| game.getBall().getYPos() > paddles.get(i).getYPos()+20) { // or bottom edge of paddle
-						if (game.getBall().getYPos() <= paddles.get(i).getYPos()+20) { // if top edge 
-							game.getBall().setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't keep bouncing within paddle 
-						}
+				if (ball.getYPos() < paddles.get(i).getYPos()+20 // if ball hits top edge of paddle 
+						|| ball.getYPos() > paddles.get(i).getYPos()+20) { // or bottom edge of paddle
+					if (ball.getYPos() <= paddles.get(i).getYPos()+20) {
+						ball.setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't go SKKRTTTT
+					}
 						else { // if bottom edge 
-							game.getBall().setYPos(paddles.get(i).getYPos() + 40 + 10); // set y pos to below 
-						}
-						game.getBall().bounceY(); // only bounce on Y axis 
+						ball.setYPos(paddles.get(i).getYPos() + 40 + 10); // set y pos to below 
 					}
-					else if (game.getBall().getXPos() < paddles.get(i).getXPos()+20 // if ball hits left edge of paddle 
-							|| game.getBall().getXPos() > paddles.get(i).getXPos()+20) { // or right edge of paddle
-						if (game.getBall().getXPos() < paddles.get(i).getXPos()+20) { // if left edge 
-							game.getBall().setXPos(paddles.get(i).getXPos()-10);
-						}
-						else { // if right edge 
-							game.getBall().setXPos(paddles.get(i).getXPos()+ 40 + 10);
-						}
-						game.getBall().bounceX(); // only bounce on X axis 
-					}
-					paddles.get(i).paddleHitSound();
-					return true;
+					ball.bounceY(); // only bounce on Y axis 
 				}
+				else if (ball.getXPos() < paddles.get(i).getXPos()+20 // if ball hits left edge of paddle 
+						|| ball.getXPos() > paddles.get(i).getXPos()+20) { // or right edge of paddle
+					if (ball.getXPos() < paddles.get(i).getXPos()+20) {
+						ball.setXPos(paddles.get(i).getXPos()-10);
+					}
+						else { // if right edge 
+						ball.setXPos(paddles.get(i).getXPos()+ 40 + 10);
+					}
+					ball.bounceX(); // only bounce on X axis 
+				}
+					
+				paddles.get(i).paddleHitSound();
+				return true;
 			}
-			return false;
-	}
+		}
+		return false;
+}
 
 
 	// Check for collision with warlords
 	// This kills the warlord
-	public boolean checkWarlordCollision() {
+	public boolean checkWarlordCollision(BallModel ball) {
 		for (int i = 0; i < 4; i++) {
-			if ((!warlords.get(i).isDead()) && InGameView.drawBall().intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
+			if ((!warlords.get(i).isDead()) && InGameView.drawBall(ball).intersects(warlords.get(i).getWarlordRect().getBoundsInParent())) {
 				warlords.get(i).setDead();
 				game.killWarlord();
 				warlords.get(i).playWarlordDead();
@@ -405,7 +445,7 @@ public class InGameViewController {
 	
 	// Loop through every brick which has not yet been destroyed, checking if the ball collides with any of them 
 	// Returns a bool as to whether or not a collision was detected 
-	public boolean checkBrickCollision() {
+	public boolean checkBrickCollision(BallModel) {
 		/* | x |        | x |
 		 * ----         ----
 		 *     ////////
@@ -414,21 +454,47 @@ public class InGameViewController {
 		 * ----         ----
 		 * | x |       | x |
 		 */
-		if (!(game.getBall().getXPos() > 128+120+70 
-				&& game.getBall().getXPos() < 1024-120-70 
-				&& game.getBall().getYPos() > 120+70 
-				&& game.getBall().getYPos() < 768-120-70)) {
+		if (!(ball.getXPos() > 128+120+70 
+				&& ball.getXPos() < 1024-120-70 
+				&& ball.getYPos() > 120+70 
+				&& ball.getYPos() < 768-120-70)) {
 			int j = 0;
 			for (BrickModel b : bricks) {
-				if (InGameView.drawBall().intersects(bricks.get(j).getNode().getBoundsInParent())) { 
-					game.getBall().bounceY(); // bounce on Y axis 
-					game.getBall().bounceX(); // bounce on X axis 
+				if (InGameView.drawBall(ball).intersects(bricks.get(j).getNode().getBoundsInParent())) { 
+					ball.bounceY(); // bounce on Y axis 
+					ball.bounceX(); // bounce on X axis 
 			        bricks.get(j).destroy(); 
 			        bricks.remove(j); // remove element from arraylist so there are fewer bricks to check -- optimisation  
 			        return true;
 				}
 				j++;
 			}
+		}
+		return false;
+	}
+	
+	public void spawnPowerUp() {
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 90) { // 50% chance to spawn a powerup, change later 
+			game.getPowerUp().setXPos(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90)); 
+			game.getPowerUp().setYPos(ThreadLocalRandom.current().nextInt(129+90, 768-120-90));
+			powerUpSpawned = true;
+		}
+	}
+	
+	public boolean checkPowerUpCollision(BallModel ball) {
+		if (powerUpSpawned) {
+			if (InGameView.drawBall(ball).intersects(game.getPowerUp().getNode().getBoundsInParent())) {
+				if (game.getPowerUp().getType() == 1) {
+					game.getPowerUp().consumePowerUp(game.getBall());
+				}
+				else {
+					game.getPowerUp().consumePowerUp(game);
+				}
+				game.newPowerUp();
+				powerUpSpawned = false;
+				return true;
+			}
+			return false;
 		}
 		return false;
 	}

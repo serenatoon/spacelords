@@ -51,7 +51,7 @@ public class InGameView {
 		Image bgImage = new Image("/res/images/space_lf.png");
 		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null); //load space background image
 		rootGameLayout.setBackground(new Background(bg));
-		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(), drawPaddle(game.getPaddle1()),
+		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(game.getBall()), drawBall(game.getExtraBall()), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
 				drawPaddle(game.getPaddle4()),
 				//drawBrick(),
@@ -77,15 +77,14 @@ public class InGameView {
 	
 	//The code below draws the GUI elements of the in-game view. The constructors call model properties to set their dimensions
 	//and position. The bind method helps model parameters translate to actual UI changes.
-	
-	public static Node drawBall() {
-        Circle circle = new Circle(game.getBall().getRadius()); //dimensions based on model parameters
+	public static Node drawBall(BallModel ball) {
+        Circle circle = new Circle(ball.getRadius());
         Glow glow = new Glow(1.0);
         circle.setFill(Color.RED);
         circle.setEffect(glow);
         
-        circle.centerXProperty().bind(game.getBall().getXProperty()); //bind model property to view dimensions
-        circle.centerYProperty().bind(game.getBall().getYProperty());
+        circle.centerXProperty().bind(ball.getXProperty());
+        circle.centerYProperty().bind(ball.getYProperty());
         return circle;
 	}
 

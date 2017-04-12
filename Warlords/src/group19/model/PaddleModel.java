@@ -7,7 +7,6 @@ import javafx.scene.media.AudioClip;
 public class PaddleModel extends ObjectModel {
 	private int width;
 	private int height;
-	private int xVelocity;
 	private WarlordModel warlord;
 	private double angle;
 	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
@@ -16,7 +15,6 @@ public class PaddleModel extends ObjectModel {
 		super(x, y);
 		width = 40;
 		height = 40;
-		xVelocity = 20;
 		if (warlord.getPlayerNo() == 1 || warlord.getPlayerNo() == 2) {
 			angle = 1.5; //for p1/p2
 		}
@@ -34,13 +32,7 @@ public class PaddleModel extends ObjectModel {
 	public int getWidth() {
 		return width;
 	}
-	public int getXVelocity() {
-		return xVelocity;
-	}
-	
-	public void setXVelocity(int velocity) {
-		xVelocity = velocity;
-	}
+
 	public void paddleHitSound() {
 		paddleHit.play();
 	}

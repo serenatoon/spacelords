@@ -14,8 +14,8 @@ import javafx.util.Duration;
 // Methods for ball characteristics, i.e. radius, diameter, movement 
 public class BallModel extends ObjectModel {
 	private int radius;
-	private int xVelocity; // vertical speed
-	private int yVelocity; // horizontal speed 
+	private double xVelocity; // vertical speed
+	private double yVelocity; // horizontal speed 
 	public AudioClip ballToWall = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/wall_collision.wav").toString());
 	public AudioClip ballToWarlord = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
 	
@@ -37,17 +37,41 @@ public class BallModel extends ObjectModel {
 		yVelocity = velocity;
 	}
 	
+	public void setXVelocity(int velocity) {
+		xVelocity = velocity;
+	}
+	
 	// Reverse ball's velocity velocity when it hits an object 
 	public void bounceY() {
 		yVelocity = -(yVelocity);
 	}
 
-	public int getXVelocity() {
+	public double getXVelocity() {
 		return xVelocity;
 	}
 	
-	public int getYVelocity() {
+	public double getYVelocity() {
 		return yVelocity;
+	}
+	
+	// Method which is called every 10 seconds of gametime
+	// Speeds up the ball to make the game more interesting 
+	// increments are very small because the gametime is divisible by 10 for more than one gametick 
+	// so the ball is actually speed up many times than we'd like it to be in each time interval
+	public void incrementVelocity() {
+		if (xVelocity > 0) {
+			xVelocity += 0.025;
+		}
+		else {
+			xVelocity -= 0.025;
+		}
+		
+		if (yVelocity > 0) {
+			yVelocity += 0.025;
+		}
+		else {
+			yVelocity -= 0.025;
+		}
 	}
 
 	public int getRadius() {
@@ -70,5 +94,9 @@ public class BallModel extends ObjectModel {
 	
 	public void playWarlordSound() { // sound to be played when the ball destroys a warlord 
 		ballToWarlord.play();
+	}
+	
+	public void setRadius(int radius) {
+		this.radius = radius;
 	}
 }

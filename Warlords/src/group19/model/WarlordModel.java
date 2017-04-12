@@ -20,6 +20,7 @@ public class WarlordModel extends ObjectModel {
 	private int upperYBounds;
 	private int score;
 	private int bricksAlive;
+	private int lives;
 	
 	AudioClip warlordDead = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
 	
@@ -37,6 +38,7 @@ public class WarlordModel extends ObjectModel {
 		height = 120;
 		setPaddleBounds();
 		score = 0;
+		lives = 1;
 	}
 
 	/* Player # positions are as follows: 
@@ -139,5 +141,17 @@ public class WarlordModel extends ObjectModel {
 	// Remove a brick 
 	public void destroyBrick() {
 		bricksAlive -= 1;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+	
+	public void addLives() {
+		lives++;
+	}
+	
+	public void loseLife() {
+		lives--;
 	}
 }
