@@ -29,10 +29,12 @@ public class InGameViewController {
 	public static InGameView view;
 	public static GameStateController gsc = new GameStateController(); //to control whether the game is complete, at menu, etc.
 	public final  Loop gameLoop = new Loop();
-	public static WarlordModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
+	public static PaddleModel attacker; // the last paddle/warlord which the ball bounced off.  used for determining whose score to increment
     private boolean gameStarted;
     boolean paddleCollision;
     private int ticksElapsed; // we don't want AI to move every tick 
+    private boolean powerUpSpawned;
+    private int powerUpTicks;
 
 	// @param: GameModels which it is controlling 
 	public InGameViewController(GameModel models) {
@@ -45,6 +47,9 @@ public class InGameViewController {
 		bricks = game.getBrickList();
 		warlords = game.getWarlordList();
 		ticksElapsed = 0;
+		powerUpSpawned = false;
+		attacker = null;
+		powerUpTicks = 0;
 	}
 	
     // Game loop which 'ticks' every 16ms
@@ -110,6 +115,17 @@ public class InGameViewController {
 			}
 		}
 		
+		// frequency at which powerups are spawned 
+		if (!powerUpSpawned) {
+			if (powerUpTicks >= 300) {
+				spawnPowerUp();
+				powerUpTicks = 0;
+			}
+			else {
+				powerUpTicks++;
+			}
+		}
+		
 		// check that ball doesn't hit edges of screen. might fk up if it hits right in the corner
 		// if ball hits edge, it can't have hit a paddle (unless it hits the corner but.... no pls) 
 		// etc etc... in other words i don't want to check for brick collision until i have to 
@@ -122,6 +138,8 @@ public class InGameViewController {
 				} 
 			}
 		}
+		
+		checkPowerUpCollision(); // TODO: put this in ^^^^ i just don't want merge conflicts :-/
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
@@ -400,7 +418,7 @@ public class InGameViewController {
 						}
 						game.getBall().bounceX(); // only bounce on X axis 
 					}
-					
+					attacker = paddles.get(i);
 					paddles.get(i).paddleHitSound();
 					return true;
 				}
@@ -462,10 +480,23 @@ public class InGameViewController {
 	}
 	
 	public void spawnPowerUp() {
-		if (ThreadLocalRandom.current().nextInt(0, 100) <= 50) { // 50% chance to spawn a powerup, change later 
-			PowerUpModel powerup = new PowerUpModel(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90), 
-					ThreadLocalRandom.current().nextInt(129+90, 768-120-90),
-					ThreadLocalRandom.current().nextInt(1, 6));
+		if (ThreadLocalRandom.current().nextInt(0, 100) <= 90) { // 50% chance to spawn a powerup, change later 
+			game.getPowerUp().setXPos(ThreadLocalRandom.current().nextInt(128+120+90, 768-120-90)); 
+			game.getPowerUp().setYPos(ThreadLocalRandom.current().nextInt(129+90, 768-120-90));
+			powerUpSpawned = true;
 		}
+	}
+	
+	public boolean checkPowerUpCollision() {
+		if (powerUpSpawned) {
+			if (InGameView.drawBall().intersects(game.getPowerUp().getNode().getBoundsInParent())) {
+				game.getPowerUp().consumePowerUp(game.getBall());
+				game.newPowerUp();
+				powerUpSpawned = false;
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 }

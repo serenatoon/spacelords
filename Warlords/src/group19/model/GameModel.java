@@ -4,6 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 //This class consolidates all the models by calling them and setting their constructors. ball, brick(wall) and paddle
@@ -27,6 +28,7 @@ public class GameModel {
 	private ArrayList<WarlordModel> warlordList = new ArrayList<WarlordModel>();
 	private final DoubleProperty remainingTime = new SimpleDoubleProperty(0);
 	private final DoubleProperty countdownTime = new SimpleDoubleProperty(3.5);
+	private PowerUpModel powerup;
 	
 	public GameModel() {
 		ball = new BallModel(300, 300);
@@ -62,6 +64,8 @@ public class GameModel {
 		paddleList.add(paddle3);
 		paddle4 = new PaddleModel(1024-128-40, 768-290, warlord4, 4);
 		paddleList.add(paddle4);
+		
+		powerup = new PowerUpModel(1500, 1500, ThreadLocalRandom.current().nextInt(1,3)); // first create the powerup off-screen, then it will be moved on screen once we want to spawn it 
 		
 		remainingTime.set(120);
 	}
@@ -230,5 +234,16 @@ public class GameModel {
 	
 	public DoubleProperty getCountdownTime() {
 		return countdownTime;
+	}
+	
+	public PowerUpModel getPowerUp() {
+		return powerup;
+	}
+	
+	// Create a new powerup
+	// We are actually reusing the same object
+	// Only changing the type 
+	public void newPowerUp() {
+		powerup.setType(ThreadLocalRandom.current().nextInt(1,3));
 	}
 }

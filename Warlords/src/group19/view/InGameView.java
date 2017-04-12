@@ -80,6 +80,7 @@ public class InGameView {
 				drawWarlord(game.getWarlord2(), new ImageView("/res/images/baseP2.png")),
 				drawWarlord(game.getWarlord3(), new ImageView("/res/images/baseP3.png")), 
 				drawWarlord(game.getWarlord4(), new ImageView("/res/images/baseP4.png")),
+				game.getPowerUp().getNode(),
 				drawGUI()); //add child nodes here 
 		
 		int i = 0;
