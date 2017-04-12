@@ -12,23 +12,18 @@ public class PaddleModel extends ObjectModel {
 	private double angle;
 	AudioClip paddleHit = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/paddle_hit.wav").toString());
 	
-	public PaddleModel(int x, int y, WarlordModel warlord, int player) {
+	public PaddleModel(int x, int y, WarlordModel warlord) {
 		super(x, y);
 		width = 40;
 		height = 40;
 		xVelocity = 20;
-		if (player == 1 || player == 2) {
+		if (warlord.getPlayerNo() == 1 || warlord.getPlayerNo() == 2) {
 			angle = 1.5; //for p1/p2
 		}
-		else if (player == 3 || player == 4) {
+		else if (warlord.getPlayerNo() == 3 || warlord.getPlayerNo() == 4) {
 			angle = 4.84; //for p3/p4			
 		}
 
-		// warlord should belong to a paddle
-		// seems backwards but i'm thinking along the lines of how to increment score when you destroy a brick
-		// pseudocode: when ball collides with paddle then destroys a brick, getwarlord().incrementScore()
-		// was thinking of creating the warlord within the paddle / paddle within warlord constructor
-		// but might not bode well with ghosts. so i will stick with this messy implementation for now 
 		this.warlord = warlord; // warlord which this paddle belongs to
 	}
 
@@ -110,7 +105,8 @@ public class PaddleModel extends ObjectModel {
 		}
 	}
 	
-	// TODO: turn off keylistener 
+	// Once player has died, the paddle should also go with it.
+	// KeyListener will no longer be listening (done in controller) 
 	public void setDead() {
 		super.setXPos(1500); // move paddle off screen
 	}

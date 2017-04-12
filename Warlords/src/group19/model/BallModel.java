@@ -18,12 +18,13 @@ public class BallModel extends ObjectModel {
 	private int yVelocity; // horizontal speed 
 	public AudioClip ballToWall = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/wall_collision.wav").toString());
 	public AudioClip ballToWarlord = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
+	
 	// Constructor: Create ball as position (x,y) 
 	// of radius 10, vertical and horizontal velocities of 5px/frame 
 	public BallModel(int x, int y) {
 		super(x, y);
 		radius = 8;  
-		xVelocity = ThreadLocalRandom.current().nextInt(5, 11);
+		xVelocity = ThreadLocalRandom.current().nextInt(5, 11); // a new ball is created with random velocity between 5 and 11 px/frame 
 		yVelocity = ThreadLocalRandom.current().nextInt(5, 11); 
 	}
 
@@ -63,10 +64,11 @@ public class BallModel extends ObjectModel {
 		super.setYPos(super.getYPos() + yVelocity);
 	}
 	
-	public void playWallSound() {
+	public void playWallSound() { // sound to be played when ball collides with the edges of the screen 
 		ballToWall.play();
 	}
-	public void playWarlordSound() {
+	
+	public void playWarlordSound() { // sound to be played when the ball destroys a warlord 
 		ballToWarlord.play();
 	}
 }

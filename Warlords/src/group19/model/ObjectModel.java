@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class ObjectModel {
 	
+	// DoubleProperty values used to bind with the view 
 	private final DoubleProperty xPos = new SimpleDoubleProperty(0);
 	private final DoubleProperty yPos = new SimpleDoubleProperty(0);
 	

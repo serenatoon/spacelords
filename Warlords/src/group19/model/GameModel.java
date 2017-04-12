@@ -11,7 +11,6 @@ import java.util.ListIterator;
 //the player number.
 public class GameModel {
 	private BallModel ball; 
-	//private BrickModel brick; 
     private ArrayList<BrickModel> brickList; 
 	private WarlordModel warlord1;
 	private WarlordModel warlord2;
@@ -33,11 +32,12 @@ public class GameModel {
 		
         brickList = new ArrayList<BrickModel>();
 
-
+        
+        // Create warlord, add them to arraylist 
 		// Rectangle constructor creates the rectangle with the top-left corner at the x,y co-ordinates we give it 
 		// thus the edges-120
 		// add +/- 128 for HUD 
-		//add +/- 10 so that warlord is not in the direct corner
+		// add +/- 10 so that warlord is not in the direct corner
         warlord1 = new WarlordModel(128+10, 0+10, 1);
         warlordList.add(warlord1);
         warlord2 = new WarlordModel(1024-120-128-10, 0+10, 2);
@@ -53,38 +53,34 @@ public class GameModel {
 			initBricks(i.next());
 		}
 		
-		// might move creation of paddles into the arraylist creation instead? 
-		paddle1 = new PaddleModel(128, 255, warlord1, 1);
+		// create paddle, add them to arraylist 
+		paddle1 = new PaddleModel(128, 255, warlord1);
 		paddleList.add(paddle1);
-		paddle2 = new PaddleModel(1024-128-40, 275, warlord2, 2); //x = window width - HUD - paddle length, y = radius of curved path
+		paddle2 = new PaddleModel(1024-128-40, 275, warlord2); // x = window width - HUD - paddle length, y = radius of curved path
 		paddleList.add(paddle2);
-		paddle3 = new PaddleModel(128, 768-280, warlord3, 3);
+		paddle3 = new PaddleModel(128, 768-280, warlord3);
 		paddleList.add(paddle3);
-		paddle4 = new PaddleModel(1024-128-40, 768-290, warlord4, 4);
+		paddle4 = new PaddleModel(1024-128-40, 768-290, warlord4);
 		paddleList.add(paddle4);
 		
-		remainingTime.set(120);
+		remainingTime.set(120); // each game should start with 120 seconds remaining on the clock 
 	}
 	
 	public BallModel getBall() {
 		return ball;
 	}
 	
-//	public BrickModel getBrick() {
-//		return brick;
-//	}
     
-	// im sorry this is inefficient as fk i tried to math it out.
-	// plz lmk if u have a better solution 
+	// Initialise bricks for all players 
     public void initBricks(WarlordModel warlord) {
     	// INIT THE COLUMNS OF BRICKS (next to the warlord) 
     	for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-20; y += 20) {
-    		if (warlord.getPlayerNo() % 2 != 0) {
+    		if (warlord.getPlayerNo() % 2 != 0) { // players on the left 
 	    		for (int x = warlord.getLowerXBounds()+120; x < warlord.getUpperXBounds()-20; x += 20) {
-	    			brickList.add(new BrickModel(x, y, warlord)); // every warlord doesn't need their own bricklist do they? 
+	    			brickList.add(new BrickModel(x, y, warlord)); 
 	    		}
     		}
-    		else {
+    		else { // players on the right 
     			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-120-20; x += 20) {
 	    			brickList.add(new BrickModel(x, y, warlord));  
 	    		}
@@ -92,7 +88,7 @@ public class GameModel {
     	}	
     	
     	// INIT BRICKS BELOW/ABOVE WARLORD 
-    	if (warlord.getPlayerNo() <= 2) { 
+    	if (warlord.getPlayerNo() <= 2) { // players on the top 
 	    	for (int y = warlord.getLowerYBounds()+120; y < warlord.getUpperYBounds()-20; y += 20) {
 	    		if (warlord.getPlayerNo() == 1) {
 		    		for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-20-60; x += 20) {
@@ -106,9 +102,9 @@ public class GameModel {
 	    		}
 	    	}
     	}
-    	else {
+    	else { // players on the bottom 
     		for (int y = warlord.getLowerYBounds(); y < warlord.getUpperYBounds()-120-20; y += 20) {
-    			if (warlord.getPlayerNo() == 3) {
+    			if (warlord.getPlayerNo() == 3) { 
 	    			for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-20-60; x += 20) {
 		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
@@ -146,7 +142,6 @@ public class GameModel {
 		return paddleList;
 	}
 	
-	// don't know if need all the warlord getters since they are associated with a paddle 
 	public WarlordModel getWarlord1() { 
 		return warlord1;
 	}
@@ -171,6 +166,7 @@ public class GameModel {
 		return warlordsAlive;
 	}
 	
+	// method is called when a warlord is killed 
 	public void killWarlord() {
 		warlordsAlive -= 1;
 	}
@@ -182,37 +178,43 @@ public class GameModel {
 				if (!warlordList.get(i).isDead()) { // iterate until we find a warlord that isn't dead 
 					warlordList.get(i).setWinner(); // set that warlord as winner 
 					winner = warlordList.get(i);
-					return true; // return that there is a winner 
+					return true; // return true that there is a winner 
 				}
 			}
 		}  
-		else if (remainingTime.intValue() <= 0) {
+		else if (remainingTime.intValue() <= 0) { // when game finishes by time-out, winner is determined by whomever has the most bricks left  
 			WarlordModel tempWinner = null;
 			int i = 0;
 			for (i = 0; i < 4; i++) {
 				if (!warlordList.get(i).isDead()) { // traverse list, find first alive warlord
 					tempWinner = warlordList.get(i);
-					break;
+					break; // leave loop once we have found the first alive warlord 
 				}
 			}
 			for (int j = i; j < 4; j++) {
-				if (!warlordList.get(j).isDead()) { 
-					if (warlordList.get(j).getBricksAlive() > tempWinner.getBricksAlive()) {
-						tempWinner = warlordList.get(j);
+				if (!warlordList.get(j).isDead()) { // traverse list finding the next alive warlord 
+					if (warlordList.get(j).getBricksAlive() > tempWinner.getBricksAlive()) { // compare number of bricks 
+						tempWinner = warlordList.get(j); // if this warlord has more bricks, set this as the winner 
 					}
 				}
 			}
+			
+			// once we have traversed the list and compared all the warlords' number of bricks
+			// we can now declare the winner 
 			tempWinner.setWinner();
 			winner = tempWinner;
 			return true;
 		}	
-		return false; // ????? tfw unsynthesisable code  
+		return false; 
 	}
 	
+	// Return winner of game 
 	public static WarlordModel getWinner() {
 		return winner;
 	}
 	
+	// Return amount of time remaining in the game.  
+	// DoubleProperty so it can be bound to the timer displayed in the HUD 
 	public DoubleProperty getTimeRemaining() {
 		return remainingTime;
 	}

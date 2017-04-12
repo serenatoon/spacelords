@@ -14,7 +14,8 @@ public class BrickModel extends ObjectModel {
 	private WarlordModel owner;
 	private Rectangle rectangle;
 	AudioClip brickBreak = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/brick_break.wav").toString());
-	// Constructor: Create ball at position (x,y) 
+	
+	// Constructor: Create ball at position (x,y) which belongs to a certain player 
 	public BrickModel(int x, int y, WarlordModel owner) {
 		super(x, y);
 		isDestroyed = false; // initiate brick as not destroyed 
@@ -55,6 +56,7 @@ public class BrickModel extends ObjectModel {
 		setXPos(1500);
 		owner.destroyBrick();
 	}
+	
 	public int getHeight() {
 		return height;
 	}
@@ -63,6 +65,7 @@ public class BrickModel extends ObjectModel {
 		return width;
 	}
 	
+	// find owner of this brick 
 	public WarlordModel getOwner() {
 		return owner;
 	}
