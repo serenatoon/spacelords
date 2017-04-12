@@ -18,6 +18,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+//This is a window that displays upon pressing 'p' in game, which pauses the game loop and loads this scene. 
+
+
 public class PauseView {
 	static Scene pauseScene;
 	public static int currentItem = 0;

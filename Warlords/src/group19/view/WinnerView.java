@@ -17,6 +17,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+//This class extends off pause view because they are quite similar. The winner view is displayed as the 'summary'
+//screen after the game is over. It shows a bit of the story (based on how many games have been played), as well as the 
+//winner of the round.
+
 public class WinnerView extends PauseView {
 	static Scene winnerScene;
 	static String story;
@@ -38,7 +42,7 @@ public class WinnerView extends PauseView {
 		winner.setFont(new Font("Arial",30));
 		winner.setFill(Color.ANTIQUEWHITE);
 		GameStateController.totalGamesPlayed++;
-		if (GameStateController.totalGamesPlayed == 1) {
+		if (GameStateController.totalGamesPlayed == 1) { //show a different story prompt based on how many games have been played
 			story = "Well done, you have talent in this intergalactic sport.\nPlay again to continue through the tournament.";
 		}
 		else if (GameStateController.totalGamesPlayed == 2) {
@@ -47,7 +51,7 @@ public class WinnerView extends PauseView {
 		else {
 			story = "Just one more round to go before you are free.";
 		}
-		Text storyText = new Text(235, 250, GameModel.getWinner().getPlayerName() + " - " + story);
+		Text storyText = new Text(235, 250, GameModel.getWinner().getPlayerName() + " - " + story); //start by mentioning the player who won
 		storyText.setFont(new Font(14));
 		storyText.setFill(Color.ANTIQUEWHITE);
         menuBox = new VBox(10, //settings for menuBox (helper functions below) - spacing, position
@@ -94,12 +98,10 @@ public class WinnerView extends PauseView {
                 modeSelect.play();
                 switch(currentItem) {
                 case 0:
-                	InGameViewController.gsc.setGameState(0);
                 	System.out.println("back to main menu");
                 	window.close();
                 	break;
                 case 1: 
-                	System.out.println("instructions");
                 	InstructionsView.displayInstructions();
                 	break;
                 case 2:

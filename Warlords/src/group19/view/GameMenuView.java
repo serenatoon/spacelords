@@ -1,6 +1,5 @@
 package group19.view;
-import java.awt.GraphicsEnvironment;
-import java.io.InputStream;
+
 
 import group19.controller.GameStateController;
 import group19.controller.InGameViewController;
@@ -30,7 +29,8 @@ import javafx.scene.media.AudioClip;
 //This class is the entry point of the application, as seen by the extends Application, start, and main methods.
 //The class renders a scene where the user can select options. Pressing SINGLE PLAYER is the only option which
 //unloads the scene graph and loads in the InGameView.
-//The menu is entirely operated by keyboard as per the brief specifications. 
+//The menu is entirely operated by keyboard, and the highlighting/de-highlighting effect is adapted from code attributed
+//here: https://github.com/AlmasB/FXTutorials/blob/master/src/com/almasb/tutorial26/MKXMenuApp.java
 
 public class GameMenuView extends Application {
     private static VBox menuBox; //a single vertical column, displaying all options
@@ -50,7 +50,7 @@ public class GameMenuView extends Application {
         HBox title = new HBox(titleFrame); //child node of content frame, for title
         title.setTranslateX(185);
         title.setTranslateY(100);
-        menuBox = new VBox(20,
+        menuBox = new VBox(20, //all options
                 new MenuItem("single player"),
                 new MenuItem("local multiplayer"),
                 new MenuItem("select player names"),
@@ -146,17 +146,14 @@ public class GameMenuView extends Application {
                 	InGameViewController singlePlayerGame = new InGameViewController(new GameModel()); //call a new instance of IGVC, gameLoop starts
                 	//IGVC calls IGV in constructor and sets the scene up
                 	window.setScene(InGameViewController.view.getScene()); //load IGV scene onto the existing Stage
-                	System.out.println("single player mode");
                 	break;
                 case 1: //local multiplayer
                 	InGameViewController.gsc.setGameState(1); //1 = game_in_progress
                 	InGameViewController.gsc.setSinglePlayer(false); //load multiplayer mode
                 	InGameViewController multiplayerGame = new InGameViewController(new GameModel()); 
                 	window.setScene(InGameViewController.view.getScene());
-                	System.out.println("multiplayer mode");
                 	break;
                 case 2://enter player names
-                	System.out.println("player name view");
                 	PlayerNameView.displayPlayerNameView();
                 	break;
                 case 3://credits
@@ -164,7 +161,6 @@ public class GameMenuView extends Application {
                 	break;
                 case 4://instructions
                 	InstructionsView.displayInstructions(); //popup the instructions view
-                	System.out.println("instructions");
                 	break;
                 case 5://exit
                 	ConfirmView.displayConfirmation();
@@ -181,7 +177,7 @@ public class GameMenuView extends Application {
     
     
 
-    public static void main(String[] args) { //stick main here so game starts on this file
+    public static void main(String[] args) { //stick main here so game starts on this file, as per javafx specifications
         launch(args);
     }
 

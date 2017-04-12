@@ -16,6 +16,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+//Displays the instructions on controls and how to play the game.
+//As such, the majority of implementation is related to building the visual elements of the scene, because
+//there is no link between this view and the controller.
 public class InstructionsView {
 	static Scene instructionsScene;
 	public static int currentItem;

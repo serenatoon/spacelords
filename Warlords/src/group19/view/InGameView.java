@@ -1,52 +1,27 @@
 package group19.view;
 
 import group19.model.*;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
-import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.media.AudioClip;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 //This class is called by its controller. It provides the actual UI in-game. The constructor sets up the scene,
 //ready to be loaded. When IGV wants to be loaded, .setScene() will be called to load the scene onto the 
@@ -62,20 +37,19 @@ public class InGameView {
 	
 	public Pane rootGameLayout = new Pane(); //set the root parent node as a Pane
 	private Scene scene;
-	public static String p1Name = "Player 1"; //these vars can be edited in PlayerNameView
+	public static String p1Name = "Player 1"; //these variables can be edited in PlayerNameView
 	public static String p2Name = "Player 2";
 	public static String p3Name = "Player 3";
 	public static String p4Name = "Player 4";
 
 	public InGameView (double width, double height, GameModel model) { //upon initialisation, switch focus to in game view
 		this.game = model; //pass input parameter out to local variable
-        // BRICKS CURRENTLY BEING MADE IN GAMEMODEL, MIGHT MOVE TO WARLORD/PADDLE LATER
         this.brickList = game.getBrickList(); 
 
 		rootGameLayout.setPrefWidth(width);
 		rootGameLayout.setPrefHeight(height);
 		Image bgImage = new Image("/res/images/space_lf.png");
-		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null);
+		BackgroundImage bg = new BackgroundImage(bgImage, null, null, null, null); //load space background image
 		rootGameLayout.setBackground(new Background(bg));
 		rootGameLayout.getChildren().addAll(drawCountdown(), drawBall(), drawPaddle(game.getPaddle1()),
 				drawPaddle(game.getPaddle2()), drawPaddle(game.getPaddle3()),
@@ -85,7 +59,7 @@ public class InGameView {
 				drawWarlord(game.getWarlord2(), new ImageView("/res/images/baseP2.png")),
 				drawWarlord(game.getWarlord3(), new ImageView("/res/images/baseP3.png")), 
 				drawWarlord(game.getWarlord4(), new ImageView("/res/images/baseP4.png")),
-				drawGUI()); //add child nodes here 
+				drawGUI()); //add child nodes here (all GUI elements)
 		
 		int i = 0;
 		for (BrickModel brick : brickList) {
@@ -101,15 +75,16 @@ public class InGameView {
 		return scene;
 	}
 	
-	//Below are all the grey-blocked implementations of the drawn objects. The constructors call model properties to set their dimensions
+	//The code below draws the GUI elements of the in-game view. The constructors call model properties to set their dimensions
 	//and position. The bind method helps model parameters translate to actual UI changes.
+	
 	public static Node drawBall() {
-        Circle circle = new Circle(game.getBall().getRadius());
+        Circle circle = new Circle(game.getBall().getRadius()); //dimensions based on model parameters
         Glow glow = new Glow(1.0);
         circle.setFill(Color.RED);
         circle.setEffect(glow);
         
-        circle.centerXProperty().bind(game.getBall().getXProperty());
+        circle.centerXProperty().bind(game.getBall().getXProperty()); //bind model property to view dimensions
         circle.centerYProperty().bind(game.getBall().getYProperty());
         return circle;
 	}
@@ -127,7 +102,7 @@ public class InGameView {
 	public static Node drawWarlord(WarlordModel warlord, ImageView img) {
 			img.setFitWidth(warlord.getWidth());
 			img.setFitHeight(warlord.getHeight());
-			Effect glow = new Glow(0.0);
+			Effect glow = new Glow(0.0); //slight glow effect to warlord, to signify importance
 			img.setEffect(glow);
 			Timeline timeline = new Timeline();
 		    timeline.setCycleCount(Timeline.INDEFINITE);
@@ -143,6 +118,7 @@ public class InGameView {
 	
 	public static Group drawGUI() {
 		//dimensions planned from scene builder view
+		//set up 128px wide HUD nodes
 		ImageView leftPanel = new ImageView("/res/images/sidepane.png");
 		leftPanel.setLayoutX(0);
 		leftPanel.setLayoutY(0);
@@ -153,7 +129,8 @@ public class InGameView {
 		rightPanel.setLayoutY(0);
 		rightPanel.setFitWidth(128);
 		rightPanel.setFitHeight(768);
-		Text p1name = new Text(30, 50, p1Name);
+		//set up text nodes for usernames
+		Text p1name = new Text(30, 50, p1Name); 
 		p1name.setFont(Font.font("Arial", 18));
 		p1name.setFill(Color.ANTIQUEWHITE);
 		p1name.setTextAlignment(TextAlignment.CENTER);
@@ -169,15 +146,17 @@ public class InGameView {
 		p4name.setFont(Font.font("Arial", 18));
 		p4name.setFill(Color.ANTIQUEWHITE);
 		p4name.setTextAlignment(TextAlignment.CENTER);
+		//set up timer nodes
 		Text timerLeft = new Text(35,393, game.getTimeRemaining().toString()); 
-		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
+		//text binding code, adapted from: http://stackoverflow.com/questions/34546433/javafx-binding-a-textproperty-eg-label-to-a-simple-integer
+		timerLeft.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -")); 
 		timerLeft.setFont(Font.font("Arial", 18));
 		timerLeft.setFill(Color.ANTIQUEWHITE);
 		Text timerRight = new Text(933, 382, "-timer-");
 		timerRight.textProperty().bind(Bindings.concat( "- ", game.getTimeRemaining().asString("%.0f"), " -"));
 		timerRight.setFont(Font.font("Arial", 18));
 		timerRight.setFill(Color.ANTIQUEWHITE); 
-		Group GUI = 
+		Group GUI = //add all elements to a group, which is added to the parent node of the stage
 		new Group(leftPanel, rightPanel, timerLeft, timerRight, p1name, p2name, p3name, p4name);
 		return GUI;
 		
@@ -189,5 +168,4 @@ public class InGameView {
 		countdown.setFill(Color.ANTIQUEWHITE);
 		return countdown; 
 	}
-	
 }

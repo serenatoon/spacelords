@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+//Shows the credits and attribution to where we got our assets from. 
+//As such, the majority of implementation is related to building the visual elements of the scene, because
+//there is no link between this view and the controller.
 public class CreditsView {
 	static Scene creditsScene;
 	public static int currentItem;
@@ -44,7 +47,7 @@ public class CreditsView {
 		creditsText.setY(250);
 		creditsText.setTextAlignment(TextAlignment.CENTER);
 		creditsText.setFont(Font.font("Arial", 24));
-		creditsText.setFill(Color.ANTIQUEWHITE);
+		creditsText.setFill(Color.ANTIQUEWHITE); //body of text, left space for name effect
 		creditsText.setText("Created by Group 19:\n\n\n\n\nCOMPSYS302\nUniversity of Auckland\n2017\n\n\n" + 
 							"Assets sourced from:\n" +
 							"freesound.org\n" +
@@ -56,7 +59,7 @@ public class CreditsView {
 		namesText.setY(250);
 		namesText.setTextAlignment(TextAlignment.CENTER);
 		namesText.setFont(Font.font("Arial", 24));
-		namesText.setText("\n\n" + "Serena Toon" + "\n" + "Marcus Wong");
+		namesText.setText("\n\n" + "Serena Toon" + "\n" + "Marcus Wong"); //text for names
 		namesText.setFill(Color.ANTIQUEWHITE);
 		//rainbow code
 	    FillTransition r = new FillTransition(Duration.millis(600), title);
@@ -80,9 +83,9 @@ public class CreditsView {
 	    FillTransition v = new FillTransition(Duration.millis(600), title);
 	    v.setFromValue(Color.VIOLET);
 	    v.setToValue(Color.RED);
-	    SequentialTransition rainbow = new SequentialTransition (r, o, y, g, b, i, v);
-	    rainbow.setAutoReverse(true);
-	    rainbow.setCycleCount(TranslateTransition.INDEFINITE);
+	    SequentialTransition rainbow = new SequentialTransition (r, o, y, g, b, i, v); //queue transitions 
+	    rainbow.setAutoReverse(true); //after transition ends, play it backwards
+	    rainbow.setCycleCount(TranslateTransition.INDEFINITE); //continue playing the animation
 	    rainbow.play();
 	    FillTransition r2 = new FillTransition(Duration.millis(600), namesText);
 	    r2.setFromValue(Color.RED);

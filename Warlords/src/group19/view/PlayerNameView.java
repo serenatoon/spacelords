@@ -15,6 +15,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+//This is the view which is shown to the user if they select 'select player names' from the GameMenuView. The window allows for the 
+//submission of custom usernames, which utilise JavaFX's TextField methods which can capture the data in those fields and store them 
+//in variables, for the InGameView to load.
+
 public class PlayerNameView {
 	static Scene nameScene;
 	public static void displayPlayerNameView() {
@@ -32,6 +36,7 @@ public class PlayerNameView {
 		window.sizeToScene();
 		window.setScene(nameScene);
 		window.show(); //wait for close before returning
+		//code inspired from: http://docs.oracle.com/javafx/2/ui_controls/text-field.htm
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(10, 10, 10, 10));
 		grid.setVgap(5);
@@ -60,7 +65,7 @@ public class PlayerNameView {
 		Button submit = new Button("Submit");
 		GridPane.setConstraints(submit, 1, 3);
 		grid.getChildren().add(submit);
-		final Label label = new Label(); //initialise with no text
+		final Label label = new Label(); //initialise with no text, but show text upon submit (logic for this in handle method)
 		label.setTextFill(Color.ANTIQUEWHITE);
 		GridPane.setConstraints(label, 0, 4);
 		GridPane.setColumnSpan(label, 2);
@@ -71,10 +76,10 @@ public class PlayerNameView {
 			@Override
 			    public void handle(ActionEvent e) {
 			        if ((player1.getText().isEmpty() || player2.getText().isEmpty() || player3.getText().isEmpty() || player4.getText().isEmpty())) {
-			            label.setText("Please enter usernames for all players.");
+			            label.setText("Please enter usernames for all players."); //make sure that all fields are filled in
 			        } else {
-			            label.setText("Usernames have been updated!");
-			            InGameView.p1Name = player1.getText();
+			            label.setText("Usernames have been updated!"); //prompt user 
+			            InGameView.p1Name = player1.getText(); //pass out all fields to a String variable in InGameView
 			            InGameView.p2Name = player2.getText();
 			            InGameView.p3Name = player3.getText();
 			            InGameView.p4Name = player4.getText();

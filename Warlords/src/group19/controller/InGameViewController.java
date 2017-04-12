@@ -19,6 +19,7 @@ import javafx.animation.AnimationTimer;
 //The in-game view controller is a user-input controller which listens to key events on the view, and updates model attributes 
 //accordingly. The class also controls some game-wide controls, like whether the game is finished or the tick() mechanism to update the view.
 //References to both the models (from 'GameModel') and the view are placed here.
+
 public class InGameViewController {
 	static GameModel game;
 	// in the process of refactoring all mentions of game.getPaddle() etc to just paddle so code is cleaner 
