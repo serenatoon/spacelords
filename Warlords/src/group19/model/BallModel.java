@@ -19,7 +19,7 @@ public class BallModel extends ObjectModel {
 	public BallModel(int x, int y) {
 		super(x, y);
 		radius = 8;  
-		xVelocity = ThreadLocalRandom.current().nextInt(5, 11); // a new ball is created with random velocity between 5 and 11 px/frame 
+		xVelocity = ThreadLocalRandom.current().nextInt(5, 11); // a new ball is created with random velocity between 5 and 10 px/frame 
 		yVelocity = ThreadLocalRandom.current().nextInt(5, 11); 
 	}
 

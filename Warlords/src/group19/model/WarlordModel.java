@@ -141,6 +141,7 @@ public class WarlordModel extends ObjectModel {
 		bricksAlive -= 1;
 	}
 	
+	// Related to extra life power-up
 	public int getLives() {
 		return lives;
 	}

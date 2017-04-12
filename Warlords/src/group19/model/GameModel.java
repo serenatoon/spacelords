@@ -71,7 +71,7 @@ public class GameModel {
 		paddleList.add(paddle4);
 		
 		remainingTime.set(120); // each game should start with 120 seconds remaining on the clock 
-		powerup = new PowerUpModel(1500, 1500, ThreadLocalRandom.current().nextInt(1,3)); // first create the powerup 
+		powerup = new PowerUpModel(1500, 1500, ThreadLocalRandom.current().nextInt(1,3)); // first create the power-up, off-screen 
 	}
 	
 	public BallModel getBall() {
@@ -253,7 +253,7 @@ public class GameModel {
 		return powerup;
 	}
 	
-	// Create a new powerup
+	// Create a new power-up
 	// We are actually reusing the same object
 	// Only changing the type 
 	public void newPowerUp() {

@@ -104,7 +104,7 @@ public class InGameViewController {
 		// move AI once every 3 ticks 
 		// AI should not move every single tick or else it will be moving too quickly 
 		if (gsc.getSinglePlayer() == true) {
-			if (Math.abs(game.getBall().getXVelocity()) > 15) {
+			if (Math.abs(game.getBall().getXVelocity()) > 15) { // when the ball gets faster, let the AI move faster 
 				if (ticksElapsed >= 2) {
 					moveAI();
 				}
@@ -121,7 +121,7 @@ public class InGameViewController {
 			}
 		}
 		
-		// frequency at which powerups are spawned 
+		// frequency at which power-ups are spawned 
 		if (!powerUpSpawned) {
 			if (powerUpTicks >= 500) {
 				spawnPowerUp();
@@ -133,6 +133,9 @@ public class InGameViewController {
 			}
 		}
 		
+        // check that ball doesn't hit edges of screen
+        // if ball hits edge, it can't have hit a paddle 
+        // don't check for brick collision until it is known that it has not collided with anything else (and is within the bounds of brick collision)  
 		if (!checkBallBounds(game.getBall())) {  
 			if (!checkPaddleCollision(game.getBall())) { // 
 				if (!checkWarlordCollision(game.getBall())) {
@@ -146,15 +149,15 @@ public class InGameViewController {
 			if (!checkBallBounds(game.getExtraBall())) {  
 				if (!checkPaddleCollision(game.getExtraBall())) { // 
 					if (!checkWarlordCollision(game.getExtraBall())) {
-						//checkBrickCollision(); // moved to thread
 						checkBricksThread(game.getExtraBall());
 					} 
 				}
 			}
 		}
 		
-		checkPowerUpCollision(game.getBall()); // TODO: put this in ^^^^ i just don't want merge conflicts :-/
+		checkPowerUpCollision(game.getBall()); 
 		checkPowerUpCollision(game.getExtraBall());
+		
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
@@ -370,7 +373,7 @@ public class InGameViewController {
 	// Keeps ball within the playing area, bounce against the window edges 
 	public boolean checkBallBounds(BallModel ball) {
 		if (ball.getXPos() < 128) { // left edge	
-			ball.setXPos(ball.getRadius() + 128); // needs to be here or else the ball goes SKRRRT sometimes 
+			ball.setXPos(ball.getRadius() + 128); // prevent ball from bouncing within the paddle 
 			ball.bounceX();
 			ball.playWallSound();
 			return true;
@@ -409,7 +412,7 @@ public class InGameViewController {
 				if (ball.getYPos() < paddles.get(i).getYPos()+20 // if ball hits top edge of paddle 
 						|| ball.getYPos() > paddles.get(i).getYPos()+20) { // or bottom edge of paddle
 					if (ball.getYPos() <= paddles.get(i).getYPos()+20) {
-						ball.setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't go SKKRTTTT
+						ball.setYPos(paddles.get(i).getYPos()-10); // set Y pos to above paddle so the ball doesn't get stuck in paddle 
 					}
 						else { // if bottom edge 
 						ball.setYPos(paddles.get(i).getYPos() + 40 + 10); // set y pos to below 
