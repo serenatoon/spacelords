@@ -49,9 +49,12 @@ public class PaddleModel extends ObjectModel {
 	public WarlordModel getWarlord() {
 		return warlord;
 	}
+	
+	// Used for movement 
 	public double getAngle() {
 		return angle;
 	}
+	
 	public void addToAngle(int player) { //need to specify player, which allows for different angle constraints
 		if (player == 1) {
 			if (angle < 3.15) { //only allow movement between 1.55 to 3.15... values chosen because angle is 90 degrees w/ 60 ticks (1 sec) req for total movement

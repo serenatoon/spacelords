@@ -20,7 +20,6 @@ public class WarlordModel extends ObjectModel {
 	private int upperYBounds;
 	private int score;
 	private int bricksAlive;
-    //private ArrayList<BrickModel> brickList;  // bricks belong to a warlord 
 	
 	AudioClip warlordDead = new AudioClip(GameMenuView.class.getClassLoader().getResource("res/sounds/sfx_lose.wav").toString());
 	
@@ -40,10 +39,6 @@ public class WarlordModel extends ObjectModel {
 		score = 0;
 	}
 
-	public void setPlayer(int player) { //this is a new method - connects player to warlord
-		playerNo = player;
-	}
-	
 	/* Player # positions are as follows: 
 	 *				 | 1    2 |
 	 * 				 |        |
@@ -93,22 +88,23 @@ public class WarlordModel extends ObjectModel {
 		return playerNo;
 	}
 	
+	// Custom usernames 
 	public String getPlayerName() {
 		return String.format("Player %d", playerNo);
 	}
-	
-	public boolean hasWon() {
-		return isWinner;
-	}
 
+	// Declare this player as the winner of the round 
 	public void setWinner() {
 		isWinner = true;
 	}
 	
+	// Check whether or not this player is dead 
 	public boolean isDead() {
 		return isDead;
 	}
 	
+	// Kill this player 
+	// Removes the warlord (base) from the screen 
 	public void setDead() {
 		isDead = true;
 		super.setXPos(1500);
@@ -122,28 +118,25 @@ public class WarlordModel extends ObjectModel {
 		return height;
 	}
 	
-	public void addScore() {
-		score =+ 10;
-	}
-	
-	public int getScore() {
-		return score;
-	}
-	
-	// to detect collision with warlord 
+	// To detect collision with warlord 
 	public Node getWarlordRect() {
 		Rectangle rect = new Rectangle(super.getXPos(), super.getYPos(), width, height);
 		return rect;
 	}
+	
+	// Play SFX when warlord dies 
 	public void playWarlordDead() {
 		warlordDead.setRate(0.5);
 		warlordDead.play(5.0);
 	}
 	
+	// Get the number of bricks the warlord has remaininig 
+	// Used for determining winner when game ends by time-out 
 	public int getBricksAlive() {
 		return bricksAlive;
 	}
 	
+	// Remove a brick 
 	public void destroyBrick() {
 		bricksAlive -= 1;
 	}
