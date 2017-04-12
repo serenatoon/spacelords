@@ -95,7 +95,7 @@ public class GameModel {
     	if (warlord.getPlayerNo() <= 2) { 
 	    	for (int y = warlord.getLowerYBounds()+120; y < warlord.getUpperYBounds()-20; y += 20) {
 	    		if (warlord.getPlayerNo() == 1) {
-		    		for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-60; x += 20) {
+		    		for (int x = warlord.getLowerXBounds(); x < warlord.getUpperXBounds()-20-60; x += 20) {
 		    			brickList.add(new BrickModel(x, y, warlord)); 
 		    		}
 		    	}
