@@ -6,12 +6,10 @@ import group19.view.PauseView;
 import group19.view.WinnerView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.transform.Rotate;
 import java.lang.Math;
 
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import group19.model.*;
@@ -483,7 +481,7 @@ public class InGameViewController {
 	}
 	
 	public void spawnPowerUp() {
-		if (ThreadLocalRandom.current().nextInt(0, 101) <= 50) { // 50% chance to spawn a powerup
+		if (ThreadLocalRandom.current().nextInt(0, 101) <= 70) { // 70% chance to spawn a powerup
 			// place power-up in random position: 
 			/* | x |        | x |
 			 * ----         ----

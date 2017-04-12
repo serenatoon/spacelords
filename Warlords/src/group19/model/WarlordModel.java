@@ -1,7 +1,5 @@
 package group19.model;
 
-import java.util.ArrayList;
-
 import group19.view.GameMenuView;
 import javafx.scene.Node;
 import javafx.scene.media.AudioClip;

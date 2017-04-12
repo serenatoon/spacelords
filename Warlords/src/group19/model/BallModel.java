@@ -3,12 +3,7 @@ package group19.model;
 import java.util.concurrent.ThreadLocalRandom;
 
 import group19.view.GameMenuView;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.scene.effect.Glow;
 import javafx.scene.media.AudioClip;
-import javafx.util.Duration;
 
 // Class for model of a ball.  Contains setters and getters for positions extended from ObjectModel
 // Methods for ball characteristics, i.e. radius, diameter, movement 
