@@ -65,21 +65,19 @@ public class InGameViewController {
 			if (currentTime - lastTick >= 16000000) { // ~60fps 
 				if (gsc.getCurrentGameState() == 1) { //if game in progress
 					if (game.getCountdownTime().intValue() <= 0) {
-						
                         if (!gameStarted) { // process things that only need to be called once at game start (after countdown) 
                             view.rootGameLayout.getChildren().get(0).setVisible(false); //first element of rootGameLayout must be countdown, makes countdown node invisible
                             KeyEventListener(); // keylistener only needs to be called once, at beginning of game                  		
                     		gameStarted = true;
-                    		
                         }
 						tick();
+						
 						// minus from remaining time 
 						game.decrementTime(game.getTimeRemaining(), (float) (currentTime-lastTick)/1000000000); // /1000000000 to convert from ns to s
 					}
 					else {
 						game.decrementTime(game.getCountdownTime(), (float) (currentTime-lastTick)/1000000000); //do 3 2 1 counter
 					}
-					
 				}
 				else if (gsc.getCurrentGameState() == 0) { //if state ever changes to main menu
 					GameMenuView.getWindow().setScene(GameMenuView.getGameMenu());// switch back to main menu 
@@ -95,7 +93,6 @@ public class InGameViewController {
 	// Makes sure paddle and ball stays within its bounds 
 	// Checks for collisions and win conditions 
 	public void tick() {
-				
 		game.getBall().moveBall();
 		if (game.getBallCount() != 1) {
 			game.getExtraBall().moveBall();
@@ -158,6 +155,7 @@ public class InGameViewController {
 		checkPowerUpCollision(game.getBall()); 
 		checkPowerUpCollision(game.getExtraBall());
 		
+		// check for win conditions in each tick 
 		if (game.setWinner()) {
 			gsc.setGameState(2); //game complete state
 			WinnerView.showScene();
@@ -308,8 +306,8 @@ public class InGameViewController {
 		});
 	}
 
+	// make other three paddles move (AI) 
 	public void moveAI() {
-		//make other three paddles move (AI)    
 		Thread thread = new Thread() { // run on thread 
 			public void run() {
 		
