@@ -1,7 +1,5 @@
 Warlords
 
-COMPSYS302 - Group 19 - Project A
-
 What is it ?
 -----------------
 
