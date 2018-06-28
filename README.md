@@ -1,12 +1,4 @@
-Warlords
-
-What is it ?
------------------
-
-In the distant future, humanity has found a new method of diplomacy in the form of a sport set in intergalactic territory, known as Spacelords.
-In this sport, countries send off their most dangerous criminals worthy of execution out to space in specially designed pods. A rectangular arena is set up, and players are matched to fight to the death for their country in a knockout tournament where losing means death.
-Four players participate in a single round of Spacelords. Rounds are played until there is one winner, who is sent back home as a national hero, with all crimes forgiven and a chance to start their life anew. The losers, however, will have paid for their crimes with death.
-You are a wrongly accused criminal sent from your home country to participate in the next round of Warlords. Determined to win and clear your name in front of the billions watching, you have been transported to the arena to start the match.
+# Warlords
 
 How to Play
 -----------------
