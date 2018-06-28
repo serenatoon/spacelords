@@ -1,5 +1,3 @@
-# Warlords
-
 How to Play
 -----------------
 
