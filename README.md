@@ -26,10 +26,7 @@ Compilation Instructions
 NOTE: THIS PROJECT USES JAVA 8 (JRE1.8.0_112). PLEASE USE JAVA 8 WHEN RUNNING THE PROGRAM FROM ECLIPSE.
 
 Steps:
-- Open Eclipse Mars Java
-- Navigate to File -> Import -> Git -> Projects from Git
-- Select "Clone URI"
-- Enter authentication details and URI from Bitbucket -> Repositories -> UoA-CS302-2017-Group19 -> Clone.
+- Open project in Eclipse Mars Java
 - Once complete, in Eclipse go to Project -> Clean, then Project -> Build All.
 - Run the application by going Run -> Run or clicking the green Play button.
 
